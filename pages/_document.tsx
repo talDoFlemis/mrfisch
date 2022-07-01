@@ -7,7 +7,7 @@ class MyDocument extends Document {
         <Head>
           <link href="/fonts/stylesheet.css" rel="stylesheet" />
         </Head>
-        <body>
+        <body className="bg-neutral text-slate-900">
           <Main />
           <NextScript />
         </body>
