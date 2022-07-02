@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import CodeHighlighter from "../components/code/CodeHighlighter";
+import Header from "../components/home/Header";
+import LandingPage from "../components/home/LandingPage";
 
-const Home = () => {
-  const [theme, setTheme] = useState("dracula");
-  const [input, setInput] = useState("import React from 'react';");
+interface indexProps {}
+
+const Home = ({}: indexProps) => {
   return (
-    <div className="min-h-screen bg-base-100 text-base-content">
-      <main>
-        <CodeHighlighter theme={theme} language="javascript" input={input} />
-      </main>
-    </div>
+    <>
+      <Header />
+      <LandingPage />
+    </>
   );
 };
 
