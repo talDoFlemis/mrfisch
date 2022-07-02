@@ -14,6 +14,7 @@ module.exports = {
         edgePoster: ["Edge of the Galaxy Poster", "sans-serif"],
         spaceQuest: ["Space Quest", "sans-serif"],
         spaceRave: ["Space Rave", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
       },
     },
   },

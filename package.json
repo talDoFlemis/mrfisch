@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^1.35.4",
+    "@supabase/ui": "^0.36.5",
     "@types/react-syntax-highlighter": "^15.5.2",
     "ably": "1.2.5-beta.1",
     "clsx": "^1.1.1",
@@ -17,7 +19,9 @@
     "mongoose": "^6.4.0",
     "next": "12.1.6",
     "react": "18.2.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.4.0",
     "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
