@@ -18,11 +18,11 @@ const CodeCard = ({
   return (
     <div className="card h-56 bg-white/10">
       <div className="card-body justify-between text-white">
-        <div className="text-center text-2xl font-bold">{code_title}</div>
-        <div className="text-lg font-bold text-gray-200 line-clamp-2">
-          {description}{" "}
-          aeouaoeuaoeuaoeuaoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-        </div>
+        <h1 className="text-center text-2xl font-bold">{code_title}</h1>
+        <p className="text-ellipsis text-lg font-bold text-gray-200 line-clamp-2">
+          {description}
+        </p>
+
         <div className="card-actions justify-end space-x-1">
           <Link href={`/codes/${id}`}>
             <a className="btn btn-outline btn-sm hover:border-[#380246] hover:bg-[#380246]">
