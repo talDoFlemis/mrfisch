@@ -1,10 +1,12 @@
 export interface CodeInterface {
   id: number;
-  user_id: UserInterface;
+  user: UserInterface;
   code_block: string;
   inserted_at: Date;
   code_title: string;
-  description: string;
+  description?: any;
+  tags?: any;
+  is_public: boolean;
 }
 
 export interface UserInterface {
