@@ -2,10 +2,13 @@ export interface CodeInterface {
   id: number;
   user: UserInterface;
   code_block: string;
+  language: string;
   inserted_at: Date;
+  updated_at: Date;
   code_title: string;
-  description?: any;
-  tags?: any;
+  description?: string;
+  tags?: string[];
+  documentation?: string;
   is_public: boolean;
 }
 

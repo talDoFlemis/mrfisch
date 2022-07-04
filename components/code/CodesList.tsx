@@ -22,7 +22,6 @@ const CodesList = ({}: GetCodesProps) => {
     }
   };
 
-  console.log(codes);
   return (
     <div className="mx-auto grid h-max grid-cols-1 gap-8 p-4 md:grid-cols-2 lg:grid-cols-3">
       {codes.map((code) => (

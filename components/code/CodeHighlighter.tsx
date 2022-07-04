@@ -9,7 +9,7 @@ interface EditorProps {
 
 const CodeHighlighter = ({ input, language, theme }: EditorProps) => {
   return (
-    <div className="card w-3/4 bg-[#1c1f37] text-sm">
+    <div className="card bg-[#1c1f37] text-sm lg:w-3/4">
       <div className="card-body p-0">
         <SyntaxHighlighter
           showLineNumbers
