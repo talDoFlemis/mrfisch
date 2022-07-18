@@ -5,7 +5,7 @@ import cl from "clsx";
 function LoadingComponent({ className }: { className?: string }) {
   return (
     <div className={cl(className, "my-auto mx-auto")}>
-      <Spinner className="mx-auto h-16 w-16 text-primary" />{" "}
+      <Spinner className="mx-auto h-16 w-16" />{" "}
     </div>
   );
 }

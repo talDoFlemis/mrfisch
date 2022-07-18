@@ -10,10 +10,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex h-screen  bg-[#141627] font-momcake antialiased">
       <div className="drawer drawer-mobile text-white">
-        <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
+        <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex">{children}</div>
         <aside className="drawer-side">
-          <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
+          <label htmlFor="drawer" className="drawer-overlay"></label>
           <ul className="menu w-48 items-center justify-center overflow-y-auto bg-[#141627] p-4 text-base-content">
             <Link href="/">
               <a className="absolute top-4 font-spaceRave text-xl italic text-white transition-colors hover:text-red-500">
@@ -25,7 +25,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/codes/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none py-2 transition-colors hover:bg-red-500/80",
+                    "btn flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80",
                     pathname === "/codes" && " text-white"
                   )}
                 >
@@ -36,7 +36,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/create/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none py-2 transition-colors hover:bg-red-500/80",
+                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80",
                     pathname === "/create" && " text-white"
                   )}
                 >
@@ -47,7 +47,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/settings/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none py-2 transition-colors hover:bg-red-500/80",
+                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80",
                     pathname === "/settings" && " text-white"
                   )}
                 >

@@ -1,12 +1,14 @@
-import { Dispatch, SetStateAction } from "react";
-
 interface LanguageSelectorProps {
-  setLanguage: Dispatch<SetStateAction<string>>;
+  languages: string[];
+  onChange: any;
+  value: string;
 }
 
-const LanguageSelector = ({ setLanguage }: LanguageSelectorProps) => {
-  const languages = ["javascript", "python", "css"];
-
+const LanguageSelector = ({
+  languages,
+  onChange,
+  value,
+}: LanguageSelectorProps) => {
   return (
     <div className="form-control">
       <label className="label">
@@ -14,7 +16,10 @@ const LanguageSelector = ({ setLanguage }: LanguageSelectorProps) => {
       </label>{" "}
       <select
         className="select select-primary bg-neutral"
-        onChange={(e) => setLanguage(e.target.value)}
+        onChange={(e) => {
+          onChange(e.target.value);
+        }}
+        value={value}
       >
         {languages.sort().map((lang) => (
           <option key={lang} value={lang}>

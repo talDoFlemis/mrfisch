@@ -1,15 +1,22 @@
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import cl from "clsx";
 
 interface EditorProps {
   input: string;
   language: string;
   theme: string;
+  className?: string;
 }
 
-const CodeHighlighter = ({ input, language, theme }: EditorProps) => {
+const CodeHighlighter = ({
+  input,
+  language,
+  theme,
+  className,
+}: EditorProps) => {
   return (
-    <div className="card bg-[#1c1f37] text-sm lg:w-3/4">
+    <div className={cl("card", className)}>
       <div className="card-body p-0">
         <SyntaxHighlighter
           showLineNumbers

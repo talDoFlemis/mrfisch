@@ -19,7 +19,7 @@
       "@components/*": ["components/*"],
       "@layout/*": ["components/layout/*"],
       "@svgs/*": ["components/svgs/*"],
-      "@lib/*": ["lib/*"],
+      "@utils/*": ["utils/*"],
       "@tests/*": ["tests/*"]
     }
   },

@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body .tagify {
+  --tag-bg: #6c0e42;
+  --tag-text-color: white;
+  --tag-text-color--edit: var(--tag-bg);
+  --tag-hover: rgb(162, 8, 56);
+  --tag-remove-btn-color: white;
+  --tags-border-color: tranparent;
+  --tags-hover-border-color: tranparent;
+  --placeholder-color: white;
+  --placeholder-color-focus: gray;
+  width: 100%;
+}
+
+.tags-look .tagify__dropdown__item {
+  display: inline-block;
+  border-radius: 3px;
+  padding: 0.3em 0.5em;
+  border: 1px solid #ccc;
+  background: #f3f3f3;
+  margin: 0.2em;
+  font-size: 0.85em;
+  color: black;
+  transition: 0s;
+}
+
+.tags-look .tagify__dropdown__wrapper {
+  @apply mt-4;
+}
+
+.tags-look .tagify__dropdown__item--active {
+  color: black;
+}
+
+.tags-look .tagify__dropdown__item:hover {
+  background: lightyellow;
+  border-color: gold;
+}
