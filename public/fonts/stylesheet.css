@@ -1,123 +1,51 @@
 @font-face {
-    font-family: 'Momcake';
-    src: url('Momcake-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
+  font-family: "Momcake";
+  src: url("Momcake-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Momcake';
-    src: url('Momcake-Thin.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
+  font-family: "Momcake";
+  src: url("Momcake-Thin.ttf") format("truetype");
+  font-weight: 100;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Fast Hand';
-    src: url('FastHand.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Space Rave";
+  src: url("SpaceRave.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'Edge of the Galaxy Poster';
-    src: url('Edge-of-the-Galaxy-Poster.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: "Space Rave";
+  src: url("SpaceRave-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
 }
 
 @font-face {
-    font-family: 'Edge of the Galaxy';
-    src: url('Edge-of-the-Galaxy.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Raleway";
+  src: url("Raleway-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Edge of the Galaxy Poster';
-    src: url('Edge-of-the-Galaxy-Poster_1.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Raleway";
+  src: url("Raleway.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'Edge of the Galaxy';
-    src: url('Edge-of-the-Galaxy-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
+  font-family: "Raleway";
+  src: url("Raleway-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
-
-@font-face {
-    font-family: 'SPACE MISSION';
-    src: url('SPACEMISSION.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Space Quest';
-    src: url('SpaceQuest.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Space Quest';
-    src: url('SpaceQuest-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Space Quest';
-    src: url('SpaceQuest_1.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Space Quest';
-    src: url('SpaceQuest-Italic_1.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Space Rave';
-    src: url('SpaceRave.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Space Rave';
-    src: url('SpaceRave-Italic.ttf') format('truetype');
-    font-weight: normal;
-    font-style: italic;
-}
-
-@font-face {
-    font-family: 'Raleway';
-    src: url('Raleway-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Raleway';
-    src: url('Raleway.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Raleway';
-    src: url('Raleway-Light.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-
-
