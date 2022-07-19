@@ -7,13 +7,11 @@ import { supabase } from "../utils/supabaseClient";
 import { Auth } from "@supabase/ui";
 
 const Codes = () => {
-  const [theme, setTheme] = useState("dracula");
-  const [input, setInput] = useState("import React from 'react';");
-  const { user, view, signOut } = useAuth();
+  const { user } = useAuth();
 
+  // {!user && <Auth supabaseClient={supabase} />}
   return (
     <main className="w-full">
-      {!user && <Auth supabaseClient={supabase} />}
       <CodesHeader id={user?.id} />
       <CodesList />
     </main>

@@ -25,7 +25,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/codes/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80",
+                    "btn flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80 hover:text-white",
                     pathname === "/codes" && " text-white"
                   )}
                 >
@@ -36,7 +36,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/create/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80",
+                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80  hover:text-white",
                     pathname === "/create" && " text-white"
                   )}
                 >
@@ -47,7 +47,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/settings/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80",
+                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-red-500/80 hover:text-white",
                     pathname === "/settings" && " text-white"
                   )}
                 >

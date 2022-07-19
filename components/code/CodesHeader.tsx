@@ -4,9 +4,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import { GiFriedFish } from "react-icons/gi";
+import { useAuth } from "@utils/authProvider";
+import { HiOutlineMenu } from "react-icons/hi";
 
+//TODO: Add avatar support and menu in logged user
 const CodesHeader = ({ id }: { id: string }) => {
   const [user, setUser] = useState<UserInterface>();
+  const { signOut } = useAuth();
 
   useEffect(() => {
     fetchCodes();
@@ -32,8 +36,8 @@ const CodesHeader = ({ id }: { id: string }) => {
         <div className="flex items-center justify-between">
           <div>
             <label
-              htmlFor="my-drawer-2"
-              className="btn drawer-button border-none lg:hidden"
+              htmlFor="drawer"
+              className="btn drawer-button cursor-pointer border-none hover:text-red-500 lg:hidden"
             >
               <GiFriedFish className="mx-auto h-8 w-8" />
             </label>
@@ -42,7 +46,7 @@ const CodesHeader = ({ id }: { id: string }) => {
               <p className="hidden sm:inline-flex">Create</p>
             </div>
           </div>
-          <div className="dropdown-end dropdown">
+          <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn m-1 gap-x-2 border-none">
               <AiOutlineDown className="hidden h-4 w-4 text-slate-400 sm:inline-flex" />
               <p className="hidden text-white sm:inline-flex">
@@ -58,7 +62,9 @@ const CodesHeader = ({ id }: { id: string }) => {
               className="dropdown-content menu rounded-box w-52 bg-purple-400/30 p-2 shadow drop-shadow-lg backdrop-blur-xl"
             >
               <li>
-                <a className="hover:bg-purple-600">Logout</a>
+                <a className="hover:bg-purple-600" onClick={signOut}>
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
@@ -69,11 +75,17 @@ const CodesHeader = ({ id }: { id: string }) => {
             <p>LogIn</p>
             <AiOutlineUser className="h-6 w-6" />
           </div>
+          <label
+            className="cursor-pointer text-white transition-colors hover:text-accent lg:hidden"
+            htmlFor="drawer"
+          >
+            <HiOutlineMenu className="ml-4 h-6 w-6" />
+          </label>
         </div>
       )}
       <h1 className="mt-4 text-xl font-light text-slate-400 sm:text-2xl md:text-4xl">
         Welcome,{" "}
-        <span className="font-spaceQuest text-white">
+        <span className="font-spaceRave text-white">
           {" "}
           Mr {user?.username || "anonymous"}
         </span>{" "}
