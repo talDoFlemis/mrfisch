@@ -8,16 +8,43 @@ export default async function handler(
   const { method } = req;
 
   switch (method) {
-    case "GET":
-      let resp = await supabase
-        .from("codes")
-        .select(`*, user(avatar_url, username)`)
-        .eq("id", req.query.id)
-        .single();
+    case "GET": {
+      try {
+        const { data, error } = await supabase
+          .from("codes")
+          .select(`*, user(avatar_url, username)`)
+          .eq("id", req.query.id)
+          .single();
 
-      let data = await resp.data;
+        if (error) throw error.message;
 
-      res.status(200).json(data);
+        res.status(200).json(data);
+      } catch (error) {
+        res.status(400).json(error);
+      }
+
       break;
+    }
+
+    case "PUT": {
+      const { body } = req;
+
+      try {
+        const { user } = await supabase.auth.api.getUserByCookie(req);
+        if (!user) {
+          body.is_public = true;
+        }
+
+        const { error } = await supabase.from("codes").upsert(body);
+
+        if (error) throw error.message;
+
+        res.status(200).json("Updated with success");
+      } catch (error) {
+        res.status(400).json(error);
+      }
+
+      break;
+    }
   }
 }

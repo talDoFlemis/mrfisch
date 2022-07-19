@@ -7,7 +7,7 @@ export interface CodeInterface {
   updated_at: Date;
   code_title: string;
   description?: string;
-  tags?: string[];
+  tags?: string[] | null;
   documentation?: string;
   is_public: boolean;
 }
