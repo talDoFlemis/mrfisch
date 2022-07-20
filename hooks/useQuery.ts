@@ -6,7 +6,7 @@ const fetcher = async (url: string) =>
     .get(url)
     .then((r) => r.data)
     .catch((err) => {
-      throw err;
+      throw new Error(err);
     });
 
 export const useQuery = <T>(
