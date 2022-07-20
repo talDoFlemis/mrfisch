@@ -24,14 +24,14 @@ const LandingPage = () => {
         <div className="group relative mt-4">
           <div className="group-hover:duration-000 absolute -inset-1 rounded bg-red-500 opacity-60 blur transition-opacity duration-1000 group-hover:opacity-100"></div>
           <Link href="/codes">
-            <a className="font-spaceQuest btn btn-md relative border-none bg-gradient-to-r from-[#180526] font-normal md:btn-lg md:text-3xl">
+            <a className="font-spaceQuest btn btn-md relative border-none bg-gradient-to-r from-[#180526] text-2xl font-normal md:btn-lg md:text-3xl">
               Explore
             </a>
           </Link>
         </div>
 
         <a
-          className="absolute bottom-4 flex cursor-pointer items-center gap-x-4 text-2xl hover:text-accent"
+          className="absolute bottom-4 flex cursor-pointer items-center gap-x-4 text-lg hover:text-accent sm:text-2xl"
           href="https://github.com/talDoFlemis/mrfisch"
         >
           Contribute

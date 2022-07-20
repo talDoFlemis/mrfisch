@@ -43,3 +43,19 @@ body .tagify {
   background: lightyellow;
   border-color: gold;
 }
+
+body .sbui-formlayout__label {
+  @apply text-white;
+}
+
+body .sbui-checkbox__label-container__label {
+  @apply text-white;
+}
+
+body a.sbui-typography-link {
+  @apply text-secondary;
+}
+
+body .sbui-btn-primary {
+  @apply bg-accent hover:bg-accent-focus;
+}
