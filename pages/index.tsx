@@ -16,9 +16,15 @@ interface indexProps {
 //TODO: Add smooth scrolling and header getting small height and backdrop blur over scroll
 
 const Home = ({ data }: indexProps) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [section, setSection] = useState("");
   const handleScroll = () => {
     const position = window.pageYOffset;
-    // console.log(position);
+    if (position !== 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
   };
 
   useEffect(() => {
@@ -29,12 +35,19 @@ const Home = ({ data }: indexProps) => {
     };
   }, []);
 
-  const [section, setSection] = useState("");
-
   return (
     <main className="h-max w-full">
-      <Header section={section} />
-      <LandingPage />
+      <Header section={section} scrolled={isScrolled} />
+      <InView
+        onChange={(inView) => {
+          if (inView) {
+            setSection("");
+          }
+        }}
+        threshold={0.5}
+      >
+        <LandingPage />
+      </InView>
       <InView
         onChange={(inView) => {
           if (inView) {

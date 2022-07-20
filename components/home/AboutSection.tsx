@@ -17,25 +17,30 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
         <div className="container card bg-neutral shadow-2xl xl:w-1/2">
           <div className="card-body  grid grid-cols-1 grid-rows-6 place-items-center gap-4 sm:grid-cols-5 sm:grid-rows-3">
             <div className="sm:col-span-4 ">
-              <h1 className="text-2xl font-bold">No, I'm not Mr Fisch</h1>
-              <p>
+              <h1 className="text-xl font-bold md:text-2xl">
+                No, I'm not Mr Fisch
+              </h1>
+              <p className="text-sm md:text-base">
                 Mr Fisch is a brazillian professor who has a unique way of
                 teaching. The only professor that has rented a triplex in my
                 mind
               </p>
             </div>
-            <div className="mask mask-circle relative h-full w-full">
+            <a
+              className="mask mask-circle relative h-full w-full cursor-pointer transition-transform hover:scale-110"
+              href={profile.html_url}
+            >
               <Image
                 src={profile.avatar_url}
                 layout="fill"
                 objectFit="contain"
                 alt="mr flemis"
               />
-            </div>
+            </a>
             <div className="relative row-start-4 h-full w-full sm:row-start-auto">
               <Image src="/img/pepe.png" layout="fill" objectFit="contain" />
             </div>
-            <p className=" sm:col-span-4 ">
+            <p className="text-sm sm:col-span-4 md:text-base">
               This website was made because of the extensive use of{" "}
               <a href="http://dontpad.com/" className="font-bold text-accent">
                 Dontpad
@@ -44,7 +49,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
               college stuff
             </p>
 
-            <div className="sm:col-span-4 ">
+            <div className="text-sm sm:col-span-4 md:text-base">
               <p>
                 But I wanted something more complete than dontpad plain text
                 with the same speed as it has. So I made this shit, I hope you
