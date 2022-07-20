@@ -13,8 +13,6 @@ interface indexProps {
   data: GithubInterface;
 }
 
-//TODO: Add smooth scrolling and header getting small height and backdrop blur over scroll
-
 const Home = ({ data }: indexProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [section, setSection] = useState("");

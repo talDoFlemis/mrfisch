@@ -7,25 +7,17 @@ import remarkGfm from "remark-gfm";
 import moment from "moment";
 import { CodeInterface } from "../../../typings";
 import { useRouter } from "next/router";
-import LoadingComponent from "@components/layout/LoadingComponent";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { GiDaemonSkull } from "react-icons/gi";
 import { MdEdit } from "react-icons/md";
-import { useQuery } from "hooks/useQuery";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useAuth } from "@utils/authProvider";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { supabase } from "@utils/supabaseClient";
 
-const CodeView = () => {
+const CodeView = ({ code }: { code: CodeInterface }) => {
   const router = useRouter();
-  const { id } = router.query;
   const { user } = useAuth();
-  const { data: code, error } = useQuery<CodeInterface>(
-    id ? `/api/codes/${id}` : null
-  );
-
-  if (!code && !error) {
-    return <LoadingComponent className="text-red-500" />;
-  }
 
   return (
     <main className="flex h-max w-full flex-col font-raleway">
@@ -121,3 +113,34 @@ const CodeView = () => {
 export default CodeView;
 
 CodeView.PageLayout = DashboardLayout;
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data, error } = await supabase
+    .from<CodeInterface>("codes")
+    .select("id");
+
+  if (error) console.log(error);
+
+  const paths = data!.map((code) => ({
+    params: { id: code.id },
+  }));
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { data: code, error } = await supabase
+    .from("codes")
+    .select(`*, user(avatar_url, username)`)
+    .eq("id", params!.id)
+    .single();
+
+  if (error) console.log(error);
+
+  return {
+    props: { code },
+  };
+};
