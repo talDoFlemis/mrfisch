@@ -1,4 +1,5 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
+import { ReactElement } from "react";
 
 interface settingsProps {}
 
@@ -8,4 +9,6 @@ const Settings = ({}: settingsProps) => {
 
 export default Settings;
 
-Settings.PageLayout = DashboardLayout;
+Settings.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};

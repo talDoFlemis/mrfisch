@@ -1,10 +1,11 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { useAuth } from "../utils/authProvider";
 import CodesList from "../components/code/CodesList";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import CodesHeader from "../components/code/CodesHeader";
+import { NextPageWithLayout } from "./_app";
 
-const Codes = () => {
+const Codes: NextPageWithLayout = () => {
   const { user } = useAuth();
 
   return (
@@ -15,6 +16,8 @@ const Codes = () => {
   );
 };
 
-Codes.PageLayout = DashboardLayout;
+Codes.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
 
 export default Codes;

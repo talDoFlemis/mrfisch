@@ -5,31 +5,26 @@ import { AuthProvider } from "../utils/authProvider";
 import NextNProgress from "nextjs-progressbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import type { ReactElement, ReactNode } from "react";
+import type { NextPage } from "next";
 
-type ComponentWithPageLayout = AppProps & {
-  Component: AppProps["Component"] & {
-    PageLayout?: React.ComponentType;
-  };
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
-function MyApp({
-  Component,
-  pageProps: { ...pageProps },
-}: ComponentWithPageLayout) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+  const layout = getLayout(<Component {...pageProps} />);
+
   return (
     <AuthProvider supabase={supabase}>
       <ToastContainer autoClose={4000} />
-      {Component.PageLayout ? (
-        <Component.PageLayout>
-          <NextNProgress color="#ed3833" />
-          <Component {...pageProps} />
-        </Component.PageLayout>
-      ) : (
-        <>
-          <NextNProgress color="#ed3833" />
-          <Component {...pageProps} />
-        </>
-      )}
+      <NextNProgress color="#ef4444" />
+      {layout}
     </AuthProvider>
   );
 }

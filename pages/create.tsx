@@ -1,5 +1,5 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { CodeInterface } from "typings";
 import axios, { AxiosError } from "axios";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import CodeForm from "@components/code/CodeForm";
 import { toast } from "react-toastify";
 
-const Create = ({}) => {
+const Create = () => {
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
 
@@ -71,6 +71,8 @@ const Create = ({}) => {
   );
 };
 
-export default Create;
+Create.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
 
-Create.PageLayout = DashboardLayout;
+export default Create;

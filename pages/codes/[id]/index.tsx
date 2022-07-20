@@ -14,7 +14,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { supabase } from "@utils/supabaseClient";
 import StealCodeButton from "@components/code/StealCodeButton";
 import CopyLink from "@components/code/CopyLink";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import DeleteCodeButton from "@components/code/DeleteCodeButton";
 
 const CodeView = ({ code }: { code: CodeInterface }) => {
@@ -136,7 +136,9 @@ const CodeView = ({ code }: { code: CodeInterface }) => {
 
 export default CodeView;
 
-CodeView.PageLayout = DashboardLayout;
+CodeView.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data, error } = await supabase

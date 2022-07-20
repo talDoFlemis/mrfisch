@@ -4,7 +4,7 @@ import { useQuery } from "hooks/useQuery";
 import { toast } from "react-toastify";
 
 interface TagsProps {
-  initialValues?: string[];
+  initialValues?: string[] | null;
   onChange: any;
 }
 
@@ -34,7 +34,7 @@ const TagSystem = ({ initialValues = [], onChange }: TagsProps) => {
     <div className="w-full rounded-md bg-neutral text-white">
       <Tags
         settings={settings}
-        defaultValue={initialValues}
+        defaultValue={initialValues ?? undefined}
         whitelist={tags ?? []}
         onChange={(e) =>
           onChange(e.detail.tagify.value.map((entry) => entry.value))

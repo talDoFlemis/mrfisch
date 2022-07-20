@@ -1,5 +1,5 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "hooks/useQuery";
 import { CodeInterface } from "typings";
@@ -88,4 +88,6 @@ const Edit = ({}) => {
 
 export default Edit;
 
-Edit.PageLayout = DashboardLayout;
+Edit.getLayout = function getLayout(page: ReactElement) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};
