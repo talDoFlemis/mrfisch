@@ -1,6 +1,6 @@
 export interface CodeInterface {
   id: string;
-  user: UserInterface | string;
+  user?: UserInterface;
   code_block: string;
   language: string;
   inserted_at: Date;

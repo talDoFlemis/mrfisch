@@ -46,5 +46,22 @@ export default async function handler(
 
       break;
     }
+    case "DELETE": {
+      const { query } = req;
+      try {
+        const { count, error } = await supabase
+          .from("codes")
+          .delete({ count: "exact" })
+          .match({ id: query.id });
+
+        if (error) throw error;
+        if (count === 0) throw Error("Code not found");
+        res.status(200).json({ message: "Deleted with success" });
+      } catch (error) {
+        res.status(409).send(error);
+      }
+
+      break;
+    }
   }
 }
