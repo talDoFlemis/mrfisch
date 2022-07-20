@@ -8,13 +8,13 @@ import cl from "clsx";
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
   return (
-    <div className="flex h-screen  bg-[#141627] font-momcake antialiased">
-      <div className="drawer drawer-mobile text-white">
+    <div className="flex h-screen  bg-base-100 font-momcake antialiased">
+      <div className="drawer-mobile drawer text-white">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex">{children}</div>
         <aside className="drawer-side">
           <label htmlFor="drawer" className="drawer-overlay"></label>
-          <ul className="menu w-48 items-center justify-center overflow-y-auto bg-[#141627] p-4 text-base-content">
+          <ul className="menu w-48 items-center justify-center overflow-y-auto bg-base-100 p-4 text-base-content">
             <Link href="/">
               <a className="absolute top-4 font-spaceRave text-xl italic text-white transition-colors hover:text-red-500">
                 Mr fisch

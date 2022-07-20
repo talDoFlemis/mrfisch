@@ -7,17 +7,23 @@ import remarkGfm from "remark-gfm";
 import moment from "moment";
 import { CodeInterface } from "../../../typings";
 import { useRouter } from "next/router";
-import CopyToClipboard from "react-copy-to-clipboard";
-import { GiDaemonSkull } from "react-icons/gi";
 import { MdEdit } from "react-icons/md";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useAuth } from "@utils/authProvider";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { supabase } from "@utils/supabaseClient";
+import StealCodeButton from "@components/code/StealCodeButton";
+import CopyLink from "@components/code/CopyLink";
+import { useEffect, useState } from "react";
+import DeleteCodeButton from "@components/code/DeleteCodeButton";
 
 const CodeView = ({ code }: { code: CodeInterface }) => {
   const router = useRouter();
   const { user } = useAuth();
+  const [linkToCopy, setLinkToCopy] = useState("");
+  useEffect(() => {
+    setLinkToCopy(location.href);
+  }, []);
 
   return (
     <main className="flex h-max w-full flex-col font-raleway">
@@ -41,18 +47,20 @@ const CodeView = ({ code }: { code: CodeInterface }) => {
           <CodeHighlighter
             input={code!.code_block}
             theme="dracula"
-            language="javascript"
-            className="text-sm lg:w-3/4"
+            language={code.language}
+            className="bg-neutral text-sm lg:w-3/4"
           />
           <div className="card h-fit bg-[#1c1f37] lg:w-1/4">
             <div className="card-body">
               <h1 className="text-center text-lg font-bold">
                 {code?.code_title}
               </h1>
-              <p className="">{code?.description}</p>
+              <p className="whitespace-pre-wrap break-words">
+                {code?.description}
+              </p>
               <div className="flex content-between items-center ">
                 <p>Language</p>
-                <p className="text-right font-bold text-[#8be9fd]">
+                <p className="text-right font-bold text-primary">
                   {code?.language}
                 </p>
               </div>
@@ -68,9 +76,23 @@ const CodeView = ({ code }: { code: CodeInterface }) => {
                   {moment(code?.updated_at).fromNow()}
                 </p>
               </div>
+              <div className="flex items-center justify-between">
+                <p>Made by</p>
+                <p className="text-right">
+                  {code.user?.username ?? "anonymous"}
+                </p>
+              </div>
+              <div className="item-center flex flex-wrap justify-center gap-2 pt-2">
+                {code.tags?.map((tag, index) => (
+                  <div key={index} className="badge badge-secondary shrink-0">
+                    {tag}
+                  </div>
+                ))}
+              </div>
               <div className="divider"></div>
+              <CopyLink link={linkToCopy} />
               {user !== code?.user && user?.id !== code?.user ? (
-                <a className="btn btn-sm justify-center gap-2 border-none bg-base-100 text-black">
+                <a className="btn btn-sm cursor-default justify-center gap-2 border-none bg-base-100 text-black">
                   Edit
                   <MdEdit className="h-6 w-6 " />
                 </a>
@@ -82,13 +104,8 @@ const CodeView = ({ code }: { code: CodeInterface }) => {
                   </a>
                 </Link>
               )}
-
-              <CopyToClipboard text={code!.code_block}>
-                <div className="btn btn-sm justify-center gap-2 border-none bg-[#ed3833] text-white shadow  hover:bg-[#ed3833] hover:text-[#021431] hover:shadow-white">
-                  Steal Code
-                  <GiDaemonSkull className="h-6 w-6 shadow-accent transition-colors duration-300 " />
-                </div>
-              </CopyToClipboard>
+              <StealCodeButton code={code.code_block} />
+              <DeleteCodeButton id={code.id} router={router} />
             </div>
           </div>
         </div>

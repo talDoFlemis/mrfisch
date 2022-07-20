@@ -8,7 +8,11 @@ const CodesList = ({}: GetCodesProps) => {
   const { data: codes, error } = useQuery<CodeInterface[]>("/api/codes/all");
 
   if (!codes && !error) {
-    return <LoadingComponent className="text-red-500" />;
+    return (
+      <div className="flex h-3/5 items-center justify-center">
+        <LoadingComponent className="h-16 w-16 text-red-500" />
+      </div>
+    );
   }
 
   return (
@@ -20,10 +24,12 @@ const CodesList = ({}: GetCodesProps) => {
             id={code.id}
             code_title={code.code_title}
             description={code.description}
-            inserted_at={code.inserted_at}
+            updated_at={code.updated_at}
             code_block={code.code_block}
             is_public={code.is_public}
             user={code.user}
+            className="min-h-52 bg-neutral"
+            tags={code.tags}
           />
         ))}
       </div>

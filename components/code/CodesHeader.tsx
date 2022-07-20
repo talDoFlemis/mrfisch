@@ -6,6 +6,7 @@ import { supabase } from "../../utils/supabaseClient";
 import { GiFriedFish } from "react-icons/gi";
 import { useAuth } from "@utils/authProvider";
 import { HiOutlineMenu } from "react-icons/hi";
+import Link from "next/link";
 
 //TODO: Add avatar support and menu in logged user
 const CodesHeader = ({ id }: { id: string }) => {
@@ -71,10 +72,12 @@ const CodesHeader = ({ id }: { id: string }) => {
         </div>
       ) : (
         <div className="flex items-center justify-end">
-          <div className="btn space-x-2 border-none">
-            <p>LogIn</p>
-            <AiOutlineUser className="h-6 w-6" />
-          </div>
+          <Link href="/login">
+            <a className="btn space-x-2 border-none">
+              <p>login</p>
+              <AiOutlineUser className="h-6 w-6" />
+            </a>
+          </Link>
           <label
             className="cursor-pointer text-white transition-colors hover:text-accent lg:hidden"
             htmlFor="drawer"
