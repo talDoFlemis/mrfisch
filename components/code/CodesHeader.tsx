@@ -7,6 +7,7 @@ import { GiFriedFish } from "react-icons/gi";
 import { useAuth } from "@utils/authProvider";
 import { HiOutlineMenu } from "react-icons/hi";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 //TODO: Add avatar support and menu in logged user
 const CodesHeader = ({ id }: { id: string }) => {
@@ -24,7 +25,7 @@ const CodesHeader = ({ id }: { id: string }) => {
         .select(`username, avatar_url`)
         .eq("id", id)
         .single();
-      if (error) console.log("error", error);
+      if (error) toast.error(`Unable to fetch user, ${error.message}`);
       if (data) {
         setUser(data);
       }
@@ -38,7 +39,7 @@ const CodesHeader = ({ id }: { id: string }) => {
           <div>
             <label
               htmlFor="drawer"
-              className="btn drawer-button cursor-pointer border-none hover:text-red-500 lg:hidden"
+              className="drawer-button btn cursor-pointer border-none hover:text-red-500 lg:hidden"
             >
               <GiFriedFish className="mx-auto h-8 w-8" />
             </label>
@@ -47,7 +48,7 @@ const CodesHeader = ({ id }: { id: string }) => {
               <p className="hidden sm:inline-flex">Create</p>
             </div>
           </div>
-          <div className="dropdown dropdown-end">
+          <div className="dropdown-end dropdown">
             <label tabIndex={0} className="btn m-1 gap-x-2 border-none">
               <AiOutlineDown className="hidden h-4 w-4 text-slate-400 sm:inline-flex" />
               <p className="hidden text-white sm:inline-flex">

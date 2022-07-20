@@ -1,6 +1,7 @@
 import Tags from "@yaireo/tagify/dist/react.tagify";
 import "@yaireo/tagify/dist/tagify.css";
 import { useQuery } from "hooks/useQuery";
+import { toast } from "react-toastify";
 
 interface TagsProps {
   initialValues?: string[];
@@ -22,7 +23,7 @@ const baseTagifySettings = {
 const TagSystem = ({ initialValues = [], onChange }: TagsProps) => {
   const { data: tags, error } = useQuery<string[]>("/api/codes/tags");
   if (error) {
-    console.log(error);
+    toast.error("Unable to fetch tags", { theme: "dark" });
   }
 
   const settings = {

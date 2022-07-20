@@ -5,27 +5,27 @@ import axios, { AxiosError } from "axios";
 import Link from "next/link";
 import { IconArrowLeft } from "@supabase/ui";
 import { HiOutlineMenu } from "react-icons/hi";
-import Alert from "@components/layout/Alert";
-import { useAlert } from "hooks/useAlert";
 import { useRouter } from "next/router";
 import CodeForm from "@components/code/CodeForm";
+import { toast } from "react-toastify";
 
 const Create = ({}) => {
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
-  const [hasAlert, setHasAlert] = useAlert();
 
   const createCode = async (data: CodeInterface) => {
     setIsPosting(true);
 
     try {
-      const resp = await axios.post("/api/codes/all", data);
-      setHasAlert({ alertType: "success", message: "Created with success" });
+      await axios.post("/api/codes/all", data);
+      toast.success("Created code with success", { theme: "dark" });
       router.push("/codes");
     } catch (err) {
       const error = err as Error | AxiosError;
       if (axios.isAxiosError(error)) {
-        setHasAlert({ alertType: "error", message: error.message });
+        toast.error(`Unable to create the code, ${error.message}`, {
+          theme: "dark",
+        });
       }
     } finally {
       setIsPosting(false);
@@ -66,7 +66,6 @@ const Create = ({}) => {
           </label>
         </div>
       </div>
-      <Alert message={hasAlert.message} alertType={hasAlert.alertType} />
       <CodeForm postOperation={createCode} />
     </div>
   );

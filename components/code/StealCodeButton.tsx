@@ -2,6 +2,7 @@ import { useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { GiDaemonSkull } from "react-icons/gi";
 import { BsClipboardCheck } from "react-icons/bs";
+import { toast } from "react-toastify";
 
 const StealCodeButton = ({
   code,
@@ -13,6 +14,7 @@ const StealCodeButton = ({
   const [isCopied, setIsCopied] = useState(false);
   const copied = () => {
     setIsCopied(true);
+    toast.info("Code copied with success", { theme: "dark" });
 
     setTimeout(() => {
       setIsCopied(false);

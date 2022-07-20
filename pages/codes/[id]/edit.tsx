@@ -4,18 +4,16 @@ import { useRouter } from "next/router";
 import { useQuery } from "hooks/useQuery";
 import { CodeInterface } from "typings";
 import Link from "next/link";
-import { useAlert } from "hooks/useAlert";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { HiOutlineMenu } from "react-icons/hi";
 import CodeForm from "@components/code/CodeForm";
-import Alert from "@components/layout/Alert";
 import axios, { AxiosError } from "axios";
 import { useAuth } from "@utils/authProvider";
+import { toast } from "react-toastify";
 
 const Edit = ({}) => {
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
-  const [hasAlert, setHasAlert] = useAlert();
   const { user } = useAuth();
 
   const { id } = router.query;
@@ -24,20 +22,24 @@ const Edit = ({}) => {
   );
 
   if (error) {
-    setHasAlert({ message: error, alertType: "error" });
+    toast.error(`Unable to create the code, ${error}`, {
+      theme: "dark",
+    });
   }
 
   const updateCode = async (data: CodeInterface) => {
     setIsPosting(true);
 
     try {
-      const resp = await axios.put(`/api/codes/${id}`, data);
-      setHasAlert({ message: "Updated with success", alertType: "success" });
+      await axios.put(`/api/codes/${id}`, data);
+      toast.success("Updated with success", { theme: "dark" });
       router.push(`/codes/${id}`);
     } catch (err) {
       const error = err as Error | AxiosError;
       if (axios.isAxiosError(error)) {
-        setHasAlert({ alertType: "error", message: error.message });
+        toast.error(`Unable to create the code, ${error.message}`, {
+          theme: "dark",
+        });
       }
     } finally {
       setIsPosting(false);
@@ -79,7 +81,6 @@ const Edit = ({}) => {
           </label>
         </div>
       </div>
-      <Alert message={hasAlert.message} alertType={hasAlert.alertType} />
       <CodeForm postOperation={updateCode} initialValues={code} />
     </div>
   );

@@ -91,21 +91,28 @@ const CodeView = ({ code }: { code: CodeInterface }) => {
               </div>
               <div className="divider"></div>
               <CopyLink link={linkToCopy} />
+              <StealCodeButton code={code.code_block} />
               {user !== code?.user && user?.id !== code?.user ? (
-                <a className="btn btn-sm cursor-default justify-center gap-2 border-none bg-base-100 text-black">
-                  Edit
+                <button
+                  className="btn btn-sm cursor-default justify-center gap-2 border-none bg-base-100 text-black"
+                  disabled
+                >
+                  <p>Edit</p>
                   <MdEdit className="h-6 w-6 " />
-                </a>
+                </button>
               ) : (
                 <Link href={`/codes/${router.query.id}/edit`}>
                   <a className="btn btn-sm justify-center gap-2 border-none bg-white text-black shadow transition-colors hover:bg-base-300 hover:text-white ">
-                    Edit
+                    <p>Edit</p>
                     <MdEdit className="h-6 w-6 " />
                   </a>
                 </Link>
               )}
-              <StealCodeButton code={code.code_block} />
-              <DeleteCodeButton id={code.id} router={router} />
+              <DeleteCodeButton
+                id={code.id}
+                router={router}
+                disabled={user !== code?.user && user?.id !== code?.user}
+              />
             </div>
           </div>
         </div>

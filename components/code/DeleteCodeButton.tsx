@@ -3,6 +3,7 @@ import axios from "axios";
 import { NextRouter } from "next/router";
 import { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 interface DeleteCodeButtonProps {
   id: string;
@@ -22,8 +23,9 @@ const DeleteCodeButton = ({
     try {
       await axios.delete(`/api/codes/${id}`);
       router.push("/codes");
+      toast.success("Deleted code with success", { theme: "dark" });
     } catch (error) {
-      console.log(error);
+      toast.error("Unable to delete the code", { theme: "dark" });
     } finally {
       setIsPosting(false);
     }
