@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 body .tagify {
   --tag-bg: #6c0e42;
   --tag-text-color: white;
