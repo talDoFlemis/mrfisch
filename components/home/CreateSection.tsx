@@ -26,7 +26,7 @@ const CreateSection = () => {
       />
       <div className="relative z-10 h-full bg-gradient-to-t from-black/90 via-transparent to-black/90 p-4 text-center">
         <div className="mx-auto grid h-full grid-rows-2 place-content-center place-items-center gap-x-8 gap-y-8 md:grid-cols-2 md:grid-rows-none 2xl:container">
-          <div className="group relative row-start-2 w-4/5 self-start sm:w-full md:row-auto md:self-auto xl:w-3/4">
+          <div className="group relative row-start-2 w-full self-start sm:w-full md:row-auto md:self-auto xl:w-3/4">
             <div className="absolute -inset-0.5 animate-tilt rounded-xl bg-gradient-to-r from-accent via-accent to-primary opacity-70 blur-lg transition-opacity duration-1000 group-hover:opacity-100 group-hover:duration-300"></div>
             <div className="card select-none bg-neutral">
               <div className="card-body p-0 lg:p-6">
