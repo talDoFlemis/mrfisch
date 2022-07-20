@@ -18,7 +18,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
           <div className="card-body  grid grid-cols-1 grid-rows-6 place-items-center gap-4 sm:grid-cols-5 sm:grid-rows-3">
             <div className="sm:col-span-4 ">
               <h1 className="text-xl font-bold md:text-2xl">
-                No, I'm not Mr Fisch
+                No, I&apos;m not Mr Fisch
               </h1>
               <p className="text-sm md:text-base">
                 Mr Fisch is a brazillian professor who has a unique way of
