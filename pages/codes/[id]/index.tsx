@@ -10,13 +10,13 @@ import { useRouter } from "next/router";
 import { MdEdit } from "react-icons/md";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useAuth } from "@utils/authProvider";
-import { GetStaticPaths, GetStaticProps } from "next";
 import { supabase } from "@utils/supabaseClient";
 import StealCodeButton from "@components/code/StealCodeButton";
 import CopyLink from "@components/code/CopyLink";
 import { ReactElement, useEffect, useState } from "react";
 import DeleteCodeButton from "@components/code/DeleteCodeButton";
 import LoadingComponent from "@components/layout/LoadingComponent";
+import Head from "next/head";
 
 const CodeView = () => {
   const router = useRouter();
@@ -42,6 +42,9 @@ const CodeView = () => {
 
   return (
     <main className="flex h-max w-full flex-col font-raleway">
+      <Head>
+        <title>{code?.code_title ?? "Code"} • Mr Fisch</title>
+      </Head>
       <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
         <Link href="/codes/">
           <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-red-500">

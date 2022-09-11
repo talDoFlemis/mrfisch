@@ -8,6 +8,7 @@ import LandingPage from "../components/home/LandingPage";
 import { GithubInterface } from "typings";
 import { InView } from "react-intersection-observer";
 import CreateSection from "@components/home/CreateSection";
+import Head from "next/head";
 
 interface indexProps {
   data: GithubInterface;
@@ -35,6 +36,9 @@ const Home = ({ data }: indexProps) => {
 
   return (
     <main className="h-max w-full">
+      <Head>
+        <title>Mr Fisch</title>
+      </Head>
       <Header section={section} scrolled={isScrolled} />
       <InView
         onChange={(inView) => {

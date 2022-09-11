@@ -8,6 +8,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { useRouter } from "next/router";
 import CodeForm from "@components/code/CodeForm";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 const Create = () => {
   const router = useRouter();
@@ -33,7 +34,10 @@ const Create = () => {
   };
 
   return (
-    <div className="h-max w-full font-raleway">
+    <main className="h-max w-full font-raleway">
+      <Head>
+        <title>Create • Mr Fisch</title>
+      </Head>
       <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
         <Link href="/codes/">
           <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-red-500">
@@ -67,7 +71,7 @@ const Create = () => {
         </div>
       </div>
       <CodeForm postOperation={createCode} />
-    </div>
+    </main>
   );
 };
 

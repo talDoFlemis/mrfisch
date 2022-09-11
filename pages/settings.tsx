@@ -1,10 +1,18 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
+import Head from "next/head";
 import { ReactElement } from "react";
 
 interface settingsProps {}
 
 const Settings = ({}: settingsProps) => {
-  return <div className="h-max w-full">Will be a good settings page</div>;
+  return (
+    <main className="h-max w-full">
+      <Head>
+        <title>Settings • Mr Fisch</title>
+      </Head>
+      Will be a good settings page
+    </main>
+  );
 };
 
 export default Settings;
