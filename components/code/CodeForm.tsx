@@ -40,7 +40,7 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
       code_title: initialValues?.code_title ?? "",
       description: initialValues?.description ?? "",
       code_block: initialValues?.code_block ?? "",
-      tags: initialValues?.tags ?? null,
+      tags: initialValues?.tags ?? [],
       language: initialValues?.language ?? "css",
       documentation: initialValues?.documentation ?? "",
       is_public: initialValues?.is_public ?? true,
@@ -56,7 +56,7 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
     }
   }, [initialValues]);
 
-  const languageList = ["javascript", "python", "css"];
+  const languageList = ["javascript", "python", "css", "c", "cpp", "rust", "haskell", "ruby","bash","typescript","yaml"];
   return (
     <form
       onSubmit={handleSubmit(postOperation)}
