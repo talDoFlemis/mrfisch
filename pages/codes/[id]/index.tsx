@@ -10,34 +10,31 @@ import { useRouter } from "next/router";
 import { MdEdit } from "react-icons/md";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useAuth } from "@utils/authProvider";
-import { supabase } from "@utils/supabaseClient";
 import StealCodeButton from "@components/code/StealCodeButton";
 import CopyLink from "@components/code/CopyLink";
 import { ReactElement, useEffect, useState } from "react";
 import DeleteCodeButton from "@components/code/DeleteCodeButton";
 import LoadingComponent from "@components/layout/LoadingComponent";
 import Head from "next/head";
+import { useQuery } from "hooks/useQuery";
+import { toast } from "react-toastify";
 
 const CodeView = () => {
   const router = useRouter();
   const { user } = useAuth();
   const [linkToCopy, setLinkToCopy] = useState("");
-  const [code, setCode] = useState<CodeInterface>();
+  const { data: code, error } = useQuery<CodeInterface>(
+    router.query.id ? `/api/codes/${router.query.id}` : null
+  );
 
-  const getCodes = async () => {
-    const { data, error } = await supabase
-      .from("codes")
-      .select(`*, user(avatar_url, username)`)
-      .eq("id", router.query.id)
-      .single();
-
-    if (error) console.log(error);
-    setCode(data);
-  };
+  if (error) {
+    toast.error(`Unable to create the code, ${error}`, {
+      theme: "dark",
+    });
+  }
 
   useEffect(() => {
     setLinkToCopy(location.href);
-    getCodes();
   }, []);
 
   return (
