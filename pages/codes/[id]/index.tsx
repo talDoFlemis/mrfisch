@@ -44,13 +44,13 @@ const CodeView = () => {
       </Head>
       <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
         <Link href="/codes/">
-          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-red-500">
+          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
             <IconArrowLeft className="h-8 w-8" />
             Go back
           </a>
         </Link>
         <label
-          className="cursor-pointer text-white transition-colors hover:text-accent lg:hidden"
+          className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
           htmlFor="drawer"
         >
           <HiOutlineMenu className="h-6 w-6" />
@@ -69,7 +69,7 @@ const CodeView = () => {
               language={code.language}
               className="bg-neutral text-sm lg:w-3/4"
             />
-            <div className="card h-fit bg-[#1c1f37] lg:w-1/4">
+            <div className="card h-fit bg-neutral lg:w-1/4">
               <div className="card-body">
                 <h1 className="text-center text-lg font-bold">
                   {code?.code_title}
@@ -137,7 +137,7 @@ const CodeView = () => {
           </div>
           {code?.documentation && (
             <div>
-              <div className="card my-8 bg-[#1c1f37] ">
+              <div className="card my-8 bg-neutral ">
                 <div className="card-body">
                   <div className="card-title">Documentation</div>
                   <div className="divider  before:bg-white after:bg-white"></div>

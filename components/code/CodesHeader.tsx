@@ -39,7 +39,7 @@ const CodesHeader = ({ id }: { id: string }) => {
           <div>
             <label
               htmlFor="drawer"
-              className="drawer-button btn cursor-pointer border-none hover:text-red-500 lg:hidden"
+              className="btn drawer-button cursor-pointer border-none hover:text-red-500 lg:hidden"
             >
               <GiFriedFish className="mx-auto h-8 w-8" />
             </label>
@@ -80,16 +80,16 @@ const CodesHeader = ({ id }: { id: string }) => {
             </a>
           </Link>
           <label
-            className="cursor-pointer text-white transition-colors hover:text-accent lg:hidden"
+            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
             htmlFor="drawer"
           >
             <HiOutlineMenu className="ml-4 h-6 w-6" />
           </label>
         </div>
       )}
-      <h1 className="mt-4 text-xl font-light text-slate-400 sm:text-2xl md:text-4xl">
+      <h1 className="mt-4 text-xl font-light text-base-content sm:text-2xl md:text-4xl">
         Welcome,{" "}
-        <span className="font-spaceRave text-white">
+        <span className="font-spaceRave text-primary">
           {" "}
           Mr {user?.username || "anonymous"}
         </span>{" "}

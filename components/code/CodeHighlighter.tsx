@@ -23,8 +23,7 @@ const CodeHighlighter = ({
           language={language}
           style={dracula}
           customStyle={{ backgroundColor: "transparent" }}
-          className=""
-          wrapLongLines
+          className="h-full"
         >
           {input}
         </SyntaxHighlighter>

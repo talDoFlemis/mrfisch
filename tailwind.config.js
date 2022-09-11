@@ -35,8 +35,12 @@ module.exports = {
   plugins: [require("daisyui"), require("@tailwindcss/typography")],
   daisyui: {
     themes: [
+      "coffee",
+      "cyberpunk",
+      "emerald",
+      "luxury",
       {
-        mytheme: {
+        mrfisch: {
           primary: "#61d2e4",
           secondary: "#fadb31",
           accent: "#ef4444",
@@ -49,6 +53,5 @@ module.exports = {
         },
       },
     ],
-    // darkTheme: "light",
   },
 };

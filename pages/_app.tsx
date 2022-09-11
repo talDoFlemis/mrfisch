@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
+import { ThemeProvider } from "next-themes";
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -22,9 +23,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
 
   return (
     <AuthProvider supabase={supabase}>
-      <ToastContainer autoClose={4000} />
-      <NextNProgress color="#ef4444" />
-      {layout}
+      <ThemeProvider defaultTheme="mrfisch">
+        <ToastContainer autoClose={4000} />
+        {layout}
+      </ThemeProvider>
     </AuthProvider>
   );
 }

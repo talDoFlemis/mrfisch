@@ -29,7 +29,7 @@ const CodeCard = ({
 }: CodeCardProps) => {
   return (
     <div className={cl("card", className)}>
-      <div className="card-body justify-between text-white">
+      <div className="card-body justify-between text-neutral-content">
         <div>
           <h1 className="text-center text-2xl font-bold">{code_title}</h1>
           <p className="truncate pb-8 text-lg font-bold text-gray-400">
@@ -39,7 +39,7 @@ const CodeCard = ({
         <div className="flex flex-col gap-y-3">
           <div className="card-actions justify-end space-x-1">
             <Link href={`/codes/${id}`}>
-              <a className="btn btn-outline btn-sm gap-1 text-white transition-colors hover:border-primary hover:bg-primary-focus hover:text-white">
+              <a className="btn btn-outline btn-sm gap-1 text-base-content transition-colors hover:border-primary hover:bg-primary-focus hover:text-primary-content">
                 <p className="hidden sm:inline-flex">View Code</p>
                 <AiOutlineEye className="h-6 w-6" />
               </a>

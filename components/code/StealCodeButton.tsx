@@ -23,7 +23,7 @@ const StealCodeButton = ({
 
   return (
     <CopyToClipboard text={code} onCopy={() => copied()}>
-      <div className="btn btn-sm border-none bg-[#ed3833] text-white shadow hover:bg-[#ed3833]  hover:text-[#021431] hover:shadow-white">
+      <div className="btn btn-sm border-none bg-accent text-accent-content shadow hover:bg-accent-focus hover:text-accent-content hover:shadow-white">
         {isCopied ? (
           <>
             <p className={`${toHide && "hidden sm:inline-flex"}`}>Copied</p>

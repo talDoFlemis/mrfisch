@@ -54,7 +54,7 @@ const Edit = ({}) => {
       </Head>
       <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
         <Link href="/codes/">
-          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-red-500">
+          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
             <AiOutlineArrowLeft className="h-6 w-6 md:h-8 md:w-8" />
             <p className="hidden md:inline-flex">Go back</p>
           </a>
@@ -78,7 +78,7 @@ const Edit = ({}) => {
             </button>
           )}
           <label
-            className="cursor-pointer text-white transition-colors hover:text-accent lg:hidden"
+            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
             htmlFor="drawer"
           >
             <HiOutlineMenu className="h-6 w-6" />
