@@ -45,15 +45,15 @@ body .tagify {
 }
 
 body .sbui-formlayout__label {
-  @apply text-white;
+  @apply text-base-content;
 }
 
 body .sbui-checkbox__label-container__label {
-  @apply text-white;
+  @apply text-base-content;
 }
 
 body a.sbui-typography-link {
-  @apply text-secondary;
+  @apply text-primary hover:text-primary-focus;
 }
 
 body .sbui-btn-primary {

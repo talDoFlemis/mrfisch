@@ -7,10 +7,24 @@ import Head from "next/head";
 import Link from "next/link";
 import { ReactElement } from "react";
 import { HiOutlineMenu } from "react-icons/hi";
+import { toast } from "react-toastify";
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
-  const allThemes = ["mrfisch", "luxury", "emerald", "coffee", "cyberpunk"];
+  const allThemes = [
+    "mrfisch",
+    "luxury",
+    "emerald",
+    "coffee",
+    "cyberpunk",
+    "valentine",
+    "synthwave",
+  ];
+
+  const changeTheme = (theme: string) => {
+    toast.success(`Theme changed to ${theme}`, { theme: "dark" });
+    setTheme(theme);
+  };
 
   const mockedCode = `const answerToLife = async () => {
    try {
@@ -60,7 +74,7 @@ while true:
       <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
         {allThemes.map((theme) => (
           <div
-            onClick={() => setTheme(theme)}
+            onClick={() => changeTheme(theme)}
             className="flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-base-200 transition-transform hover:scale-110"
             data-theme={theme}
           >

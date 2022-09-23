@@ -39,6 +39,8 @@ module.exports = {
       "cyberpunk",
       "emerald",
       "luxury",
+      "synthwave",
+      "valentine",
       {
         mrfisch: {
           primary: "#61d2e4",
