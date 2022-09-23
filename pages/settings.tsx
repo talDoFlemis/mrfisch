@@ -97,7 +97,7 @@ while true:
             language="javascript"
             theme="dracula"
             input={mockedCode}
-            className="text-xs sm:text-sm 2xl:text-base"
+            className="text-xs 2xl:text-sm"
           />
         </div>
       </div>

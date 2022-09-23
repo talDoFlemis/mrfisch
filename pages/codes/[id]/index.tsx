@@ -58,7 +58,7 @@ const CodeView = () => {
       </div>
       {!code ? (
         <div className="flex h-[60vh]">
-          <LoadingComponent className="h-16 w-16 text-red-500" />
+          <LoadingComponent className="h-16 w-16 text-base-content" />
         </div>
       ) : (
         <div className="p-4">
@@ -69,7 +69,7 @@ const CodeView = () => {
               language={code.language}
               className="bg-neutral text-sm lg:w-3/4"
             />
-            <div className="card h-fit bg-neutral lg:w-1/4">
+            <div className="card h-fit bg-neutral text-neutral-content lg:w-1/4">
               <div className="card-body">
                 <h1 className="text-center text-lg font-bold">
                   {code?.code_title}
@@ -137,11 +137,14 @@ const CodeView = () => {
           </div>
           {code?.documentation && (
             <div>
-              <div className="card my-8 bg-neutral ">
+              <div className="card my-8 bg-neutral text-neutral-content">
                 <div className="card-body">
                   <div className="card-title">Documentation</div>
-                  <div className="divider  before:bg-white after:bg-white"></div>
-                  <ReactMarkdown className="prose " remarkPlugins={[remarkGfm]}>
+                  <div className="divider  before:bg-base-300 after:bg-base-300"></div>
+                  <ReactMarkdown
+                    className="prose text-neutral-content"
+                    remarkPlugins={[remarkGfm]}
+                  >
                     {code.documentation}
                   </ReactMarkdown>
                 </div>
