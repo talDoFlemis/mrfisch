@@ -17,13 +17,17 @@ const CodeHighlighter = ({
 }: EditorProps) => {
   return (
     <div className={cl("card", className)}>
-      <div className="card-body p-0">
+      <div className={cl("card-body p-0", className)}>
         <SyntaxHighlighter
           showLineNumbers
           language={language}
           style={dracula}
           customStyle={{ backgroundColor: "transparent" }}
-          className="h-full"
+          codeTagProps={{
+            style: { fontSize: "inherit", fontStyle: "inherit" },
+          }}
+          className="h-full font-sans"
+          useInlineStyles
         >
           {input}
         </SyntaxHighlighter>
