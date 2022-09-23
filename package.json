@@ -17,7 +17,7 @@
     "axios": "^0.27.2",
     "clsx": "^1.1.1",
     "daisyui": "^2.15.4",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "next": "canary",
     "next-remove-imports": "^1.0.6",
     "next-themes": "^0.2.1",
