@@ -12,7 +12,7 @@ import { useAuth } from "@utils/authProvider";
 import { toast } from "react-toastify";
 import Head from "next/head";
 
-const Edit = ({}) => {
+const Edit = () => {
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
   const { user } = useAuth();

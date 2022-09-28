@@ -4,6 +4,7 @@ import { AiOutlineEye, AiOutlineUserSwitch } from "react-icons/ai";
 import cl from "clsx";
 import moment from "moment";
 import StealCodeButton from "./StealCodeButton";
+import Image from "next/image";
 
 interface CodeCardProps {
   id: string;
@@ -47,9 +48,20 @@ const CodeCard = ({
             <StealCodeButton code={code_block} toHide />
           </div>
           <div className="grid grid-cols-3 place-items-center">
-            <div className="relative flex items-center gap-x-2 place-self-start self-center sm:place-self-auto">
-              <AiOutlineUserSwitch className="h-4 w-4" />
-              <p className="hidden sm:inline-flex">
+            <div className="flex items-center gap-x-2 place-self-start self-center sm:place-self-auto">
+              {user?.avatar_url ? (
+                <div className="mask mask-circle relative h-8 w-8 shrink-0">
+                  <Image
+                    src={user.avatar_url}
+                    alt="avatar"
+                    objectFit="cover"
+                    layout="fill"
+                  />
+                </div>
+              ) : (
+                <AiOutlineUserSwitch className="h-4 w-4" />
+              )}
+              <p className="hidden w-20 overflow-hidden text-ellipsis whitespace-nowrap sm:inline-flex">
                 {user?.username ?? "anonymous"}
               </p>
             </div>

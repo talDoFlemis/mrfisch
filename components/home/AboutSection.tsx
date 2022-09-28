@@ -38,7 +38,12 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
               />
             </a>
             <div className="relative row-start-4 h-full w-full sm:row-start-auto">
-              <Image src="/img/pepe.png" layout="fill" objectFit="contain" />
+              <Image
+                src="/img/pepe.png"
+                layout="fill"
+                objectFit="contain"
+                alt="pepe"
+              />
             </div>
             <p className="text-sm sm:col-span-4 md:text-base">
               This website was made because of the extensive use of{" "}

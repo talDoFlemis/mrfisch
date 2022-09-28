@@ -65,9 +65,8 @@ const CodeView = () => {
           <div className="flex flex-col justify-between gap-8 lg:flex-row">
             <CodeHighlighter
               input={code!.code_block}
-              theme="dracula"
               language={code.language}
-              className="bg-neutral text-sm lg:w-3/4"
+              className="bg-neutral text-sm lg:w-full"
             />
             <div className="card h-fit bg-neutral text-neutral-content lg:w-1/4">
               <div className="card-body">
@@ -111,7 +110,7 @@ const CodeView = () => {
                 <div className="divider"></div>
                 <CopyLink link={linkToCopy} />
                 <StealCodeButton code={code.code_block} />
-                {user !== code?.user && user?.id !== code?.user ? (
+                {user?.id !== code?.user?.id ? (
                   <button
                     className="btn btn-sm cursor-default justify-center gap-2 border-none bg-base-100 text-black"
                     disabled
@@ -130,7 +129,7 @@ const CodeView = () => {
                 <DeleteCodeButton
                   id={code.id}
                   router={router}
-                  disabled={user !== code?.user && user?.id !== code?.user}
+                  disabled={user?.id !== code?.user?.id}
                 />
               </div>
             </div>

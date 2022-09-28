@@ -18,6 +18,8 @@ export interface UserInterface {
   username: string;
   updated_at: Date;
   role: string;
+  nickname: string;
+  is_new: boolean;
 }
 
 export interface IdentityData {

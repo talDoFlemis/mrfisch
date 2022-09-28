@@ -1,24 +1,33 @@
-import { AiOutlineDown, AiOutlinePlus, AiOutlineUser } from "react-icons/ai";
-import { AuthInterface, UserInterface } from "../../typings";
+import {
+  AiOutlineDown,
+  AiOutlineExclamationCircle,
+  AiOutlineUser,
+} from "react-icons/ai";
+import { UserInterface } from "../../typings";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { supabase } from "../../utils/supabaseClient";
-import { GiFriedFish } from "react-icons/gi";
 import { useAuth } from "@utils/authProvider";
 import { HiOutlineMenu } from "react-icons/hi";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
-//TODO: Add avatar support and menu in logged user
-const CodesHeader = ({ id }: { id: string }) => {
-  const [user, setUser] = useState<UserInterface>();
+interface CodesHeaderInterface {
+  id: string;
+  user?: UserInterface;
+  setUser: Dispatch<SetStateAction<UserInterface | undefined>>;
+}
+
+const CodesHeader = ({ id, user, setUser }: CodesHeaderInterface) => {
   const { signOut } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    fetchCodes();
+    fetchUser();
   }, [id]);
 
-  const fetchCodes = async () => {
+  const fetchUser = async () => {
     if (id) {
       let { data, error } = await supabase
         .from<UserInterface>("profiles")
@@ -33,43 +42,66 @@ const CodesHeader = ({ id }: { id: string }) => {
   };
 
   return (
-    <header className="p-4 font-raleway text-white">
+    <header className="navbar sticky top-0 z-10 justify-end bg-opacity-40 p-4 font-raleway backdrop-blur-sm">
       {user ? (
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="flex items-center justify-end gap-2 sm:gap-6">
+          {user.is_new && (
+            <Link href="/profile">
+              <a className="badge text-2xs badge-warning p-3 text-warning-content transition-transform hover:scale-105 sm:text-sm">
+                Your profile need to be updated{" "}
+                <AiOutlineExclamationCircle className="ml-2 h-5 w-5 text-warning-content" />
+              </a>
+            </Link>
+          )}
+          <div className="dropdown-end dropdown rounded-full">
             <label
-              htmlFor="drawer"
-              className="btn drawer-button cursor-pointer border-none hover:text-red-500 lg:hidden"
+              tabIndex={0}
+              className="group m-1 flex cursor-pointer items-center gap-x-2 border-none"
             >
-              <GiFriedFish className="mx-auto h-8 w-8" />
-            </label>
-            <div className="btn btn-sm space-x-2 border-none bg-gradient-to-r from-purple-600 to-purple-500">
-              <AiOutlinePlus className="h-6 w-6" />
-              <p className="hidden sm:inline-flex">Create</p>
-            </div>
-          </div>
-          <div className="dropdown-end dropdown">
-            <label tabIndex={0} className="btn m-1 gap-x-2 border-none">
-              <AiOutlineDown className="hidden h-4 w-4 text-slate-400 sm:inline-flex" />
-              <p className="hidden text-white sm:inline-flex">
-                {user.username}
-              </p>
-              <div className="relative rounded-full">
-                <AiOutlineUser className="h-6 w-6" />
-                {/*<Image src={user.avatar_url} layout="fill" objectFit="cover" />*/}
+              <AiOutlineDown className="hidden h-4 w-4 transition-colors group-hover:text-accent sm:inline-flex" />
+              <div className="mask mask-circle relative h-10 w-10 transition-transform group-hover:scale-110">
+                {user.avatar_url ? (
+                  <Image
+                    src={user.avatar_url}
+                    layout="fill"
+                    objectFit="cover"
+                    alt="avatar"
+                  />
+                ) : (
+                  <AiOutlineUser className="h-full w-full" />
+                )}
               </div>
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu rounded-box w-52 bg-purple-400/30 p-2 shadow drop-shadow-lg backdrop-blur-xl"
+              className="dropdown-content menu rounded-box w-52 gap-2 bg-neutral p-2"
             >
               <li>
-                <a className="hover:bg-purple-600" onClick={signOut}>
+                <Link href="/profile">
+                  <a className="transition-colors hover:bg-accent hover:text-accent-content">
+                    Profile
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <a
+                  className="transition-colors hover:bg-accent hover:text-accent-content"
+                  onClick={() => {
+                    signOut();
+                    router.reload();
+                  }}
+                >
                   Logout
                 </a>
               </li>
             </ul>
           </div>
+          <label
+            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            htmlFor="drawer"
+          >
+            <HiOutlineMenu className="ml-4 h-6 w-6" />
+          </label>
         </div>
       ) : (
         <div className="flex items-center justify-end">
@@ -87,13 +119,6 @@ const CodesHeader = ({ id }: { id: string }) => {
           </label>
         </div>
       )}
-      <h1 className="mt-4 text-xl font-light text-base-content sm:text-2xl md:text-4xl">
-        Welcome,{" "}
-        <span className="font-spaceRave text-primary">
-          {" "}
-          Mr {user?.username || "anonymous"}
-        </span>{" "}
-      </h1>
     </header>
   );
 };

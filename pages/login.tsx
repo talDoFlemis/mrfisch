@@ -1,13 +1,16 @@
 import { Auth, IconArrowLeft } from "@supabase/ui";
 import { supabase } from "@utils/supabaseClient";
+import Head from "next/head";
 import Link from "next/link";
 import { GiFriedFish } from "react-icons/gi";
 
-interface loginProps {}
-
-const Login = ({}: loginProps) => {
+const Login = () => {
   return (
     <div className="mx-auto flex h-screen flex-col items-center justify-center p-4 lg:w-1/2">
+      <Head>
+        <title>Login • Mr Fisch</title>
+      </Head>
+
       <Link href="/codes/">
         <a className="flex w-fit cursor-pointer items-center font-bold text-base-content transition-colors hover:text-accent">
           <IconArrowLeft className="h-6 w-6 md:h-8 md:w-8" />

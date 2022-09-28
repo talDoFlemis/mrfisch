@@ -4,12 +4,13 @@ import { HiCode } from "react-icons/hi";
 import { MdOutlineCreate, MdSettings } from "react-icons/md";
 import { GiFriedFish } from "react-icons/gi";
 import cl from "clsx";
+import React from "react";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
   return (
     <div className="flex h-screen  bg-base-100 font-momcake antialiased">
-      <div className="drawer-mobile drawer text-base-content">
+      <div className="drawer drawer-mobile text-base-content">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex">{children}</div>
         <aside className="drawer-side">

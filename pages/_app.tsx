@@ -9,6 +9,7 @@ import type { NextPage } from "next";
 import { ThemeProvider } from "next-themes";
 
 export type NextPageWithLayout = NextPage & {
+  /* eslint-disable no-unused-vars */
   getLayout?: (page: ReactElement) => ReactNode;
 };
 

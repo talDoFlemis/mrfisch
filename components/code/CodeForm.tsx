@@ -41,7 +41,7 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
       description: initialValues?.description ?? "",
       code_block: initialValues?.code_block ?? "",
       tags: initialValues?.tags ?? [],
-      language: initialValues?.language ?? "css",
+      language: initialValues?.language ?? "c",
       documentation: initialValues?.documentation ?? "",
       is_public: initialValues?.is_public ?? true,
     },
@@ -50,13 +50,26 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
 
   useEffect(() => {
     if (initialValues) {
+      /* eslint-disable no-unused-vars */
       const { updated_at, inserted_at, user, ...data } = initialValues;
 
       reset(data);
     }
   }, [initialValues]);
 
-  const languageList = ["javascript", "python", "css", "c", "cpp", "rust", "haskell", "ruby","bash","typescript","yaml"];
+  const languageList = [
+    "javascript",
+    "python",
+    "css",
+    "c",
+    "cpp",
+    "rust",
+    "haskell",
+    "ruby",
+    "bash",
+    "typescript",
+    "yaml",
+  ];
   return (
     <form
       onSubmit={handleSubmit(postOperation)}
@@ -168,15 +181,14 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
                 <AutoSizeTextarea
                   setText={onChange}
                   text={value}
-                  className="w-full lg:w-1/2"
+                  className="w-full"
                 />
               )}
             />
             <CodeHighlighter
               language={useWatch({ control, name: "language" })}
               input={useWatch({ control, name: "code_block" })}
-              theme="dracula"
-              className="text-sm lg:w-1/2"
+              className="text-sm lg:w-full"
             />
           </div>
           <div className="mt-4 flex flex-col space-y-2">

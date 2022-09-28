@@ -2,9 +2,8 @@ import { CodeInterface } from "../../typings";
 import CodeCard from "./CodeCard";
 import LoadingComponent from "@components/layout/LoadingComponent";
 import { useQuery } from "hooks/useQuery";
-interface GetCodesProps {}
 
-const CodesList = ({}: GetCodesProps) => {
+const CodesList = () => {
   const { data: codes, error } = useQuery<CodeInterface[]>("/api/codes/all");
 
   if (!codes && !error) {
