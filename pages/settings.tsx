@@ -96,7 +96,6 @@ while true:
         <div className="card-body p-0 lg:p-6">
           <CodeHighlighter
             language="javascript"
-            theme="dracula"
             input={mockedCode}
             className="text-xs 2xl:text-sm"
           />

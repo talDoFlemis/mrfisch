@@ -188,7 +188,6 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
             <CodeHighlighter
               language={useWatch({ control, name: "language" })}
               input={useWatch({ control, name: "code_block" })}
-              theme="dracula"
               className="text-sm lg:w-full"
             />
           </div>

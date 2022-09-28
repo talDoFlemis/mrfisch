@@ -32,7 +32,6 @@ const CreateSection = () => {
               <div className="card-body p-0 lg:p-6">
                 <CodeHighlighter
                   language="javascript"
-                  theme="dracula"
                   input={mockedInput}
                   className="text-xs sm:text-sm 2xl:text-base"
                 />

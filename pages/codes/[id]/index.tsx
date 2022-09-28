@@ -65,7 +65,6 @@ const CodeView = () => {
           <div className="flex flex-col justify-between gap-8 lg:flex-row">
             <CodeHighlighter
               input={code!.code_block}
-              theme="dracula"
               language={code.language}
               className="bg-neutral text-sm lg:w-full"
             />
