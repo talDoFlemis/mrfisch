@@ -50,6 +50,7 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
 
   useEffect(() => {
     if (initialValues) {
+      /* eslint-disable no-unused-vars */
       const { updated_at, inserted_at, user, ...data } = initialValues;
 
       reset(data);

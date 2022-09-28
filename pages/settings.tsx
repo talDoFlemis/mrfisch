@@ -77,6 +77,7 @@ while true:
             onClick={() => changeTheme(theme)}
             className="flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-base-200 transition-transform hover:scale-110"
             data-theme={theme}
+            key={theme}
           >
             <div className="bg-base flex gap-1 p-4">
               <div className="h-4 w-4 rounded-full bg-primary"></div>

@@ -5,16 +5,10 @@ import cl from "clsx";
 interface EditorProps {
   input: string;
   language: string;
-  theme: string;
   className?: string;
 }
 
-const CodeHighlighter = ({
-  input,
-  language,
-  theme,
-  className,
-}: EditorProps) => {
+const CodeHighlighter = ({ input, language, className }: EditorProps) => {
   return (
     <div className={cl("card", className)}>
       <div className={cl("card-body p-0", className)}>
