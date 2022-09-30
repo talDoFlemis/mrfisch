@@ -14,7 +14,6 @@ export default async function handler(
           .from("codes")
           .select(`*, user(*)`)
           .order("inserted_at", { ascending: false });
-        console.log(data);
 
         if (error) throw error.message;
 

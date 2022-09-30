@@ -12,12 +12,21 @@ export interface CodeInterface {
   is_public: boolean;
 }
 
+export interface UsefulLinkInterface {
+  id: number;
+  user_id: UserInterface;
+  title: string;
+  link: string;
+  inserted_at: Date;
+  updated_at: Date;
+}
+
 export interface UserInterface {
   id: string;
   avatar_url: string;
   username: string;
   updated_at: Date;
-  role: string;
+  is_port: boolean;
   nickname: string;
   is_new: boolean;
 }
@@ -83,4 +92,15 @@ export interface GithubInterface {
   following: number;
   created_at: Date;
   updated_at: Date;
+}
+
+export interface ModalDataInterface {
+  isOpen: boolean;
+  data: UsefulLinkModalData;
+}
+
+interface UsefulLinkModalData {
+  id: number;
+  title: string;
+  link: string;
 }

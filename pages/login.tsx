@@ -1,10 +1,20 @@
 import { Auth, IconArrowLeft } from "@supabase/ui";
+import { useAuth } from "@utils/authProvider";
 import { supabase } from "@utils/supabaseClient";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { GiFriedFish } from "react-icons/gi";
 
 const Login = () => {
+  const { view, user } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (user?.id) {
+      router.push("codes");
+    }
+  }, [user]);
   return (
     <div className="mx-auto flex h-screen flex-col items-center justify-center p-4 lg:w-1/2">
       <Head>
@@ -24,7 +34,7 @@ const Login = () => {
           <GiFriedFish className="mx-auto h-12 w-12 sm:h-16 sm:w-16" />
         </a>
       </Link>
-      <Auth supabaseClient={supabase} />
+      <Auth view={view} supabaseClient={supabase} />
     </div>
   );
 };

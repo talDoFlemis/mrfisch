@@ -10,7 +10,7 @@ import UserForm from "@components/user/UserForm";
 import { UserInterface } from "typings";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { supabase } from "@utils/supabaseClient";
 import { useAuth } from "@utils/authProvider";
 
@@ -26,14 +26,16 @@ const Profile: NextPageWithLayout = () => {
 
   const getProfile = async () => {
     try {
-      let { data, error } = await supabase.from("profiles").select().single();
+      let { data, error } = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user.id)
+        .single();
       if (error) throw error;
       setProfile(data);
     } catch (err) {
       const error = err as Error | AxiosError;
-      if (axios.isAxiosError(error)) {
-        toast.error(`Unable to create the code, ${error.message}`);
-      }
+      toast.error(`Unable to get the profile, ${error.message}`);
     }
   };
 
@@ -56,9 +58,7 @@ const Profile: NextPageWithLayout = () => {
       return publicUrl;
     } catch (err) {
       const error = err as Error | AxiosError;
-      if (axios.isAxiosError(error)) {
-        toast.error(`Unable to create the code, ${error.message}`);
-      }
+      toast.error(`Unable to create the code, ${error.message}`);
     } finally {
       setIsPosting(false);
     }
@@ -90,9 +90,7 @@ const Profile: NextPageWithLayout = () => {
       router.push("/codes/");
     } catch (err) {
       const error = err as Error | AxiosError;
-      if (axios.isAxiosError(error)) {
-        toast.error(`Unable to change the profile, ${error.message}`);
-      }
+      toast.error(`Unable to change the profile, ${error.message}`);
     } finally {
       setIsPosting(false);
     }
@@ -110,35 +108,36 @@ const Profile: NextPageWithLayout = () => {
             <p className="hidden md:inline-flex">Go back</p>
           </a>
         </Link>
-        <div className="flex gap-4">
-          {isPosting ? (
-            <button
-              type="submit"
-              form="form"
-              className="btn btn-disabled btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
-              disabled
-            >
-              Updating
-            </button>
-          ) : (
-            <button
-              type="submit"
-              form="form"
-              className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
-              disabled={user !== undefined}
-            >
-              Update
-            </button>
-          )}
-          <div className="flex items-center justify-between gap-x-3">
-            <label
-              className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
-              htmlFor="drawer"
-            >
-              <HiOutlineMenu className="h-6 w-6" />
-            </label>
+        {user && (
+          <div className="flex gap-4">
+            {isPosting ? (
+              <button
+                type="submit"
+                form="form"
+                className="btn btn-disabled btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+                disabled
+              >
+                Updating
+              </button>
+            ) : (
+              <button
+                type="submit"
+                form="form"
+                className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+              >
+                Update
+              </button>
+            )}
+            <div className="flex items-center justify-between gap-x-3">
+              <label
+                className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+                htmlFor="drawer"
+              >
+                <HiOutlineMenu className="h-6 w-6" />
+              </label>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {!user ? (
         <div className="flex h-3/5 flex-col items-center justify-center gap-4">

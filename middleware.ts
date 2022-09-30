@@ -12,10 +12,9 @@ export async function middleware(req: NextRequest) {
   // if (req.nextUrl.pathname === "/codes") {
   //   return NextResponse.redirect(new URL("/stop", req.url));
   // }
-
-  if (req.nextUrl.pathname.startsWith("/portulovers")) {
-    return NextResponse.rewrite(new URL("/stop", req.url));
-  }
+  // if (req.nextUrl.pathname.startsWith("/portulovers")) {
+  //   return NextResponse.rewrite(new URL("/stop", req.url));
+  // }
 }
 
 async function getUser(req: NextRequest): Promise<getUserInterface> {
