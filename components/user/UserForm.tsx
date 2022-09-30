@@ -47,7 +47,6 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
   useEffect(() => {
     if (initialValues) {
       const { ...data } = initialValues;
-      console.log(initialValues);
 
       reset(data);
     }
