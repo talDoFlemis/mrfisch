@@ -13,7 +13,7 @@ export default async function handler(
         let { data, error } = await supabase
           .from("codes")
           .select(`*, user(*)`)
-          .order("inserted_at", { ascending: false });
+          .order("updated_at", { ascending: false });
 
         if (error) throw error.message;
 

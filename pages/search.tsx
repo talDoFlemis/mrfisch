@@ -2,7 +2,6 @@ import DashboardLayout from "@components/layout/DashboardLayout";
 import { ReactElement } from "react";
 import algoliasearch from "algoliasearch/lite";
 import {
-  DynamicWidgets,
   Hits,
   InstantSearch,
   SearchBoxProps,
@@ -12,6 +11,9 @@ import Panel from "@components/search/Panel";
 import CustomRefinementList from "@components/search/CustomRefinementList";
 import CustomSearchBox from "@components/search/CustomSearchBox";
 import CustomClearRefinements from "@components/search/CustomClearRefinements";
+import Link from "next/link";
+import { IconArrowLeft } from "@supabase/ui";
+import { HiOutlineMenu } from "react-icons/hi";
 
 const searchClient = algoliasearch(
   "IEWGM4QLJ8",
@@ -37,7 +39,9 @@ const Hit = ({ hit }: any) => {
       is_public={hit.is_public}
       user={hit.user}
       tags={hit._tags}
+      updated_at={hit.updated_at}
       className="min-h-52 h-full bg-neutral"
+      hit={hit}
     />
   );
 };
@@ -47,8 +51,23 @@ const Search = () => {
     <div className="flex h-max w-full flex-col gap-4">
       {" "}
       <InstantSearch searchClient={searchClient} indexName="mrfisch">
-        <CustomSearchBox queryHook={queryHook} />
-        {/* <SearchBox queryHook={queryHook} /> */}
+        <div className="navbar sticky top-0 z-10 justify-between gap-x-2 bg-opacity-40 p-4 font-raleway backdrop-blur-sm lg:gap-x-10">
+          <Link href="/codes/">
+            <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
+              <IconArrowLeft className="h-6 w-6 md:h-8 md:w-8" />
+              <p className="hidden w-fit whitespace-nowrap md:inline-flex">
+                Go back
+              </p>
+            </a>
+          </Link>
+          <CustomSearchBox queryHook={queryHook} />
+          <label
+            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            htmlFor="drawer"
+          >
+            <HiOutlineMenu className="h-6 w-6" />
+          </label>
+        </div>
         <div className="flex gap-4 p-4">
           <div className="hidden h-fit flex-col rounded-lg bg-neutral sm:flex sm:w-1/3 lg:w-1/4">
             <div className="flex items-center justify-between p-4">

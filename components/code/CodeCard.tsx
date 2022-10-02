@@ -5,17 +5,19 @@ import cl from "clsx";
 import moment from "moment";
 import StealCodeButton from "./StealCodeButton";
 import Image from "next/image";
+import { Highlight } from "react-instantsearch-hooks-web";
 
 interface CodeCardProps {
   id: string;
   user?: UserInterface;
   code_title: string;
   description?: string;
-  updated_at: Date;
-  code_block: string;
+  updated_at?: Date;
+  code_block?: string;
   is_public: boolean;
   className?: string;
   tags?: string[] | null;
+  hit?: any;
 }
 const CodeCard = ({
   id,
@@ -27,14 +29,22 @@ const CodeCard = ({
   is_public,
   className,
   tags,
+  hit,
 }: CodeCardProps) => {
+  console.log(hit._tags[0]);
   return (
     <div className={cl("card", className)}>
       <div className="card-body justify-between text-neutral-content">
         <div>
-          <h1 className="text-center text-2xl font-bold">{code_title}</h1>
+          <h1 className="text-center text-2xl font-bold">
+            {hit ? <Highlight attribute="code_title" hit={hit} /> : code_title}
+          </h1>
           <p className="truncate pb-8 text-lg font-bold text-gray-400">
-            {description}
+            {hit ? (
+              <Highlight attribute="description" hit={hit} />
+            ) : (
+              description
+            )}
           </p>
         </div>
         <div className="flex flex-col gap-y-3">
@@ -45,7 +55,7 @@ const CodeCard = ({
                 <AiOutlineEye className="h-6 w-6" />
               </a>
             </Link>
-            <StealCodeButton code={code_block} toHide />
+            {code_block && <StealCodeButton code={code_block} toHide />}
           </div>
           <div className="grid grid-cols-3 place-items-center">
             <div className="flex items-center gap-x-2 place-self-start self-center sm:place-self-auto">
@@ -65,7 +75,7 @@ const CodeCard = ({
                 {user?.username ?? "anonymous"}
               </p>
             </div>
-            <p>{moment(updated_at).fromNow()}</p>
+            {updated_at ? <p>{moment(updated_at).fromNow()}</p> : <div></div>}
             <div className="flex items-center gap-x-2">
               <div
                 className={cl(
@@ -78,7 +88,7 @@ const CodeCard = ({
           </div>
           {tags && (
             <div className="item-center flex flex-wrap justify-center gap-2 pt-2">
-              {tags?.map((tag, index) => (
+              {tags?.map((tag, index: number) => (
                 <div key={index} className="badge badge-secondary shrink-0">
                   {tag}
                 </div>
