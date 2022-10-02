@@ -1,29 +1,11 @@
-import { supabase } from "@utils/supabaseClient";
-import { toast } from "react-toastify";
 import Image from "next/image";
 
-interface EditLinkModalProps {
-  id: number;
+interface DeleteLinkModalProps {
   title: string;
-  getLinks: () => {};
+  deleteOP: () => {};
 }
 
-const EditLinkModal = ({ id, title, getLinks }: EditLinkModalProps) => {
-  const deleteLink = async () => {
-    try {
-      const { error } = await supabase
-        .from("useful_links")
-        .delete()
-        .match({ id: id });
-      if (error) throw error;
-      toast.success(`Link ${title} was deleted with success`);
-      getLinks();
-    } catch (err) {
-      const error = err as Error;
-      toast.error(`Unable to delete the link, ${error.message}`);
-    }
-  };
-
+const DeleteLinkModal = ({ title, deleteOP }: DeleteLinkModalProps) => {
   return (
     <>
       <input type="checkbox" id="deletemodal" className="modal-toggle" />
@@ -42,7 +24,7 @@ const EditLinkModal = ({ id, title, getLinks }: EditLinkModalProps) => {
             />
           </div>
           <div className="modal-action self-end">
-            <div className="btn btn-accent" onClick={() => deleteLink()}>
+            <div className="btn btn-accent" onClick={() => deleteOP()}>
               Delete
             </div>
             <label className="btn btn-secondary" htmlFor="deletemodal">
@@ -55,4 +37,4 @@ const EditLinkModal = ({ id, title, getLinks }: EditLinkModalProps) => {
   );
 };
 
-export default EditLinkModal;
+export default DeleteLinkModal;

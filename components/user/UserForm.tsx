@@ -84,8 +84,8 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
           id="formFile"
         />
       </div>
-      <div className="flex flex-col gap-6 justify-self-start">
-        <div>
+      <div className="flex w-3/4 flex-col items-center gap-6 justify-self-center md:justify-self-start">
+        <div className="w-full">
           <label className="label justify-start text-xl font-bold sm:text-2xl">
             Username{" "}
             <BiReset
@@ -107,7 +107,7 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
         <input
           placeholder="Enter your username"
           {...register("username")}
-          className="input input-bordered input-primary bg-neutral"
+          className="input input-bordered input-primary w-full bg-neutral"
         />{" "}
       </div>
     </form>

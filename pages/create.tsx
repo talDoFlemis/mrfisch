@@ -18,7 +18,8 @@ const Create = () => {
     setIsPosting(true);
 
     try {
-      await axios.post("/api/codes/all", data);
+      const { data: resp } = await axios.post("/api/codes/all", data);
+      console.log(resp, "axios response");
       toast.success("Created code with success", { theme: "dark" });
       router.push("/codes");
     } catch (err) {
@@ -34,7 +35,7 @@ const Create = () => {
   };
 
   return (
-    <main className="h-max w-full font-raleway">
+    <div className="h-max w-full font-raleway">
       <Head>
         <title>Create • Mr Fisch</title>
       </Head>
@@ -71,7 +72,7 @@ const Create = () => {
         </div>
       </div>
       <CodeForm postOperation={createCode} />
-    </main>
+    </div>
   );
 };
 

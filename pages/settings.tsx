@@ -71,7 +71,7 @@ while true:
         </label>
       </div>
       <h1 className="p-4 text-3xl lg:text-4xl">Pick a theme</h1>
-      <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row">
         {allThemes.map((theme) => (
           <div
             onClick={() => changeTheme(theme)}

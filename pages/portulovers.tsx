@@ -31,6 +31,21 @@ const Portulovers = ({ user }: { user: any }) => {
     }
   };
 
+  const deleteLink = async () => {
+    try {
+      const { error } = await supabase
+        .from("useful_links")
+        .delete()
+        .match({ id: modalData?.id });
+      if (error) throw error;
+      toast.success(`Link ${modalData?.title} was deleted with success`);
+      getLinks();
+    } catch (err) {
+      const error = err as Error;
+      toast.error(`Unable to delete the link, ${error.message}`);
+    }
+  };
+
   useEffect(() => {
     getLinks();
   }, []);
@@ -74,7 +89,7 @@ const Portulovers = ({ user }: { user: any }) => {
           <DeleteLinkModal
             id={modalData.id}
             title={modalData.title}
-            getLinks={getLinks}
+            deleteOP={deleteLink}
           />
         </>
       )}
