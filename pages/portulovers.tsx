@@ -86,11 +86,7 @@ const Portulovers = ({ user }: { user: any }) => {
             user_id={user.id}
             getLinks={getLinks}
           />
-          <DeleteLinkModal
-            id={modalData.id}
-            title={modalData.title}
-            deleteOP={deleteLink}
-          />
+          <DeleteLinkModal title={modalData.title} deleteOP={deleteLink} />
         </>
       )}
       {user && <AddLinkModal user_id={user.id} getLinks={getLinks} />}
