@@ -19,32 +19,17 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ supabase, ...props }) => {
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
-  const [profileData, setProfileData] = useState(null);
   const [view, setView] = useState(VIEWS.SIGN_IN);
 
   useEffect(() => {
-    const getProfileData = async () => {
-      if (user) {
-        let { data } = await supabase
-          .from("profiles")
-          .select()
-          .eq("id", user.id)
-          .single();
-
-        setProfileData(data);
-      }
-    };
-
     const activeSession = supabase.auth.session();
     setSession(activeSession);
     setUser(activeSession?.user ?? null);
-    getProfileData();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, currentSession) => {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
-        getProfileData();
 
         switch (event) {
           case EVENTS.PASSWORD_RECOVERY:
@@ -76,7 +61,6 @@ export const AuthProvider = ({ supabase, ...props }) => {
       value={{
         session,
         user,
-        profileData,
         view,
         signOut: () => supabase.auth.signOut(),
       }}

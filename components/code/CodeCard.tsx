@@ -31,7 +31,6 @@ const CodeCard = ({
   tags,
   hit,
 }: CodeCardProps) => {
-  console.log(hit._tags[0]);
   return (
     <div className={cl("card", className)}>
       <div className="card-body justify-between text-neutral-content">
