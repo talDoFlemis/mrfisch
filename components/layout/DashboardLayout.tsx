@@ -5,13 +5,13 @@ import { MdOutlineCreate, MdSettings } from "react-icons/md";
 import { GiFriedFish } from "react-icons/gi";
 import cl from "clsx";
 import React from "react";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineSearch } from "react-icons/ai";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
   return (
     <div className="flex h-screen  bg-base-100 font-momcake antialiased">
-      <div className="drawer-mobile drawer text-base-content">
+      <div className="drawer drawer-mobile text-base-content">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex">{children}</div>
         <aside className="drawer-side">
@@ -44,6 +44,17 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 >
                   <MdOutlineCreate className="h-6 w-6" />
                   <p>create</p>
+                </a>
+              </Link>
+              <Link href="/search/">
+                <a
+                  className={cl(
+                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    pathname === "/search" ? "text-accent" : "text-base-content"
+                  )}
+                >
+                  <AiOutlineSearch className="h-6 w-6" />
+                  <p>search</p>
                 </a>
               </Link>
               <Link href="/portulovers/">

@@ -108,36 +108,36 @@ const Profile: NextPageWithLayout = () => {
             <p className="hidden md:inline-flex">Go back</p>
           </a>
         </Link>
-        {user && (
-          <div className="flex gap-4">
-            {isPosting ? (
-              <button
-                type="submit"
-                form="form"
-                className="btn btn-disabled btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
-                disabled
-              >
-                Updating
-              </button>
-            ) : (
-              <button
-                type="submit"
-                form="form"
-                className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
-              >
-                Update
-              </button>
-            )}
-            <div className="flex items-center justify-between gap-x-3">
-              <label
-                className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
-                htmlFor="drawer"
-              >
-                <HiOutlineMenu className="h-6 w-6" />
-              </label>
+        <div className="flex items-center justify-between gap-x-3">
+          {user && (
+            <div className="flex gap-4">
+              {isPosting ? (
+                <button
+                  type="submit"
+                  form="form"
+                  className="btn btn-disabled btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+                  disabled
+                >
+                  Updating
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  form="form"
+                  className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+                >
+                  Update
+                </button>
+              )}
             </div>
-          </div>
-        )}
+          )}
+          <label
+            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            htmlFor="drawer"
+          >
+            <HiOutlineMenu className="h-6 w-6" />
+          </label>
+        </div>
       </div>
       {!user ? (
         <div className="flex h-3/5 flex-col items-center justify-center gap-4">

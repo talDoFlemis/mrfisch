@@ -24,8 +24,9 @@ const DeleteCodeButton = ({
       await axios.delete(`/api/codes/${id}`);
       router.push("/codes");
       toast.success("Deleted code with success", { theme: "dark" });
-    } catch (error) {
-      toast.error("Unable to delete the code", { theme: "dark" });
+    } catch (err) {
+      const error = err as Error;
+      toast.error(`Unable to delete code, ${error.message}`);
     } finally {
       setIsPosting(false);
     }

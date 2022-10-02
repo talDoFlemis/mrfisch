@@ -104,3 +104,15 @@ interface UsefulLinkModalData {
   title: string;
   link: string;
 }
+
+export interface AlgoliaInterface {
+  objectID: string;
+  code_title: string;
+  description: string;
+  _tags: string[];
+  is_public: boolean;
+  language: string;
+  updated_at: Date;
+  user: { username: string | null; avatar_url: string | null };
+  updated_at_timestamp: number;
+}

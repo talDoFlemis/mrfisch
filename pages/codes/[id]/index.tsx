@@ -13,25 +13,38 @@ import { useAuth } from "@utils/authProvider";
 import StealCodeButton from "@components/code/StealCodeButton";
 import CopyLink from "@components/code/CopyLink";
 import { ReactElement, useEffect, useState } from "react";
-import DeleteCodeButton from "@components/code/DeleteCodeButton";
 import LoadingComponent from "@components/layout/LoadingComponent";
 import Head from "next/head";
 import { useQuery } from "hooks/useQuery";
 import { toast } from "react-toastify";
+import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
+import { AiOutlineDelete } from "react-icons/ai";
+import axios from "axios";
 
 const CodeView = () => {
   const router = useRouter();
   const { user } = useAuth();
   const [linkToCopy, setLinkToCopy] = useState("");
+
   const { data: code, error } = useQuery<CodeInterface>(
     router.query.id ? `/api/codes/${router.query.id}` : null
   );
 
   if (error) {
-    toast.error(`Unable to create the code, ${error}`, {
-      theme: "dark",
-    });
+    toast.error(`Unable to fetch the code, ${error}`);
   }
+
+  const deleteCode = async () => {
+    const id = router.query.id;
+    try {
+      await axios.delete(`/api/codes/${id}`);
+      router.push("/codes");
+      toast.success("Deleted code with success");
+    } catch (err) {
+      const error = err as Error;
+      toast.error(`Unable to delete code, ${error.message}`);
+    }
+  };
 
   useEffect(() => {
     setLinkToCopy(location.href);
@@ -56,6 +69,10 @@ const CodeView = () => {
           <HiOutlineMenu className="h-6 w-6" />
         </label>
       </div>
+      <DeleteLinkModal
+        title={code?.code_title as string}
+        deleteOP={() => deleteCode()}
+      />
       {!code ? (
         <div className="flex h-[60vh]">
           <LoadingComponent className="h-16 w-16 text-base-content" />
@@ -126,11 +143,22 @@ const CodeView = () => {
                     </a>
                   </Link>
                 )}
-                <DeleteCodeButton
-                  id={code.id}
-                  router={router}
-                  disabled={user?.id !== code?.user?.id}
-                />
+                {user?.id === code?.user?.id ? (
+                  <label htmlFor="deletemodal">
+                    <div className="btn btn-secondary btn-sm w-full border-none transition-colors hover:text-white">
+                      <p>Delete Code</p>
+                      <AiOutlineDelete className="h-6 w-6 shadow-accent" />
+                    </div>
+                  </label>
+                ) : (
+                  <button
+                    className="btn btn-secondary btn-sm w-full border-none transition-colors hover:text-white"
+                    disabled
+                  >
+                    <p>Delete Code</p>
+                    <AiOutlineDelete className="h-6 w-6 shadow-accent" />
+                  </button>
+                )}
               </div>
             </div>
           </div>
