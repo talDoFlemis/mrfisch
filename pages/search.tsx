@@ -27,7 +27,7 @@ const queryHook: SearchBoxProps["queryHook"] = (query, search) => {
     clearTimeout(timerId);
   }
 
-  timerId = setTimeout(() => search(query), 1000);
+  timerId = setTimeout(() => search(query), 500);
 };
 
 const Hit = ({ hit }: any) => {
