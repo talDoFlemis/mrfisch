@@ -14,6 +14,7 @@ import CustomClearRefinements from "@components/search/CustomClearRefinements";
 import Link from "next/link";
 import { IconArrowLeft } from "@supabase/ui";
 import { HiOutlineMenu } from "react-icons/hi";
+import Head from "next/head";
 
 const searchClient = algoliasearch(
   "IEWGM4QLJ8",
@@ -48,7 +49,10 @@ const Hit = ({ hit }: any) => {
 
 const Search = () => {
   return (
-    <div className="flex h-max w-full flex-col gap-4">
+    <main className="flex h-max w-full flex-col gap-4">
+      <Head>
+        <title>Search • Mr Fisch</title>
+      </Head>
       {" "}
       <InstantSearch searchClient={searchClient} indexName="mrfisch">
         <div className="navbar sticky top-0 z-10 justify-between gap-x-2 bg-opacity-40 p-4 font-raleway backdrop-blur-sm lg:gap-x-10">
@@ -101,7 +105,7 @@ const Search = () => {
           />
         </div>
       </InstantSearch>
-    </div>
+    </main>
   );
 };
 
