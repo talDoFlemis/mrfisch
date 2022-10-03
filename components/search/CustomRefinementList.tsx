@@ -16,7 +16,7 @@ const CustomRefinementList = ({
 }: CustomRefinementListProps) => {
   const { items, refine, searchForItems } = useRefinementList({ attribute });
   const [search, setSearch] = useState<string | "">("");
-  const debouncedSearch = useDebounce(search, 1000);
+  const debouncedSearch = useDebounce(search, 500);
 
   useEffect(() => {
     if (debouncedSearch) {

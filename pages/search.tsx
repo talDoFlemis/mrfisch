@@ -28,7 +28,7 @@ const queryHook: SearchBoxProps["queryHook"] = (query, search) => {
     clearTimeout(timerId);
   }
 
-  timerId = setTimeout(() => search(query), 500);
+  timerId = setTimeout(() => search(query), 0);
 };
 
 const Hit = ({ hit }: any) => {
@@ -52,8 +52,7 @@ const Search = () => {
     <main className="flex h-max w-full flex-col gap-4">
       <Head>
         <title>Search • Mr Fisch</title>
-      </Head>
-      {" "}
+      </Head>{" "}
       <InstantSearch searchClient={searchClient} indexName="mrfisch">
         <div className="navbar sticky top-0 z-10 justify-between gap-x-2 bg-opacity-40 p-4 font-raleway backdrop-blur-sm lg:gap-x-10">
           <Link href="/codes/">
