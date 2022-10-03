@@ -11,6 +11,7 @@ import { BsFilePlus } from "react-icons/bs";
 import { HiOutlineMenu } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { UsefulLinkInterface, UsefulLinkModalData } from "typings";
+import Head from "next/head";
 
 const Portulovers = ({ user }: { user: any }) => {
   const [modalData, setModalData] = useState<UsefulLinkModalData>();
@@ -52,6 +53,9 @@ const Portulovers = ({ user }: { user: any }) => {
 
   return (
     <main className="flex h-max w-full flex-col gap-4 p-4">
+      <Head>
+        <title>Portulovers • Mr Fisch</title>
+      </Head>
       <header className="navbar sticky top-0 z-10 flex items-center justify-between bg-opacity-40 p-4 backdrop-blur-sm">
         <h1 className="text-3xl sm:text-4xl">Useful Links</h1>
         <div className="flex items-center gap-4">
