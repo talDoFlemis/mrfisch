@@ -5,47 +5,23 @@ import {
 } from "react-icons/ai";
 import { UserInterface } from "../../typings";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { supabase } from "../../utils/supabaseClient";
-import { useAuth } from "@utils/authProvider";
 import { HiOutlineMenu } from "react-icons/hi";
 import Link from "next/link";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
-interface CodesHeaderInterface {
-  id: string;
-  user?: UserInterface;
-  setUser: Dispatch<SetStateAction<UserInterface | undefined>>;
+interface CodesHeaderProps {
+  user?: UserInterface | null;
 }
 
-const CodesHeader = ({ id, user, setUser }: CodesHeaderInterface) => {
-  const { signOut } = useAuth();
+const CodesHeader = ({ user }: CodesHeaderProps) => {
   const router = useRouter();
-
-  useEffect(() => {
-    fetchUser();
-  }, [id]);
-
-  const fetchUser = async () => {
-    if (id) {
-      let { data, error } = await supabase
-        .from<UserInterface>("profiles")
-        .select(`username, avatar_url`)
-        .eq("id", id)
-        .single();
-      if (error) toast.error(`Unable to fetch user, ${error.message}`);
-      if (data) {
-        setUser(data);
-      }
-    }
-  };
 
   return (
     <header className="navbar sticky top-0 z-10 justify-end bg-opacity-40 p-4 font-raleway backdrop-blur-sm">
       {user ? (
         <div className="flex items-center justify-end gap-2 sm:gap-6">
-          {user.is_new && (
+          {user?.is_new && (
             <Link href="/profile">
               <a className="badge text-2xs badge-warning p-3 text-warning-content transition-transform hover:scale-105 sm:text-sm">
                 Your profile need to be updated{" "}
@@ -60,9 +36,9 @@ const CodesHeader = ({ id, user, setUser }: CodesHeaderInterface) => {
             >
               <AiOutlineDown className="hidden h-4 w-4 transition-colors group-hover:text-accent sm:inline-flex" />
               <div className="mask mask-circle relative h-10 w-10 transition-transform group-hover:scale-110">
-                {user.avatar_url ? (
+                {user?.avatar_url ? (
                   <Image
-                    src={user.avatar_url}
+                    src={user?.avatar_url}
                     layout="fill"
                     objectFit="cover"
                     alt="avatar"
@@ -87,7 +63,7 @@ const CodesHeader = ({ id, user, setUser }: CodesHeaderInterface) => {
                 <a
                   className="transition-colors hover:bg-accent hover:text-accent-content"
                   onClick={() => {
-                    signOut();
+                    supabaseClient.auth.signOut();
                     router.reload();
                   }}
                 >

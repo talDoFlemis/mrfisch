@@ -9,7 +9,6 @@ import { CodeInterface } from "../../../typings";
 import { useRouter } from "next/router";
 import { MdEdit } from "react-icons/md";
 import { HiOutlineMenu } from "react-icons/hi";
-import { useAuth } from "@utils/authProvider";
 import StealCodeButton from "@components/code/StealCodeButton";
 import CopyLink from "@components/code/CopyLink";
 import { ReactElement, useEffect, useState } from "react";
@@ -20,10 +19,11 @@ import { toast } from "react-toastify";
 import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const CodeView = () => {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user } = useUser();
   const [linkToCopy, setLinkToCopy] = useState("");
 
   const { data: code, error } = useQuery<CodeInterface>(
@@ -127,7 +127,14 @@ const CodeView = () => {
                 <div className="divider"></div>
                 <CopyLink link={linkToCopy} />
                 <StealCodeButton code={code.code_block} />
-                {user?.id !== code?.user?.id ? (
+                {user?.id === code?.user?.id ? (
+                  <Link href={`/codes/${router.query.id}/edit`}>
+                    <a className="btn btn-sm justify-center gap-2 border-none bg-white text-black shadow transition-colors hover:bg-base-300 hover:text-white ">
+                      <p>Edit</p>
+                      <MdEdit className="h-6 w-6 " />
+                    </a>
+                  </Link>
+                ) : (
                   <button
                     className="btn btn-sm cursor-default justify-center gap-2 border-none bg-base-100 text-black"
                     disabled
@@ -135,13 +142,6 @@ const CodeView = () => {
                     <p>Edit</p>
                     <MdEdit className="h-6 w-6 " />
                   </button>
-                ) : (
-                  <Link href={`/codes/${router.query.id}/edit`}>
-                    <a className="btn btn-sm justify-center gap-2 border-none bg-white text-black shadow transition-colors hover:bg-base-300 hover:text-white ">
-                      <p>Edit</p>
-                      <MdEdit className="h-6 w-6 " />
-                    </a>
-                  </Link>
                 )}
                 {user?.id === code?.user?.id ? (
                   <label htmlFor="deletemodal">

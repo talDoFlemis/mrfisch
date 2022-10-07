@@ -12,8 +12,14 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { toast } from "react-toastify";
 import { UsefulLinkInterface, UsefulLinkModalData } from "typings";
 import Head from "next/head";
+import {
+  getUser,
+  supabaseServerClient,
+  User,
+  withPageAuth,
+} from "@supabase/auth-helpers-nextjs";
 
-const Portulovers = ({ user }: { user: any }) => {
+const Portulovers = ({ user }: { user: User }) => {
   const [modalData, setModalData] = useState<UsefulLinkModalData>();
   const [linksData, setLinksData] = useState<UsefulLinkInterface[]>();
   const [search, setSearch] = useState<string>("");
@@ -128,29 +134,23 @@ Portulovers.getLayout = function getLayout(page: ReactElement) {
 
 export default Portulovers;
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
+export const getServerSideProps: GetServerSideProps = withPageAuth({
+  redirectTo: "/stop",
+  async getServerSideProps(ctx) {
+    const { data: isPort, error } = await supabaseServerClient(ctx).rpc(
+      "get_is_portulover"
+    );
 
-  if (!user) {
-    return { props: {}, redirect: { destination: "/stop", permanent: false } };
-  }
+    if (error) console.log(error);
+    if (!isPort) {
+      return {
+        props: {},
+        redirect: { destination: "/stop", permanent: false },
+      };
+    }
 
-  supabase.auth.session = () => ({
-    access_token: req.cookies["sb-access-token"] as string,
-    token_type: "bearer",
-    user,
-  });
+    const { user } = await getUser(ctx);
 
-  const { data, error } = await supabase.rpc("get_is_portulover");
-  if (!data) {
-    return { props: {}, redirect: { destination: "/stop", permanent: false } };
-  }
-
-  if (error) {
-    console.log(error);
-  }
-
-  return {
-    props: { user },
-  };
-};
+    return { props: { user } };
+  },
+});

@@ -1,9 +1,7 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
 import Head from "next/head";
 import Link from "next/link";
-import { ReactElement, useEffect, useState } from "react";
-import { NextPageWithLayout } from "./_app";
-import { TbUserExclamation } from "react-icons/tb";
+import { ReactElement, useState } from "react";
 import { IconArrowLeft } from "@supabase/ui";
 import { HiOutlineMenu } from "react-icons/hi";
 import UserForm from "@components/user/UserForm";
@@ -11,33 +9,23 @@ import { UserInterface } from "typings";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { AxiosError } from "axios";
-import { supabase } from "@utils/supabaseClient";
-import { useAuth } from "@utils/authProvider";
+import { GetServerSideProps } from "next";
+import {
+  getUser,
+  supabaseClient,
+  supabaseServerClient,
+  User,
+  withPageAuth,
+} from "@supabase/auth-helpers-nextjs";
 
-const Profile: NextPageWithLayout = () => {
+interface ProfileProps {
+  userData: UserInterface;
+  user: User;
+}
+
+const Profile = ({ user, userData }: ProfileProps) => {
   const router = useRouter();
-  const { user } = useAuth();
-  const [profile, setProfile] = useState<UserInterface>();
   const [isPosting, setIsPosting] = useState(false);
-
-  useEffect(() => {
-    getProfile();
-  }, []);
-
-  const getProfile = async () => {
-    try {
-      let { data, error } = await supabase
-        .from("profiles")
-        .select()
-        .eq("id", user.id)
-        .single();
-      if (error) throw error;
-      setProfile(data);
-    } catch (err) {
-      const error = err as Error | AxiosError;
-      toast.error(`Unable to get the profile, ${error.message}`);
-    }
-  };
 
   const uploadAvatar = async (data: any) => {
     try {
@@ -45,7 +33,7 @@ const Profile: NextPageWithLayout = () => {
       const fileExt = file.name.split(".").pop();
       const filePath = `${user?.email}.${fileExt}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabaseClient.storage
         .from("avatars")
         .upload(filePath, file);
 
@@ -58,7 +46,7 @@ const Profile: NextPageWithLayout = () => {
       return publicUrl;
     } catch (err) {
       const error = err as Error | AxiosError;
-      toast.error(`Unable to create the code, ${error.message}`);
+      toast.error(`Unable to change the profile image, ${error.message}`);
     } finally {
       setIsPosting(false);
     }
@@ -74,19 +62,21 @@ const Profile: NextPageWithLayout = () => {
     } = {
       id: user.id,
       username: data.username,
-      avatar_url: undefined,
+      avatar_url: userData.avatar_url ?? undefined,
       is_new: false,
     };
 
     try {
-      if (data.avatar_url) {
+      if (typeof data.avatar_url === "object") {
         updateData.avatar_url = await uploadAvatar(data.avatar_url);
       }
-      await supabase
+
+      const { error } = await supabaseClient
         .from("profiles")
         .update(updateData)
         .eq("id", updateData.id);
-      toast.success("Updated with success");
+      if (error) throw error;
+      toast.success("Profile updated with success");
       router.push("/codes/");
     } catch (err) {
       const error = err as Error | AxiosError;
@@ -139,18 +129,7 @@ const Profile: NextPageWithLayout = () => {
           </label>
         </div>
       </div>
-      {!user ? (
-        <div className="flex h-3/5 flex-col items-center justify-center gap-4">
-          <TbUserExclamation className="h-14 w-14" />
-          <h1 className="text-xl lg:text-2xl">No user found to update</h1>
-          <h2 className="text-lg lg:text-xl">Please, log in to continue</h2>
-          <Link href="/login">
-            <a className="btn btn-accent btn-lg">Log In</a>
-          </Link>
-        </div>
-      ) : (
-        <UserForm initialValues={profile} postOperation={updateProfile} />
-      )}
+      <UserForm initialValues={userData} postOperation={updateProfile} />
     </main>
   );
 };
@@ -160,3 +139,16 @@ export default Profile;
 Profile.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
+
+export const getServerSideProps: GetServerSideProps = withPageAuth({
+  redirectTo: "/login",
+  async getServerSideProps(ctx) {
+    const { user } = await getUser(ctx);
+    const { data: userData } = await supabaseServerClient(ctx)
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    return { props: { user, userData } };
+  },
+});

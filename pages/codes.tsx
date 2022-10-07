@@ -1,22 +1,36 @@
-import React, { ReactElement, useState } from "react";
-import { useAuth } from "../utils/authProvider";
+import React, { ReactElement, useEffect, useState } from "react";
 import CodesList from "../components/code/CodesList";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import CodesHeader from "../components/code/CodesHeader";
 import { NextPageWithLayout } from "./_app";
 import Head from "next/head";
 import { UserInterface } from "typings";
+import { useUser } from "@supabase/auth-helpers-react";
+import { toast } from "react-toastify";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 
 const Codes: NextPageWithLayout = () => {
-  const { user } = useAuth();
-  const [userData, setUser] = useState<UserInterface>();
+  const { user, error } = useUser();
+  const [userData, setUserData] = useState<UserInterface | null>();
+  if (error) toast.error(`Unable to fetch user ${error.message}`);
+
+  useEffect(() => {
+    async function loadData() {
+      const { data } = await supabaseClient
+        .from<UserInterface>("profiles")
+        .select("username, avatar_url, is_new")
+        .single();
+      setUserData(data);
+    }
+    if (user) loadData();
+  }, [user]);
 
   return (
     <main className="h-max w-full">
       <Head>
         <title>All Codes • Mr Fisch</title>
       </Head>
-      <CodesHeader id={user?.id} user={userData} setUser={setUser} />
+      <CodesHeader user={userData} />
       <h1 className="p-4 text-2xl font-light text-base-content sm:text-3xl md:text-4xl">
         Welcome,{" "}
         <span className="font-spaceRave text-primary">
