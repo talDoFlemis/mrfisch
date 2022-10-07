@@ -19,6 +19,7 @@ const Codes: NextPageWithLayout = () => {
       const { data } = await supabaseClient
         .from<UserInterface>("profiles")
         .select("username, avatar_url, is_new")
+        .eq("id", user?.id as string)
         .single();
       setUserData(data);
     }
