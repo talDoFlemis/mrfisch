@@ -20,7 +20,7 @@
       "@layout/*": ["components/layout/*"],
       "@svgs/*": ["components/svgs/*"],
       "@utils/*": ["utils/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["__tests__/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

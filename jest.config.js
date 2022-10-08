@@ -12,7 +12,7 @@ const customJestConfig = {
     "^@/layout/(.*)$": "<rootDir>/components/layout/$1",
     "^@/svgs/(.*)$": "<rootDir>/components/svgs/$1",
     "^@/utils/(.*)$": "<rootDir>/utils/$1",
-    "^@/tests/(.*)$": "<rootDir>/tests/$1",
+    "^@/tests/(.*)$": "<rootDir>/__tests__/$1",
   },
   testEnvironment: "jest-environment-jsdom",
   modulePathIgnorePatterns: ["cypress"],
