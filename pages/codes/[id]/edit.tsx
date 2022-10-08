@@ -8,14 +8,14 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { HiOutlineMenu } from "react-icons/hi";
 import CodeForm from "@components/code/CodeForm";
 import axios, { AxiosError } from "axios";
-import { useAuth } from "@utils/authProvider";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const Edit = () => {
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const { id } = router.query;
   const { data: code, error } = useQuery<CodeInterface>(
@@ -56,8 +56,8 @@ const Edit = () => {
           </a>
         </Link>
         <div className="flex items-center justify-between gap-x-3">
-          {user && (
-            <div>
+          {code?.user?.id === user?.id || code?.user?.id === undefined ? (
+            <>
               {isPosting ? (
                 <button
                   className="btn btn-sm  mx-auto w-20 border-white  text-sm text-white md:w-32 lg:btn-md"
@@ -74,7 +74,16 @@ const Edit = () => {
                   Update
                 </button>
               )}{" "}
-            </div>
+            </>
+          ) : (
+            <button
+              type="submit"
+              form="form"
+              className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+              disabled
+            >
+              Update
+            </button>
           )}
           <label
             className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"

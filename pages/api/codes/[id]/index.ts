@@ -32,11 +32,13 @@ export default async function handler(
     case "PUT": {
       const { body: supabaseData } = req;
       const { user } = await supabase.auth.api.getUserByCookie(req);
-      supabase.auth.session = () => ({
-        access_token: req.cookies["sb-access-token"] as string,
-        token_type: "bearer",
-        user,
-      });
+      if (user) {
+        supabase.auth.session = () => ({
+          access_token: req.cookies["sb-access-token"] as string,
+          token_type: "bearer",
+          user,
+        });
+      }
 
       if (!user) {
         supabaseData.is_public = true;
@@ -101,18 +103,21 @@ export default async function handler(
     case "DELETE": {
       const { query } = req;
       const { user } = await supabase.auth.api.getUserByCookie(req);
-      supabase.auth.session = () => ({
-        access_token: req.cookies["sb-access-token"] as string,
-        token_type: "bearer",
-        user,
-      });
+
+      if (user) {
+        supabase.auth.session = () => ({
+          access_token: req.cookies["sb-access-token"] as string,
+          token_type: "bearer",
+          user,
+        });
+      }
 
       try {
         const { count, error } = await supabase
           .from("codes")
           .delete({ count: "exact" })
           .match({ id: query.id });
-        console.log(error);
+        console.log(count);
 
         if (error) throw error;
         if (count === 0) throw Error("Code not found");
