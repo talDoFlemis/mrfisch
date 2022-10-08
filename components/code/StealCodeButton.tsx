@@ -23,7 +23,7 @@ const StealCodeButton = ({
 
   return (
     <CopyToClipboard text={code} onCopy={() => copied()}>
-      <div className="btn btn-sm border-none bg-accent text-accent-content shadow hover:bg-accent-focus hover:text-accent-content hover:shadow-white">
+      <button className="btn btn-sm border-none bg-accent text-accent-content shadow hover:bg-accent-focus hover:text-accent-content hover:shadow-white">
         {isCopied ? (
           <>
             <p className={`${toHide && "hidden sm:inline-flex"}`}>Copied</p>
@@ -35,7 +35,7 @@ const StealCodeButton = ({
             <GiDaemonSkull className="h-6 w-6 shadow-accent transition-colors duration-300 " />
           </>
         )}
-      </div>
+      </button>
     </CopyToClipboard>
   );
 };

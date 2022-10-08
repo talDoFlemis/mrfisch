@@ -1,9 +1,9 @@
-/* eslint-disable no-undef */
 interface PanelProps {
   header: string;
   attributes: string[] | undefined;
   children: React.ReactNode;
 }
+
 import CustomClearRefinements from "@components/search/CustomClearRefinements";
 
 const Panel = ({ header, attributes, children }: PanelProps) => {
