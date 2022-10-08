@@ -60,15 +60,15 @@ const CodesHeader = ({ user }: CodesHeaderProps) => {
                 </Link>
               </li>
               <li>
-                <a
+                <button
                   className="transition-colors hover:bg-accent hover:text-accent-content"
                   onClick={() => {
                     supabaseClient.auth.signOut();
-                    router.reload();
+                    router.push("/");
                   }}
                 >
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           </div>
