@@ -10,7 +10,7 @@ interface EditorProps {
 
 const CodeHighlighter = ({ input, language, className }: EditorProps) => {
   return (
-    <div className={cl("card", className)}>
+    <div className={cl("card", className)} data-testid="code-highlight">
       <div className={cl("card-body p-0", className)}>
         <SyntaxHighlighter
           showLineNumbers

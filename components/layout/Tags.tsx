@@ -33,6 +33,8 @@ const TagSystem = ({ initialValues = [], onChange }: TagsProps) => {
   return (
     <div className="w-full rounded-md bg-neutral text-white">
       <Tags
+        aria-describedby="tags-help"
+        name="tags"
         settings={settings}
         defaultValue={initialValues ?? undefined}
         whitelist={tags ?? []}
