@@ -12,7 +12,7 @@ import Tags from "@components/layout/Tags";
 const schema = yup
   .object({
     code_title: yup.string().required("Title is a required field"),
-    code_block: yup.string().required("Code is a required field"),
+    code_block: yup.string().required("Code block is a required field"),
     description: yup.string(),
     documentation: yup.string(),
     tags: yup.array().min(0),
@@ -73,11 +73,14 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
   return (
     <form
       onSubmit={handleSubmit(postOperation)}
-      className="form-control w-full  gap-y-4 p-4"
+      className="form-control w-full gap-y-4 p-4"
       id="form"
     >
       <div>
-        <label className="label justify-start text-xl font-bold sm:text-2xl">
+        <label
+          className="label justify-start text-xl font-bold sm:text-2xl"
+          htmlFor="code-title"
+        >
           Title{" "}
           <BiReset
             className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
@@ -85,51 +88,64 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
           />
         </label>
         {errors.code_title && (
-          <label className="label pt-0 font-bold text-accent">
+          <span
+            className="label pt-0 font-bold text-accent"
+            id="code-title-error"
+          >
             {errors.code_title?.message}
-          </label>
+          </span>
         )}
-        <label className="label pt-0">
+        <small className="label pt-0" id="code-title-help">
           <span className="label-text">Add a code title</span>
-        </label>{" "}
+        </small>{" "}
       </div>
       <input
+        id="code-title"
         placeholder="Enter code title"
+        aria-describedby="code-title-help"
+        aria-errormessage="code-title-error"
+        aria-invalid={errors?.code_title ? true : false}
         {...register("code_title")}
         className="input input-bordered input-primary bg-neutral"
       />{" "}
       <div>
-        <label className="label justify-start text-xl font-bold sm:text-2xl">
+        <label
+          className="label justify-start text-xl font-bold sm:text-2xl"
+          htmlFor="description"
+        >
           Description
           <BiReset
             className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
             onClick={() => resetField("description")}
           />
         </label>
-        <label className="label pt-0">
+        <small className="label pt-0" id="description-help">
           <span className="label-text">
             Add a code description for quick reference
           </span>
-        </label>{" "}
+        </small>{" "}
       </div>
       <input
+        id="description"
+        aria-describedby="description-help"
         placeholder="Enter code description"
         {...register("description")}
         className="input input-bordered input-primary bg-neutral"
       />{" "}
       <div>
-        <label className="label justify-start text-xl font-bold sm:text-2xl">
+        <label
+          className="label justify-start text-xl font-bold sm:text-2xl"
+          htmlFor="tags"
+        >
           Tags
           <BiReset
             className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
             onClick={() => resetField("tags")}
           />
         </label>
-        <label className="label pt-0">
-          <span className="label-text">
-            Create new tags or add previous one
-          </span>
-        </label>{" "}
+        <small className="label-text" id="tags-help">
+          Create new tags or add previous one
+        </small>
       </div>
       <Controller
         control={control}
@@ -168,38 +184,52 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
               />
             </div>
           </div>
-          {errors.code_block && (
-            <label className="label pb-0 font-bold text-accent">
-              {errors.code_block?.message}
-            </label>
-          )}
-          <div className="mt-4 flex flex-col lg:flex-row">
-            <Controller
-              control={control}
-              name="code_block"
-              render={({ field: { value, onChange } }) => (
-                <AutoSizeTextarea
-                  setText={onChange}
-                  text={value}
-                  className="w-full"
-                />
-              )}
-            />
-            <CodeHighlighter
-              language={useWatch({ control, name: "language" })}
-              input={useWatch({ control, name: "code_block" })}
-              className="text-sm lg:w-full"
-            />
+          <div>
+            {errors.code_block && (
+              <span
+                className="label pb-0 font-bold text-accent"
+                id="code-block-error"
+              >
+                {errors.code_block?.message}
+              </span>
+            )}
+            <label htmlFor="code-block">Code Block</label>
+            <div className="mt-4 flex flex-col lg:flex-row">
+              <Controller
+                control={control}
+                name="code_block"
+                render={({ field: { value, onChange } }) => (
+                  <AutoSizeTextarea
+                    setText={onChange}
+                    text={value}
+                    className="w-full"
+                    id="code-block"
+                    errormessage="code-block-error"
+                    error={errors.code_block ? true : false}
+                  />
+                )}
+              />
+              <CodeHighlighter
+                language={useWatch({ control, name: "language" })}
+                input={useWatch({ control, name: "code_block" })}
+                className="text-sm lg:w-full"
+              />
+            </div>
           </div>
           <div className="mt-4 flex flex-col space-y-2">
-            <h1 className="flex text-xl font-bold sm:text-2xl">
+            <label
+              className="flex text-xl font-bold sm:text-2xl"
+              htmlFor="documentation"
+            >
               Documentation
               <BiReset
                 className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
                 onClick={() => reset({ documentation: "", language: "css" })}
               />
-            </h1>
-            <h3 className="label-text">In markdown</h3>
+            </label>
+            <small className="label-text" id="documentation-help">
+              In markdown
+            </small>
             <Controller
               control={control}
               name="documentation"
@@ -208,12 +238,18 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
                   setText={onChange}
                   text={value as string}
                   className="mt-4"
+                  id="documentation"
+                  describedby="documentation-help"
+                  error={errors.documentation ? true : false}
                 />
               )}
             />
           </div>
         </div>
       </div>
+      <button type="submit" className="btn btn-accent">
+        Create
+      </button>
     </form>
   );
 };
