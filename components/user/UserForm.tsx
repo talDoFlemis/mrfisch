@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiReset } from "react-icons/bi";
@@ -25,7 +25,6 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
     register,
     handleSubmit,
     resetField,
-    reset,
     formState: { errors },
   } = useForm<UserInterface>({
     resolver: yupResolver(schema),
@@ -43,14 +42,6 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
       setImage(URL.createObjectURL(event.target.files[0]));
     }
   };
-
-  useEffect(() => {
-    if (initialValues) {
-      const { ...data } = initialValues;
-
-      reset(data);
-    }
-  }, [initialValues]);
 
   return (
     <form

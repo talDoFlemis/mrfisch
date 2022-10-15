@@ -27,7 +27,6 @@ export interface UserInterface {
   username: string;
   updated_at: Date;
   is_port: boolean;
-  nickname: string;
   is_new: boolean;
 }
 

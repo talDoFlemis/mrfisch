@@ -4,6 +4,8 @@ import userEvent from "@testing-library/user-event";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
 import { CodeInterface } from "typings";
+import { UserState } from "@supabase/auth-helpers-shared";
+import mockedUserData from "@test-utils/mockedUserSession";
 
 const user = userEvent.setup();
 
@@ -62,7 +64,7 @@ describe("Testing code form in anonymous user", () => {
   });
 });
 
-describe("Testing form with initial data", () => {
+describe("Testing edit form", () => {
   const onSubmit = jest.fn((data) => {
     return data;
   });
@@ -73,7 +75,7 @@ describe("Testing form with initial data", () => {
     })
   );
 
-  const initialValues: CodeInterface = {
+  const baseValues: CodeInterface = {
     id: "222",
     code_block: "print('Me lhamo tubias')",
     description: "Description poggers",
@@ -93,17 +95,70 @@ describe("Testing form with initial data", () => {
     jest.clearAllMocks();
   });
 
-  it("Testing without any user data being provided", async () => {
+  it("Testing edit with user anon and code user anon", async () => {
+    render(<CodeForm postOperation={onSubmit} initialValues={baseValues} />);
+
+    await waitFor(() => {
+      expect(getTitle()).toHaveValue(baseValues.code_title);
+      expect(getDescription()).toHaveValue(baseValues.description);
+      expect(getCodeBlock()).toHaveValue(baseValues.code_block);
+      expect(getCodeLang()).toHaveValue(baseValues.language);
+      expect(getDocumentation()).toHaveValue(baseValues.documentation);
+    });
+
+    await user.clear(getTitle());
+    await user.type(getTitle(), "a title updated");
+    await clickSubmitBtn();
+
+    expect(onSubmit).toHaveReturnedWith({
+      id: "222",
+      code_title: "a title updated",
+      description: "Description poggers",
+      code_block: "print('Me lhamo tubias')",
+      documentation: "Documentation",
+      language: "python",
+      is_public: true,
+      tags: ["kkkk", "mrfisch"],
+    });
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it("Testing edit with user anon and code user DEFINED", async () => {
+    const initialValues: CodeInterface = {
+      user: {
+        id: "123",
+        username: "flemis",
+        avatar_url: "cool avatar",
+        is_port: false,
+        is_new: false,
+        updated_at: new Date(Date.now()),
+      },
+      ...baseValues,
+    };
+
     render(<CodeForm postOperation={onSubmit} initialValues={initialValues} />);
 
-    // await clickSubmitBtn();
-    await waitFor(() => {
-      expect(getTitle()).toHaveValue(initialValues.code_title);
-      expect(getDescription()).toHaveValue(initialValues.description);
-      expect(getCodeBlock()).toHaveValue(initialValues.code_block);
-      expect(getCodeLang()).toHaveValue(initialValues.language);
-      expect(getDocumentation()).toHaveValue(initialValues.documentation);
-    });
+    await user.clear(getTitle());
+    await user.type(getTitle(), "a title updated");
+
+    expect(getSubmitBtn()).toBeDisabled();
+    expect(onSubmit).toHaveBeenCalledTimes(0);
+  });
+
+  it("Testing edit with user DEFINED and code user anon", async () => {
+    render(
+      <CodeForm
+        postOperation={onSubmit}
+        initialValues={baseValues}
+        user={mockedUserData}
+      />
+    );
+
+    await user.clear(getTitle());
+    await user.type(getTitle(), "a title updated");
+
+    expect(getSubmitBtn()).toBeDisabled();
+    expect(onSubmit).toHaveBeenCalledTimes(0);
   });
 });
 
@@ -134,6 +189,11 @@ const getCodeBlock = () => {
 const getDocumentation = () => {
   return screen.getByRole("textbox", { name: /documentation/i });
 };
+
+const getSubmitBtn = () => {
+  return screen.getByRole("button", { name: /create/i });
+};
+
 const clickSubmitBtn = async () => {
-  await user.click(screen.getByRole("button", { name: /create/i }));
+  await user.click(getSubmitBtn());
 };

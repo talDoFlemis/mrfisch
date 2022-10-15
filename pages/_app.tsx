@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { supabase } from "../utils/supabaseClient";
-import { AuthProvider } from "../utils/authProvider";
+import { UserProvider } from "@supabase/auth-helpers-react";
+import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import type { ReactElement, ReactNode } from "react";
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const layout = getLayout(<Component {...pageProps} />);
 
   return (
-    <AuthProvider supabase={supabase}>
+    <UserProvider supabaseClient={supabaseClient}>
       <ThemeProvider defaultTheme="mrfisch">
         <ToastContainer
           autoClose={4000}
@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         />
         {layout}
       </ThemeProvider>
-    </AuthProvider>
+    </UserProvider>
   );
 }
 

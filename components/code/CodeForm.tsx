@@ -8,6 +8,7 @@ import React, { useEffect } from "react";
 import { CodeInterface } from "typings";
 import { BiReset } from "react-icons/bi";
 import Tags from "@components/layout/Tags";
+import { UserState } from "@supabase/auth-helpers-shared";
 
 const schema = yup
   .object({
@@ -24,9 +25,10 @@ const schema = yup
 interface CodeFormProps {
   postOperation: any;
   initialValues?: CodeInterface;
+  user?: UserState;
 }
 
-const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
+const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
   const {
     register,
     handleSubmit,
@@ -50,7 +52,7 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
 
   useEffect(() => {
     if (initialValues) {
-      /* eslint-disable no-unused-vars */
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { updated_at, inserted_at, user, ...data } = initialValues;
 
       reset(data);
@@ -73,29 +75,29 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
   return (
     <form
       onSubmit={handleSubmit(postOperation)}
-      className="form-control w-full gap-y-4 p-4"
+      className="gap-y-4 p-4 w-full form-control"
       id="form"
     >
       <div>
         <label
-          className="label justify-start text-xl font-bold sm:text-2xl"
+          className="justify-start text-xl font-bold sm:text-2xl label"
           htmlFor="code-title"
         >
           Title{" "}
           <BiReset
-            className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+            className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
             onClick={() => resetField("code_title")}
           />
         </label>
         {errors.code_title && (
           <span
-            className="label pt-0 font-bold text-accent"
+            className="pt-0 font-bold label text-accent"
             id="code-title-error"
           >
             {errors.code_title?.message}
           </span>
         )}
-        <small className="label pt-0" id="code-title-help">
+        <small className="pt-0 label" id="code-title-help">
           <span className="label-text">Add a code title</span>
         </small>{" "}
       </div>
@@ -110,16 +112,16 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
       />{" "}
       <div>
         <label
-          className="label justify-start text-xl font-bold sm:text-2xl"
+          className="justify-start text-xl font-bold sm:text-2xl label"
           htmlFor="description"
         >
           Description
           <BiReset
-            className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+            className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
             onClick={() => resetField("description")}
           />
         </label>
-        <small className="label pt-0" id="description-help">
+        <small className="pt-0 label" id="description-help">
           <span className="label-text">
             Add a code description for quick reference
           </span>
@@ -134,12 +136,12 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
       />{" "}
       <div>
         <label
-          className="label justify-start text-xl font-bold sm:text-2xl"
+          className="justify-start text-xl font-bold sm:text-2xl label"
           htmlFor="tags"
         >
           Tags
           <BiReset
-            className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+            className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
             onClick={() => resetField("tags")}
           />
         </label>
@@ -159,11 +161,11 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
           <h1 className="flex items-center text-xl font-bold sm:text-2xl">
             Code
             <BiReset
-              className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+              className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
               onClick={() => reset({ code_block: "", language: "css" })}
             />
           </h1>
-          <div className="flex flex-col items-center justify-between gap-y-4 sm:flex-row">
+          <div className="flex flex-col gap-y-4 justify-between items-center sm:flex-row">
             <Controller
               control={control}
               name="language"
@@ -175,7 +177,7 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
                 />
               )}
             />
-            <div className="flex items-center gap-x-2">
+            <div className="flex gap-x-2 items-center">
               <label>Public</label>
               <input
                 type="checkbox"
@@ -187,14 +189,14 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
           <div>
             {errors.code_block && (
               <span
-                className="label pb-0 font-bold text-accent"
+                className="pb-0 font-bold label text-accent"
                 id="code-block-error"
               >
                 {errors.code_block?.message}
               </span>
             )}
             <label htmlFor="code-block">Code Block</label>
-            <div className="mt-4 flex flex-col lg:flex-row">
+            <div className="flex flex-col mt-4 lg:flex-row">
               <Controller
                 control={control}
                 name="code_block"
@@ -216,14 +218,14 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
               />
             </div>
           </div>
-          <div className="mt-4 flex flex-col space-y-2">
+          <div className="flex flex-col mt-4 space-y-2">
             <label
               className="flex text-xl font-bold sm:text-2xl"
               htmlFor="documentation"
             >
               Documentation
               <BiReset
-                className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+                className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
                 onClick={() => reset({ documentation: "", language: "css" })}
               />
             </label>
@@ -247,9 +249,15 @@ const CodeForm = ({ postOperation, initialValues }: CodeFormProps) => {
           </div>
         </div>
       </div>
-      <button type="submit" className="btn btn-accent">
-        Create
-      </button>
+      {initialValues?.user?.id === user?.user?.id ? (
+        <button type="submit" className="btn btn-accent">
+          Create
+        </button>
+      ) : (
+        <button type="submit" className="btn btn-accent" disabled aria-disabled>
+          Create
+        </button>
+      )}
     </form>
   );
 };
