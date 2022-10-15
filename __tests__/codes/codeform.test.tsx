@@ -1,14 +1,9 @@
 import CodeForm from "@components/code/CodeForm";
-import {
-  findByText,
-  render,
-  screen,
-  waitFor,
-  within,
-} from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { setupServer } from "msw/node";
 import { rest } from "msw";
+import { CodeInterface } from "typings";
 
 const user = userEvent.setup();
 
@@ -63,6 +58,51 @@ describe("Testing code form in anonymous user", () => {
       expect(getCodeBlock()).toHaveErrorMessage(
         /code block is a required field/i
       );
+    });
+  });
+});
+
+describe("Testing form with initial data", () => {
+  const onSubmit = jest.fn((data) => {
+    return data;
+  });
+
+  const server = setupServer(
+    rest.get("/api/codes/tags", (req, res, ctx) => {
+      return res(ctx.delay(100), ctx.json([]));
+    })
+  );
+
+  const initialValues: CodeInterface = {
+    id: "222",
+    code_block: "print('Me lhamo tubias')",
+    description: "Description poggers",
+    documentation: "Documentation",
+    language: "python",
+    inserted_at: new Date(Date.now()),
+    updated_at: new Date(Date.now()),
+    code_title: "A cool title",
+    is_public: true,
+    tags: ["kkkk", "mrfisch"],
+  };
+
+  beforeAll(() => server.listen());
+  afterAll(() => server.close());
+  afterEach(() => {
+    server.resetHandlers();
+    jest.clearAllMocks();
+  });
+
+  it("Testing without any user data being provided", async () => {
+    render(<CodeForm postOperation={onSubmit} initialValues={initialValues} />);
+
+    // await clickSubmitBtn();
+    await waitFor(() => {
+      expect(getTitle()).toHaveValue(initialValues.code_title);
+      expect(getDescription()).toHaveValue(initialValues.description);
+      expect(getCodeBlock()).toHaveValue(initialValues.code_block);
+      expect(getCodeLang()).toHaveValue(initialValues.language);
+      expect(getDocumentation()).toHaveValue(initialValues.documentation);
     });
   });
 });
