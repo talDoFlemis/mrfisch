@@ -47,10 +47,10 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
     <form
       id="form"
       onSubmit={handleSubmit(postOperation)}
-      className="grid w-full grid-rows-2 place-content-center place-items-center gap-16 p-8 md:grid-cols-2  md:grid-rows-none"
+      className="grid grid-rows-2 gap-16 place-content-center place-items-center p-8 w-full md:grid-cols-2 md:grid-rows-none"
     >
-      <div className="flex flex-col items-center gap-4">
-        <div className="avatar relative h-60 w-60 justify-self-end">
+      <div className="flex flex-col gap-4 items-center">
+        <div className="relative justify-self-end w-60 h-60 avatar">
           {initialValues?.avatar_url || image ? (
             <Image
               alt="avatar"
@@ -60,7 +60,7 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
               className="mask mask-squircle"
             />
           ) : (
-            <AiOutlineUser className="mask mask-squircle h-60 w-60 bg-neutral" />
+            <AiOutlineUser className="w-60 h-60 mask mask-squircle bg-neutral" />
           )}
         </div>
         <label htmlFor="formFile" className="label">
@@ -75,21 +75,21 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
           id="formFile"
         />
       </div>
-      <div className="flex w-3/4 flex-col items-center gap-6 justify-self-center md:justify-self-start">
+      <div className="flex flex-col gap-6 justify-self-center items-center w-3/4 md:justify-self-start">
         <div className="w-full">
-          <label className="label justify-start text-xl font-bold sm:text-2xl">
+          <label className="justify-start text-xl font-bold sm:text-2xl label">
             Username{" "}
             <BiReset
-              className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+              className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
               onClick={() => resetField("username")}
             />
           </label>
           {errors.username && (
-            <label className="label pt-0 font-bold text-accent">
+            <label className="pt-0 font-bold label text-accent">
               {errors.username?.message}
             </label>
           )}
-          <label className="label pt-0">
+          <label className="pt-0 label">
             <span className="label-text">
               Add your username to show in card creation
             </span>
@@ -98,7 +98,7 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
         <input
           placeholder="Enter your username"
           {...register("username")}
-          className="input input-bordered input-primary w-full bg-neutral"
+          className="w-full input input-bordered input-primary bg-neutral"
         />{" "}
       </div>
     </form>

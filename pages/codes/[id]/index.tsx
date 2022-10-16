@@ -51,22 +51,22 @@ const CodeView = () => {
   }, []);
 
   return (
-    <main className="flex h-max w-full flex-col font-raleway">
+    <main className="flex flex-col w-full h-max font-raleway">
       <Head>
         <title>{code?.code_title ?? "Code"} • Mr Fisch</title>
       </Head>
-      <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
+      <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
         <Link href="/codes/">
-          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
-            <IconArrowLeft className="h-8 w-8" />
+          <a className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent">
+            <IconArrowLeft className="w-8 h-8" />
             Go back
           </a>
         </Link>
         <label
-          className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+          className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
           htmlFor="drawer"
         >
-          <HiOutlineMenu className="h-6 w-6" />
+          <HiOutlineMenu className="w-6 h-6" />
         </label>
       </div>
       <DeleteLinkModal
@@ -75,49 +75,49 @@ const CodeView = () => {
       />
       {!code ? (
         <div className="flex h-[60vh]">
-          <LoadingComponent className="h-16 w-16 text-base-content" />
+          <LoadingComponent className="w-16 h-16 text-base-content" />
         </div>
       ) : (
         <div className="p-4">
-          <div className="flex flex-col justify-between gap-8 lg:flex-row">
+          <div className="flex flex-col gap-8 justify-between lg:flex-row">
             <CodeHighlighter
               input={code!.code_block}
               language={code.language}
-              className="bg-neutral text-sm lg:w-full"
+              className="text-sm lg:w-full bg-neutral"
             />
-            <div className="card h-fit bg-neutral text-neutral-content lg:w-1/4">
+            <div className="lg:w-1/4 card h-fit bg-neutral text-neutral-content">
               <div className="card-body">
-                <h1 className="text-center text-lg font-bold">
+                <h1 className="text-lg font-bold text-center">
                   {code?.code_title}
                 </h1>
                 <p className="whitespace-pre-wrap break-words">
                   {code?.description}
                 </p>
-                <div className="flex content-between items-center ">
+                <div className="flex content-between items-center">
                   <p>Language</p>
-                  <p className="text-right font-bold text-primary">
+                  <p className="font-bold text-right text-primary">
                     {code?.language}
                   </p>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between items-center">
                   <p>Created</p>
                   <p className="text-right">
                     {moment(code?.inserted_at).format("L")}
                   </p>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between items-center">
                   <p>Last updated</p>
                   <p className="text-right">
                     {moment(code?.updated_at).fromNow()}
                   </p>
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex justify-between items-center">
                   <p>Made by</p>
                   <p className="text-right">
                     {code.user?.username ?? "anonymous"}
                   </p>
                 </div>
-                <div className="item-center flex flex-wrap justify-center gap-2 pt-2">
+                <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
                   {code.tags?.map((tag, index) => (
                     <div key={index} className="badge badge-secondary shrink-0">
                       {tag}
@@ -129,34 +129,34 @@ const CodeView = () => {
                 <StealCodeButton code={code.code_block} />
                 {user?.id === code?.user?.id ? (
                   <Link href={`/codes/${router.query.id}/edit`}>
-                    <a className="btn btn-sm justify-center gap-2 border-none bg-white text-black shadow transition-colors hover:bg-base-300 hover:text-white ">
+                    <a className="gap-2 justify-center text-black bg-white border-none shadow transition-colors hover:text-white btn btn-sm hover:bg-base-300">
                       <p>Edit</p>
-                      <MdEdit className="h-6 w-6 " />
+                      <MdEdit className="w-6 h-6" />
                     </a>
                   </Link>
                 ) : (
                   <button
-                    className="btn btn-sm cursor-default justify-center gap-2 border-none bg-base-100 text-black"
+                    className="gap-2 justify-center text-black border-none cursor-default btn btn-sm bg-base-100"
                     disabled
                   >
                     <p>Edit</p>
-                    <MdEdit className="h-6 w-6 " />
+                    <MdEdit className="w-6 h-6" />
                   </button>
                 )}
                 {user?.id === code?.user?.id ? (
                   <label htmlFor="deletemodal">
-                    <div className="btn btn-secondary btn-sm w-full border-none transition-colors hover:text-white">
+                    <div className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm">
                       <p>Delete Code</p>
-                      <AiOutlineDelete className="h-6 w-6 shadow-accent" />
+                      <AiOutlineDelete className="w-6 h-6 shadow-accent" />
                     </div>
                   </label>
                 ) : (
                   <button
-                    className="btn btn-secondary btn-sm w-full border-none transition-colors hover:text-white"
+                    className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm"
                     disabled
                   >
                     <p>Delete Code</p>
-                    <AiOutlineDelete className="h-6 w-6 shadow-accent" />
+                    <AiOutlineDelete className="w-6 h-6 shadow-accent" />
                   </button>
                 )}
               </div>
@@ -164,10 +164,10 @@ const CodeView = () => {
           </div>
           {code?.documentation && (
             <div>
-              <div className="card my-8 bg-neutral text-neutral-content">
+              <div className="my-8 card bg-neutral text-neutral-content">
                 <div className="card-body">
                   <div className="card-title">Documentation</div>
-                  <div className="divider  before:bg-base-300 after:bg-base-300"></div>
+                  <div className="divider before:bg-base-300 after:bg-base-300"></div>
                   <ReactMarkdown
                     className="prose text-neutral-content"
                     remarkPlugins={[remarkGfm]}

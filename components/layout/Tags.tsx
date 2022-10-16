@@ -31,7 +31,7 @@ const TagSystem = ({ initialValues = [], onChange }: TagsProps) => {
   };
 
   return (
-    <div className="w-full rounded-md bg-neutral text-white">
+    <div className="w-full text-white rounded-md bg-neutral">
       <Tags
         aria-describedby="tags-help"
         name="tags"

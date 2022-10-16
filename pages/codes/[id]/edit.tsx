@@ -44,23 +44,23 @@ const Edit = () => {
   };
 
   return (
-    <div className="h-max w-full font-raleway">
+    <div className="w-full h-max font-raleway">
       <Head>
         <title>Edit • Mr Fisch</title>
       </Head>
-      <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
+      <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
         <Link href={`/codes/${id}`}>
-          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
-            <AiOutlineArrowLeft className="h-6 w-6 md:h-8 md:w-8" />
+          <a className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent">
+            <AiOutlineArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
             <p className="hidden md:inline-flex">Go back</p>
           </a>
         </Link>
-        <div className="flex items-center justify-between gap-x-3">
+        <div className="flex gap-x-3 justify-between items-center">
           {code?.user?.id === user?.id || code?.user?.id === undefined ? (
             <>
               {isPosting ? (
                 <button
-                  className="btn btn-sm  mx-auto w-20 border-white  text-sm text-white md:w-32 lg:btn-md"
+                  className="mx-auto w-20 text-sm text-white border-white md:w-32 btn btn-sm lg:btn-md"
                   disabled
                 >
                   Updating
@@ -69,7 +69,7 @@ const Edit = () => {
                 <button
                   type="submit"
                   form="form"
-                  className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+                  className="mx-auto w-20 text-sm text-white border-none md:w-32 btn btn-accent btn-sm lg:btn-md"
                 >
                   Update
                 </button>
@@ -79,17 +79,17 @@ const Edit = () => {
             <button
               type="submit"
               form="form"
-              className="btn btn-accent btn-sm mx-auto w-20 border-none text-sm text-white md:w-32 lg:btn-md"
+              className="mx-auto w-20 text-sm text-white border-none md:w-32 btn btn-accent btn-sm lg:btn-md"
               disabled
             >
               Update
             </button>
           )}
           <label
-            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
           >
-            <HiOutlineMenu className="h-6 w-6" />
+            <HiOutlineMenu className="w-6 h-6" />
           </label>
         </div>
       </div>

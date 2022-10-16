@@ -58,32 +58,32 @@ const Portulovers = ({ user }: { user: User }) => {
   }, []);
 
   return (
-    <main className="flex h-max w-full flex-col gap-4 p-4">
+    <main className="flex flex-col gap-4 p-4 w-full h-max">
       <Head>
         <title>Portulovers • Mr Fisch</title>
       </Head>
-      <header className="navbar sticky top-0 z-10 flex items-center justify-between bg-opacity-40 p-4 backdrop-blur-sm">
+      <header className="flex sticky top-0 z-10 justify-between items-center p-4 bg-opacity-40 navbar backdrop-blur-sm">
         <h1 className="text-3xl sm:text-4xl">Useful Links</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex gap-4 items-center">
           <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <AiOutlineSearch className="h-4 w-4" />
+            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+              <AiOutlineSearch className="w-4 h-4" />
             </div>
             <input
               type="search"
               placeholder="Search a link"
               onChange={(e) => setSearch(e.target.value)}
-              className="input input-bordered input-primary block w-full rounded-lg bg-neutral p-4 pl-10 text-neutral-content"
+              className="block p-4 pl-10 w-full rounded-lg input input-bordered input-primary bg-neutral text-neutral-content"
             />
           </div>
           <label htmlFor="addmodal">
-            <BsFilePlus className="h-4 w-4 cursor-pointer hover:text-accent sm:h-6 sm:w-6" />
+            <BsFilePlus className="w-4 h-4 cursor-pointer sm:w-6 sm:h-6 hover:text-accent" />
           </label>
           <label
-            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
           >
-            <HiOutlineMenu className="h-6 w-6" />
+            <HiOutlineMenu className="w-6 h-6" />
           </label>
         </div>
       </header>

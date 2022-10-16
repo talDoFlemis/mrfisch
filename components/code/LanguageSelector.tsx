@@ -11,10 +11,9 @@ const LanguageSelector = ({
 }: LanguageSelectorProps) => {
   return (
     <div className="form-control">
-      <label htmlFor="language">Code Language</label>
-      <small className="label-text" id="language-help">
+      <label className="label-text" id="language">
         Pick the language of the code
-      </small>{" "}
+      </label>{" "}
       <select
         className="select select-primary bg-neutral"
         onChange={(e) => {
@@ -22,7 +21,6 @@ const LanguageSelector = ({
         }}
         value={value}
         id="language"
-        aria-describedby="language-help"
       >
         {languages.sort().map((lang) => (
           <option key={lang} value={lang}>

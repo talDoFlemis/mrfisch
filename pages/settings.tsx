@@ -52,38 +52,38 @@ while true:
   };
 
   return (
-    <main className="flex h-max w-full flex-col gap-4">
+    <main className="flex flex-col gap-4 w-full h-max">
       <Head>
         <title>Settings • Mr Fisch</title>
       </Head>
-      <div className="navbar sticky top-0 z-10 justify-between bg-neutral  bg-opacity-40 backdrop-blur-sm">
+      <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
         <Link href="/codes/">
-          <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
-            <IconArrowLeft className="h-6 w-6 md:h-8 md:w-8" />
+          <a className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent">
+            <IconArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
             <p className="hidden md:inline-flex">Go back</p>
           </a>
         </Link>
         <label
-          className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+          className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
           htmlFor="drawer"
         >
-          <HiOutlineMenu className="h-6 w-6" />
+          <HiOutlineMenu className="w-6 h-6" />
         </label>
       </div>
       <h1 className="p-4 text-3xl lg:text-4xl">Pick a theme</h1>
-      <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row">
+      <div className="flex flex-col flex-wrap gap-4 justify-center items-center sm:flex-row">
         {allThemes.map((theme) => (
           <div
             onClick={() => changeTheme(theme)}
-            className="flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-base-200 transition-transform hover:scale-110"
+            className="flex flex-col justify-center items-center rounded-md border-2 transition-transform cursor-pointer hover:scale-110 border-base-200"
             data-theme={theme}
             key={theme}
           >
-            <div className="bg-base flex gap-1 p-4">
-              <div className="h-4 w-4 rounded-full bg-primary"></div>
-              <div className="h-4 w-4 rounded-full bg-secondary"></div>
-              <div className="h-4 w-4 rounded-full bg-accent"></div>
-              <div className="h-4 w-4 rounded-full bg-base-content"></div>
+            <div className="flex gap-1 p-4 bg-base">
+              <div className="w-4 h-4 rounded-full bg-primary"></div>
+              <div className="w-4 h-4 rounded-full bg-secondary"></div>
+              <div className="w-4 h-4 rounded-full bg-accent"></div>
+              <div className="w-4 h-4 rounded-full bg-base-content"></div>
             </div>
             <p className="font-bold">{theme}</p>
           </div>
@@ -92,8 +92,8 @@ while true:
       <h1 className="p-4 text-3xl lg:text-4xl">
         Previewing Code with theme {theme}
       </h1>
-      <div className="card mx-8 select-none bg-neutral">
-        <div className="card-body p-0 lg:p-6">
+      <div className="mx-8 select-none card bg-neutral">
+        <div className="p-0 lg:p-6 card-body">
           <CodeHighlighter
             language="javascript"
             input={mockedCode}
@@ -112,7 +112,7 @@ while true:
         updated_at={mockedInput.updated_at}
         code_block={mockedInput.code_block}
         is_public={mockedInput.is_public}
-        className="min-h-52  mx-auto mb-4 w-4/5 bg-neutral lg:w-1/2"
+        className="mx-auto mb-4 w-4/5 lg:w-1/2 min-h-52 bg-neutral"
         tags={mockedInput.tags}
       />
     </main>

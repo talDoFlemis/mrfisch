@@ -27,12 +27,12 @@ const Codes: NextPageWithLayout = () => {
   }, [user]);
 
   return (
-    <main className="h-max w-full">
+    <main className="w-full h-max">
       <Head>
         <title>All Codes • Mr Fisch</title>
       </Head>
       <CodesHeader user={userData} />
-      <h1 className="p-4 text-2xl font-light text-base-content sm:text-3xl md:text-4xl">
+      <h1 className="p-4 text-2xl font-light sm:text-3xl md:text-4xl text-base-content">
         Welcome,{" "}
         <span className="font-spaceRave text-primary">
           {" "}

@@ -1,9 +1,6 @@
 import CodeCard from "@components/code/CodeCard";
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { CodeInterface, UserInterface } from "typings";
-
-const user = userEvent.setup();
 
 const codeCardData: CodeInterface = {
   id: "777",
@@ -63,7 +60,6 @@ describe("testing the code card", () => {
       username: "flemis",
       updated_at: new Date(Date.now()),
       is_port: false,
-      nickname: "",
       is_new: false,
     };
     render(<CodeCard {...codeCardData} user={userData} />);

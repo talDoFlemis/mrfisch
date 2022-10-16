@@ -48,7 +48,7 @@ const AutoSizeTextarea = ({
         ref={textareaRef}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => handleTab(e)}
-        className="textarea textarea-primary  block w-full resize-none overflow-hidden bg-transparent"
+        className="block overflow-hidden w-full bg-transparent resize-none textarea textarea-primary"
         value={text}
       />
     </div>

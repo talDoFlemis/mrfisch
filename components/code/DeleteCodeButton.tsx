@@ -34,19 +34,19 @@ const DeleteCodeButton = ({
 
   return (
     <button
-      className="btn btn-secondary btn-sm border-none transition-colors hover:text-white"
+      className="border-none transition-colors hover:text-white btn btn-secondary btn-sm"
       onClick={() => deleteCode(id)}
       disabled={disabled}
     >
       {isPosting ? (
         <>
           <p>Deleting</p>
-          <LoadingComponent className="h-6 w-6 " />
+          <LoadingComponent className="w-6 h-6" />
         </>
       ) : (
         <>
           <p>Delete Code</p>
-          <AiOutlineDelete className="h-6 w-6 shadow-accent" />
+          <AiOutlineDelete className="w-6 h-6 shadow-accent" />
         </>
       )}
     </button>

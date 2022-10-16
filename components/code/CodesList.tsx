@@ -8,15 +8,15 @@ const CodesList = () => {
 
   if (!codes && !error) {
     return (
-      <div className="flex h-3/5 items-center justify-center">
-        <LoadingComponent className="h-16 w-16 text-red-500" />
+      <div className="flex justify-center items-center h-3/5">
+        <LoadingComponent className="w-16 h-16 text-red-500" />
       </div>
     );
   }
 
   return (
     <>
-      <div className="mx-auto grid h-max grid-cols-1 gap-8 p-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 p-4 mx-auto md:grid-cols-2 xl:grid-cols-3 h-max">
         {codes?.map((code) => (
           <CodeCard
             key={code.id}

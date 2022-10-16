@@ -5,18 +5,18 @@ import { TbHandStop } from "react-icons/tb";
 //TODO: Maybe change the quote to You weren't supposed to be here, LG occupied this page before you came
 const Stop = () => {
   return (
-    <main className="flex h-screen flex-col items-center justify-center gap-6 bg-base-100 p-4 text-base-content">
+    <main className="flex flex-col gap-6 justify-center items-center p-4 h-screen bg-base-100 text-base-content">
       <Head>
         <title>Stop • Mr Fisch</title>
       </Head>
-      <div className="relative h-full w-full md:h-1/2 md:w-1/2">
+      <div className="relative w-full h-full md:w-1/2 md:h-1/2">
         <Image src="/img/lg.png" alt="LG" layout="fill" objectFit="contain" />
       </div>
-      <div className="flex items-center gap-4 font-raleway text-4xl font-bold uppercase sm:text-5xl lg:text-6xl">
+      <div className="flex gap-4 items-center text-4xl font-bold uppercase sm:text-5xl lg:text-6xl font-raleway">
         Stop
-        <TbHandStop className="h-10 w-10" />
+        <TbHandStop className="w-10 h-10" />
       </div>
-      <p className="text-center font-momcake text-2xl sm:text-3xl lg:text-4xl">
+      <p className="text-2xl text-center sm:text-3xl lg:text-4xl font-momcake">
         You do not have permission to pass, return to the main page.
       </p>
       <Link href="/codes">

@@ -10,17 +10,17 @@ import { AiFillHeart, AiOutlineSearch } from "react-icons/ai";
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
   return (
-    <div className="flex h-screen  bg-base-100 font-momcake antialiased">
+    <div className="flex h-screen antialiased bg-base-100 font-momcake">
       <div className="drawer drawer-mobile text-base-content">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex">{children}</div>
+        <div className="flex drawer-content">{children}</div>
         <aside className="drawer-side">
           <label htmlFor="drawer" className="drawer-overlay"></label>
-          <ul className="menu w-48 items-center justify-center overflow-y-auto bg-base-100 p-4 text-base-content">
+          <ul className="overflow-y-auto justify-center items-center p-4 w-48 menu bg-base-100 text-base-content">
             <Link href="/">
-              <a className="absolute top-4 font-spaceRave text-xl italic text-base-content transition-colors hover:text-accent">
+              <a className="absolute top-4 text-xl italic transition-colors font-spaceRave text-base-content hover:text-accent">
                 Mr fisch
-                <GiFriedFish className="mx-auto h-8 w-8" />
+                <GiFriedFish className="mx-auto w-8 h-8" />
               </a>
             </Link>
             <div className="flex flex-col text-lg">
@@ -31,7 +31,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     pathname === "/codes" ? "text-accent" : "text-base-content"
                   )}
                 >
-                  <HiCode className="h-6 w-6" />
+                  <HiCode className="w-6 h-6" />
                   <p>All Codes</p>
                 </a>
               </Link>
@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     pathname === "/create" ? "text-accent" : "text-base-content"
                   )}
                 >
-                  <MdOutlineCreate className="h-6 w-6" />
+                  <MdOutlineCreate className="w-6 h-6" />
                   <p>create</p>
                 </a>
               </Link>
@@ -53,7 +53,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     pathname === "/search" ? "text-accent" : "text-base-content"
                   )}
                 >
-                  <AiOutlineSearch className="h-6 w-6" />
+                  <AiOutlineSearch className="w-6 h-6" />
                   <p>search</p>
                 </a>
               </Link>
@@ -66,7 +66,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                       : "text-base-content"
                   )}
                 >
-                  <AiFillHeart className="h-6 w-6" />
+                  <AiFillHeart className="w-6 h-6" />
                   <p>portulovers</p>
                 </a>
               </Link>
@@ -79,7 +79,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                       : "text-base-content"
                   )}
                 >
-                  <MdSettings className="h-6 w-6" />
+                  <MdSettings className="w-6 h-6" />
                   <p>Settings</p>
                 </a>
               </Link>

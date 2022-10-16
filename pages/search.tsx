@@ -41,7 +41,7 @@ const Hit = ({ hit }: any) => {
       user={hit.user}
       tags={hit._tags}
       updated_at={hit.updated_at}
-      className="min-h-52 h-full bg-neutral"
+      className="h-full min-h-52 bg-neutral"
       hit={hit}
     />
   );
@@ -49,31 +49,31 @@ const Hit = ({ hit }: any) => {
 
 const Search = () => {
   return (
-    <main className="flex h-max w-full flex-col gap-4">
+    <main className="flex flex-col gap-4 w-full h-max">
       <Head>
         <title>Search • Mr Fisch</title>
       </Head>{" "}
       <InstantSearch searchClient={searchClient} indexName="mrfisch">
-        <div className="navbar sticky top-0 z-10 justify-between gap-x-2 bg-opacity-40 p-4 font-raleway backdrop-blur-sm lg:gap-x-10">
+        <div className="sticky top-0 z-10 gap-x-2 justify-between p-4 bg-opacity-40 lg:gap-x-10 navbar font-raleway backdrop-blur-sm">
           <Link href="/codes/">
-            <a className="flex w-fit cursor-pointer items-center font-bold transition-colors hover:text-accent">
-              <IconArrowLeft className="h-6 w-6 md:h-8 md:w-8" />
-              <p className="hidden w-fit whitespace-nowrap md:inline-flex">
+            <a className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent">
+              <IconArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
+              <p className="hidden whitespace-nowrap md:inline-flex w-fit">
                 Go back
               </p>
             </a>
           </Link>
           <CustomSearchBox queryHook={queryHook} />
           <label
-            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
           >
-            <HiOutlineMenu className="h-6 w-6" />
+            <HiOutlineMenu className="w-6 h-6" />
           </label>
         </div>
         <div className="flex gap-4 p-4">
-          <div className="hidden h-fit flex-col rounded-lg bg-neutral sm:flex sm:w-1/3 lg:w-1/4">
-            <div className="flex items-center justify-between p-4">
+          <div className="hidden flex-col rounded-lg sm:flex sm:w-1/3 lg:w-1/4 h-fit bg-neutral">
+            <div className="flex justify-between items-center p-4">
               <h2 className="text-3xl">Filters</h2>
               <CustomClearRefinements />
             </div>

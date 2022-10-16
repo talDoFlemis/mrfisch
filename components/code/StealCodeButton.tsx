@@ -23,16 +23,16 @@ const StealCodeButton = ({
 
   return (
     <CopyToClipboard text={code} onCopy={() => copied()}>
-      <button className="btn btn-sm border-none bg-accent text-accent-content shadow hover:bg-accent-focus hover:text-accent-content hover:shadow-white">
+      <button className="border-none shadow btn btn-sm bg-accent text-accent-content hover:bg-accent-focus hover:text-accent-content hover:shadow-white">
         {isCopied ? (
           <>
             <p className={`${toHide && "hidden sm:inline-flex"}`}>Copied</p>
-            <BsClipboardCheck className="h-6 w-6 " />
+            <BsClipboardCheck className="w-6 h-6" />
           </>
         ) : (
           <>
             <p className={`${toHide && "hidden sm:inline-flex"}`}>Steal Code</p>
-            <GiDaemonSkull className="h-6 w-6 shadow-accent transition-colors duration-300 " />
+            <GiDaemonSkull className="w-6 h-6 transition-colors duration-300 shadow-accent" />
           </>
         )}
       </button>

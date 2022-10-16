@@ -9,6 +9,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+//TODO: Supabase Client dando merda no jest
 
 interface CodesHeaderProps {
   user?: UserInterface | null;
@@ -18,24 +19,24 @@ const CodesHeader = ({ user }: CodesHeaderProps) => {
   const router = useRouter();
 
   return (
-    <header className="navbar sticky top-0 z-10 justify-end bg-opacity-40 p-4 font-raleway backdrop-blur-sm">
+    <header className="sticky top-0 z-10 justify-end p-4 bg-opacity-40 navbar font-raleway backdrop-blur-sm">
       {user ? (
-        <div className="flex items-center justify-end gap-2 sm:gap-6">
+        <div className="flex gap-2 justify-end items-center sm:gap-6">
           {user?.is_new && (
             <Link href="/profile">
-              <a className="badge text-2xs badge-warning p-3 text-warning-content transition-transform hover:scale-105 sm:text-sm">
+              <a className="p-3 transition-transform sm:text-sm hover:scale-105 badge text-2xs badge-warning text-warning-content">
                 Your profile need to be updated{" "}
-                <AiOutlineExclamationCircle className="ml-2 h-5 w-5 text-warning-content" />
+                <AiOutlineExclamationCircle className="ml-2 w-5 h-5 text-warning-content" />
               </a>
             </Link>
           )}
-          <div className="dropdown-end dropdown rounded-full">
+          <div className="rounded-full dropdown-end dropdown">
             <label
               tabIndex={0}
-              className="group m-1 flex cursor-pointer items-center gap-x-2 border-none"
+              className="flex gap-x-2 items-center m-1 border-none cursor-pointer group"
             >
-              <AiOutlineDown className="hidden h-4 w-4 transition-colors group-hover:text-accent sm:inline-flex" />
-              <div className="mask mask-circle relative h-10 w-10 transition-transform group-hover:scale-110">
+              <AiOutlineDown className="hidden w-4 h-4 transition-colors sm:inline-flex group-hover:text-accent" />
+              <div className="relative w-10 h-10 transition-transform group-hover:scale-110 mask mask-circle">
                 {user?.avatar_url ? (
                   <Image
                     src={user?.avatar_url}
@@ -44,13 +45,13 @@ const CodesHeader = ({ user }: CodesHeaderProps) => {
                     alt="avatar"
                   />
                 ) : (
-                  <AiOutlineUser className="h-full w-full" />
+                  <AiOutlineUser className="w-full h-full" />
                 )}
               </div>
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu rounded-box w-52 gap-2 bg-neutral p-2"
+              className="gap-2 p-2 w-52 dropdown-content menu rounded-box bg-neutral"
             >
               <li>
                 <Link href="/profile">
@@ -73,25 +74,25 @@ const CodesHeader = ({ user }: CodesHeaderProps) => {
             </ul>
           </div>
           <label
-            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
           >
-            <HiOutlineMenu className="ml-4 h-6 w-6" />
+            <HiOutlineMenu className="ml-4 w-6 h-6" />
           </label>
         </div>
       ) : (
-        <div className="flex items-center justify-end">
+        <div className="flex justify-end items-center">
           <Link href="/login">
-            <a className="btn space-x-2 border-none">
+            <a className="space-x-2 border-none btn">
               <p>login</p>
-              <AiOutlineUser className="h-6 w-6" />
+              <AiOutlineUser className="w-6 h-6" />
             </a>
           </Link>
           <label
-            className="cursor-pointer text-base-content transition-colors hover:text-accent lg:hidden"
+            className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
           >
-            <HiOutlineMenu className="ml-4 h-6 w-6" />
+            <HiOutlineMenu className="ml-4 w-6 h-6" />
           </label>
         </div>
       )}

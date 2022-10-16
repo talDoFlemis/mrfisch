@@ -17,7 +17,7 @@ while true:
     username: "Mr Fisch",
   };
   return (
-    <div id="share" className="relative h-screen w-full text-white">
+    <div id="share" className="relative w-full h-screen text-white">
       <Image
         src="/img/space2.jpg"
         alt="space"
@@ -27,10 +27,10 @@ while true:
         quality={80}
         className="select-none"
       />
-      <div className="relative z-10 h-full bg-gradient-to-t from-black via-transparent to-black/90 p-4 text-center">
-        <div className=" mx-auto grid h-full grid-rows-2  place-content-center place-items-center gap-x-8 md:grid-cols-2 md:grid-rows-none 2xl:container">
+      <div className="relative z-10 p-4 h-full text-center bg-gradient-to-t from-black via-transparent to-black/90">
+        <div className="grid grid-rows-2 gap-x-8 place-content-center place-items-center mx-auto h-full md:grid-cols-2 md:grid-rows-none 2xl:container">
           <div className="flex flex-col gap-y-5 self-end md:self-auto">
-            <h1 className="font-raleway text-3xl font-bold sm:text-5xl 2xl:text-6xl">
+            <h1 className="text-3xl font-bold sm:text-5xl 2xl:text-6xl font-raleway">
               Easily <span className="text-secondary">share</span> and{" "}
               <span className="text-primary">copy</span> code from your friends
             </h1>
@@ -39,17 +39,17 @@ while true:
               share with your friends
             </p>
           </div>
-          <div className="group relative">
-            <div className="absolute -inset-0.5 animate-tilt rounded-xl bg-gradient-to-r from-secondary via-primary to-primary opacity-70 blur-lg transition-opacity duration-1000 group-hover:opacity-100 group-hover:duration-300"></div>
-            <div className="card select-none bg-neutral">
+          <div className="relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r rounded-xl opacity-70 transition-opacity duration-1000 group-hover:opacity-100 group-hover:duration-300 animate-tilt from-secondary via-primary to-primary blur-lg"></div>
+            <div className="select-none card bg-neutral">
               <div className="card-body">
-                <h1 className="text-center text-2xl font-bold">
+                <h1 className="text-2xl font-bold text-center">
                   {mockedInput.code_title}
                 </h1>
-                <p className="line-clamp-2 text-ellipsis text-lg font-bold text-gray-200">
+                <p className="text-lg font-bold text-gray-200 line-clamp-2 text-ellipsis">
                   {mockedInput.description}
                 </p>
-                <div className="card-actions justify-end space-x-1 font-momcake">
+                <div className="justify-end space-x-1 card-actions font-momcake">
                   <Link href={`/codes/`}>
                     <a className="btn btn-outline btn-sm text-white hover:border-[#380246] hover:bg-[#380246] hover:text-white">
                       View Code
@@ -58,15 +58,15 @@ while true:
                   <StealCodeButton code={mockedInput.code_block} />
                 </div>
                 <div className="grid grid-cols-3 place-items-center font-momcake">
-                  <div className="relative flex items-center gap-x-2">
-                    <AiOutlineUserSwitch className="h-4 w-4" />
+                  <div className="flex relative gap-x-2 items-center">
+                    <AiOutlineUserSwitch className="w-4 h-4" />
                     <p className="hidden sm:inline-flex">
                       {mockedInput.username ?? "anonymous"}
                     </p>
                   </div>
                   <p>{moment(mockedInput.inserted_at).fromNow()}</p>
-                  <div className="flex items-center gap-x-2">
-                    <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                  <div className="flex gap-x-2 items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                     {mockedInput.is_public ? "public" : "private"}
                   </div>
                 </div>

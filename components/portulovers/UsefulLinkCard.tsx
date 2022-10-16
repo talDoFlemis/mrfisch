@@ -24,12 +24,12 @@ const UsefulLinkCard = ({
   setShowEditModal,
 }: UsefulLinkCardInterface) => {
   return (
-    <div className="card w-full bg-neutral text-neutral-content transition-transform hover:scale-105">
-      <div className="card-body gap-2 p-6">
-        <div className="flex items-center justify-end gap-x-2">
+    <div className="w-full transition-transform hover:scale-105 card bg-neutral text-neutral-content">
+      <div className="gap-2 p-6 card-body">
+        <div className="flex gap-x-2 justify-end items-center">
           <label htmlFor="editmodal">
             <AiFillEdit
-              className="h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+              className="w-6 h-6 transition-colors cursor-pointer hover:text-accent"
               onClick={() =>
                 setShowEditModal({
                   id,
@@ -41,7 +41,7 @@ const UsefulLinkCard = ({
           </label>
           <label htmlFor="deletemodal">
             <BsFillTrashFill
-              className="h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+              className="w-6 h-6 transition-colors cursor-pointer hover:text-accent"
               onClick={() =>
                 setShowEditModal({
                   id,
@@ -52,14 +52,14 @@ const UsefulLinkCard = ({
             />
           </label>
         </div>
-        <h3 className="truncate text-2xl">{title}</h3>
-        <a className="btn btn-accent btn-sm gap-x-2" href={link}>
-          Visit the website <BsGlobe className="h-4 w-4" />
+        <h3 className="text-2xl truncate">{title}</h3>
+        <a className="gap-x-2 btn btn-accent btn-sm" href={link}>
+          Visit the website <BsGlobe className="w-4 h-4" />
         </a>
-        <div className="flex items-center justify-evenly">
-          <div className="flex items-center gap-x-2">
+        <div className="flex justify-evenly items-center">
+          <div className="flex gap-x-2 items-center">
             {user_id.avatar_url ? (
-              <div className="mask mask-circle relative h-10 w-10 shrink-0">
+              <div className="relative w-10 h-10 mask mask-circle shrink-0">
                 <Image
                   src={user_id.avatar_url}
                   alt="avatar"
@@ -68,9 +68,9 @@ const UsefulLinkCard = ({
                 />
               </div>
             ) : (
-              <AiOutlineUserSwitch className="h-6 w-6" />
+              <AiOutlineUserSwitch className="w-6 h-6" />
             )}
-            <div className="hidden truncate sm:inline-flex">
+            <div className="hidden sm:inline-flex truncate">
               {user_id.username ?? "anonymous"}
             </div>
           </div>

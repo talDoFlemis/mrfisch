@@ -19,10 +19,10 @@ const Header = ({
       {" "}
       <Link href="/">
         <a>
-          <GiFriedFish className="h-8 w-8 cursor-pointer hover:text-accent sm:h-12 sm:w-12" />
+          <GiFriedFish className="w-8 h-8 cursor-pointer sm:w-12 sm:h-12 hover:text-accent" />
         </a>
       </Link>
-      <div className="grid w-1/2 grid-cols-3 place-items-center font-momcake">
+      <div className="grid grid-cols-3 place-items-center w-1/2 font-momcake">
         <Link href="/#create">
           <a
             className={cl(
@@ -57,7 +57,7 @@ const Header = ({
       <Link href="/codes">
         <a className="rounded-full border-none bg-white/20 font-momcake text-sm shadow hover:bg-[#522f54] hover:bg-opacity-50 hover:shadow-white sm:btn sm:space-x-4 sm:rounded-3xl md:text-xl">
           <p className="hidden sm:inline-flex">Explore</p>{" "}
-          <GiAstronautHelmet className="h-5 w-5 md:h-8 md:w-8" />
+          <GiAstronautHelmet className="w-5 h-5 md:w-8 md:h-8" />
         </a>
       </Link>
     </header>

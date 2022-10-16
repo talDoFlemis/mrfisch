@@ -16,16 +16,16 @@ const CopyLink = ({ link }: { link: string }) => {
 
   return (
     <CopyToClipboard text={link} onCopy={() => copied()}>
-      <div className="btn btn-primary btn-sm border-none transition-colors hover:text-white">
+      <div className="border-none transition-colors hover:text-white btn btn-primary btn-sm">
         {isCopied ? (
           <>
             <p>Copied</p>
-            <BsClipboardCheck className="h-6 w-6 " />
+            <BsClipboardCheck className="w-6 h-6" />
           </>
         ) : (
           <>
             <p>Copy Link</p>
-            <BsLink45Deg className="h-6 w-6 shadow-accent" />
+            <BsLink45Deg className="w-6 h-6 shadow-accent" />
           </>
         )}
       </div>

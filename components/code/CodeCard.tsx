@@ -33,12 +33,12 @@ const CodeCard = ({
 }: CodeCardProps) => {
   return (
     <div className={cl("card", className)}>
-      <div className="card-body justify-between text-neutral-content">
+      <div className="justify-between card-body text-neutral-content">
         <div>
-          <h1 className="text-center text-2xl font-bold">
+          <h1 className="text-2xl font-bold text-center">
             {hit ? <Highlight attribute="code_title" hit={hit} /> : code_title}
           </h1>
-          <p className="truncate pb-8 text-lg font-bold text-gray-400">
+          <p className="pb-8 text-lg font-bold text-gray-400 truncate">
             {hit ? (
               <Highlight attribute="description" hit={hit} />
             ) : (
@@ -47,19 +47,19 @@ const CodeCard = ({
           </p>
         </div>
         <div className="flex flex-col gap-y-3">
-          <div className="card-actions justify-end space-x-1">
+          <div className="justify-end space-x-1 card-actions">
             <Link href={`/codes/${id}`}>
-              <a className="btn btn-outline btn-sm gap-1 text-neutral-content transition-colors hover:border-primary hover:bg-primary-focus hover:text-primary-content">
+              <a className="gap-1 transition-colors btn btn-outline btn-sm text-neutral-content hover:border-primary hover:bg-primary-focus hover:text-primary-content">
                 <p className="hidden sm:inline-flex">View Code</p>
-                <AiOutlineEye className="h-6 w-6" />
+                <AiOutlineEye className="w-6 h-6" />
               </a>
             </Link>
             {code_block && <StealCodeButton code={code_block} toHide />}
           </div>
           <div className="grid grid-cols-3 place-items-center">
-            <div className="flex items-center gap-x-2 place-self-start self-center sm:place-self-auto">
+            <div className="flex gap-x-2 items-center self-center place-self-start sm:place-self-auto">
               {user?.avatar_url ? (
-                <div className="mask mask-circle relative h-8 w-8 shrink-0">
+                <div className="relative w-8 h-8 mask mask-circle shrink-0">
                   <Image
                     src={user.avatar_url}
                     alt="avatar"
@@ -68,14 +68,14 @@ const CodeCard = ({
                   />
                 </div>
               ) : (
-                <AiOutlineUserSwitch className="h-4 w-4" />
+                <AiOutlineUserSwitch className="w-4 h-4" />
               )}
-              <p className="hidden w-20 overflow-hidden text-ellipsis whitespace-nowrap sm:inline-flex">
+              <p className="hidden overflow-hidden w-20 whitespace-nowrap sm:inline-flex text-ellipsis">
                 {user?.username ?? "anonymous"}
               </p>
             </div>
             {updated_at ? <p>{moment(updated_at).fromNow()}</p> : <div></div>}
-            <div className="flex items-center gap-x-2">
+            <div className="flex gap-x-2 items-center">
               <div
                 className={cl(
                   "h-2 w-2 rounded-full",
@@ -86,7 +86,7 @@ const CodeCard = ({
             </div>
           </div>
           {tags && (
-            <div className="item-center flex flex-wrap justify-center gap-2 pt-2">
+            <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
               {tags?.map((tag, index: number) => (
                 <div key={index} className="badge badge-secondary shrink-0">
                   {tag}

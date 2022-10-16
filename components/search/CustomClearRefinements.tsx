@@ -12,11 +12,11 @@ const CustomClearRefinements = ({
     <>
       {canRefine ? (
         <BiReset
-          className="h-6 w-6 cursor-pointer hover:text-accent"
+          className="w-6 h-6 cursor-pointer hover:text-accent"
           onClick={() => refine()}
         />
       ) : (
-        <BiReset className="h-6 w-6 text-neutral-focus" />
+        <BiReset className="w-6 h-6 text-neutral-focus" />
       )}
     </>
   );

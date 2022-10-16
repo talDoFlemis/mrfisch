@@ -250,11 +250,16 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
         </div>
       </div>
       {initialValues?.user?.id === user?.user?.id ? (
-        <button type="submit" className="btn btn-accent">
+        <button type="submit" className="max-w-md btn btn-accent">
           Create
         </button>
       ) : (
-        <button type="submit" className="btn btn-accent" disabled aria-disabled>
+        <button
+          type="submit"
+          className="max-w-md btn btn-accent"
+          disabled
+          aria-disabled
+        >
           Create
         </button>
       )}

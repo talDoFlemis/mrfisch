@@ -3,7 +3,7 @@ import { GithubInterface } from "typings";
 
 const AboutSection = ({ profile }: { profile: GithubInterface }) => {
   return (
-    <div id="about" className="relative h-max w-full text-white sm:h-screen">
+    <div id="about" className="relative w-full text-white sm:h-screen h-max">
       <Image
         src="/img/space3.jpg"
         alt="space"
@@ -13,10 +13,10 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
         quality={80}
         className="select-none"
       />
-      <div className="relative z-10 flex h-full items-center justify-center bg-gradient-to-t from-black/80 via-transparent to-black/90 p-4">
-        <div className="container card bg-neutral shadow-2xl xl:w-1/2">
-          <div className="card-body  grid grid-cols-1 grid-rows-6 place-items-center gap-4 sm:grid-cols-5 sm:grid-rows-3">
-            <div className="sm:col-span-4 ">
+      <div className="flex relative z-10 justify-center items-center p-4 h-full bg-gradient-to-t via-transparent from-black/80 to-black/90">
+        <div className="container shadow-2xl xl:w-1/2 card bg-neutral">
+          <div className="grid grid-cols-1 grid-rows-6 gap-4 place-items-center sm:grid-cols-5 sm:grid-rows-3 card-body">
+            <div className="sm:col-span-4">
               <h1 className="text-xl font-bold md:text-2xl">
                 No, I&apos;m not Mr Fisch
               </h1>
@@ -27,7 +27,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
               </p>
             </div>
             <a
-              className="mask mask-circle relative h-full w-full cursor-pointer transition-transform hover:scale-110"
+              className="relative w-full h-full transition-transform cursor-pointer hover:scale-110 mask mask-circle"
               href={profile.html_url}
             >
               <Image
@@ -37,7 +37,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
                 alt="mr flemis"
               />
             </a>
-            <div className="relative row-start-4 h-full w-full sm:row-start-auto">
+            <div className="relative row-start-4 w-full h-full sm:row-start-auto">
               <Image
                 src="/img/pepe.png"
                 layout="fill"
@@ -61,7 +61,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
                 enjoy it 👍
               </p>
             </div>
-            <div className="relative h-full w-full">
+            <div className="relative w-full h-full">
               <Image
                 src="/img/chad.png"
                 layout="fill"

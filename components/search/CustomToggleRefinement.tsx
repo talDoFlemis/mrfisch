@@ -12,7 +12,7 @@ const CustomToggleRefinement = ({ attribute }: CustomToggleRefinementProps) => {
     <div className="flex justify-center">
       <div className="form-check form-switch">
         <input
-          className="form-check-input float-left  h-5 w-9 cursor-pointer appearance-none rounded-full bg-white bg-contain bg-no-repeat  align-top shadow-sm focus:outline-none"
+          className="float-left w-9 h-5 align-top bg-white bg-no-repeat bg-contain rounded-full shadow-sm appearance-none cursor-pointer focus:outline-none form-check-input"
           type="checkbox"
           role="switch"
           id="flexSwitchCheckDefault"
@@ -20,7 +20,7 @@ const CustomToggleRefinement = ({ attribute }: CustomToggleRefinementProps) => {
           onChange={(event) => refine({ isRefined: !event.target.checked })}
         />
         <label
-          className="form-check-label inline-block text-gray-800"
+          className="inline-block text-gray-800 form-check-label"
           htmlFor="flexSwitchCheckDefault"
         >
           {value.isRefined ? "Public" : "Private"}

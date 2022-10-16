@@ -35,7 +35,7 @@ const Home = ({ data }: indexProps) => {
   }, []);
 
   return (
-    <main className="h-max w-full">
+    <main className="w-full h-max">
       <Head>
         <title>Mr Fisch</title>
       </Head>
