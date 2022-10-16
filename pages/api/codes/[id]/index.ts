@@ -44,7 +44,7 @@ export default async function handler(
         supabaseData.is_public = true;
       }
 
-      let algoliaData: AlgoliaInterface = {
+      const algoliaData: AlgoliaInterface = {
         objectID: "",
         code_title: supabaseData.code_title,
         description: supabaseData.description,

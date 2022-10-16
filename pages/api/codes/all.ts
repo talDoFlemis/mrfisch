@@ -13,7 +13,7 @@ export default async function handler(
   switch (method) {
     case "GET": {
       try {
-        let { data, error } = await supabase
+        const { data, error } = await supabase
           .from("codes")
           .select(`*, user(*)`)
           .order("updated_at", { ascending: false });
@@ -36,7 +36,7 @@ export default async function handler(
         supabaseData.is_public = true;
       }
 
-      let algoliaData: AlgoliaInterface = {
+      const algoliaData: AlgoliaInterface = {
         objectID: "",
         code_title: supabaseData.code_title,
         description: supabaseData.description,

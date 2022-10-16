@@ -12,12 +12,12 @@ const schema = yup
   })
   .required();
 
-interface AddLinkModalInterface {
+interface AddLinkModalProps {
   user_id: string;
-  getLinks: () => {};
+  getLinks: () => void;
 }
 
-const AddLinkModal = ({ user_id, getLinks }: AddLinkModalInterface) => {
+const AddLinkModal = ({ user_id, getLinks }: AddLinkModalProps) => {
   const {
     register,
     handleSubmit,
@@ -46,23 +46,23 @@ const AddLinkModal = ({ user_id, getLinks }: AddLinkModalInterface) => {
     <>
       <input type="checkbox" id="addmodal" className="modal-toggle" />
       <label htmlFor="addmodal" className="modal">
-        <div className="modal-box flex flex-col items-center justify-center bg-neutral">
+        <div className="flex flex-col justify-center items-center modal-box bg-neutral">
           <h3 className="w-full text-2xl">Creating new link</h3>
           <form
             onSubmit={handleSubmit(createLink)}
-            className="form-control w-full"
+            className="w-full form-control"
           >
             <div className="flex flex-col justify-self-start">
               <div>
-                <label className="label justify-start text-xl font-bold sm:text-2xl">
+                <label className="justify-start text-xl font-bold sm:text-2xl label">
                   Title{" "}
                 </label>
                 {errors.title && (
-                  <label className="label pt-0 font-bold text-error">
+                  <label className="pt-0 font-bold label text-error">
                     {errors.title?.message}
                   </label>
                 )}
-                <label className="label pt-0">
+                <label className="pt-0 label">
                   <span className="label-text">Add the link title</span>
                 </label>{" "}
               </div>
@@ -72,15 +72,15 @@ const AddLinkModal = ({ user_id, getLinks }: AddLinkModalInterface) => {
                 className="input input-bordered input-primary bg-neutral"
               />{" "}
               <div>
-                <label className="label justify-start text-xl font-bold sm:text-2xl">
+                <label className="justify-start text-xl font-bold sm:text-2xl label">
                   Link{" "}
                 </label>
                 {errors.link && (
-                  <label className="label pt-0 font-bold text-error">
+                  <label className="pt-0 font-bold label text-error">
                     {errors.link?.message}
                   </label>
                 )}
-                <label className="label pt-0">
+                <label className="pt-0 label">
                   <span className="label-text">Enter the link</span>
                 </label>{" "}
               </div>

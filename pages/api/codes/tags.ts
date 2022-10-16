@@ -10,16 +10,16 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        let { data, error } = await supabase
+        const { data, error } = await supabase
           .from("codes")
           .select("tags")
           .not("tags", "is", null);
 
         if (error) throw error.message;
 
-        let s = new Set();
+        const s = new Set();
         data?.map(({ tags }) => tags.forEach((tag: string) => s.add(tag)));
-        let allTags = Array.from(s);
+        const allTags = Array.from(s);
 
         res.setHeader(
           "Cache-Control",

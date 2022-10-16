@@ -12,7 +12,7 @@ interface EditLinkModalProps {
   link: string;
   title: string;
   user_id: string;
-  getLinks: () => {};
+  getLinks: () => void;
 }
 
 const schema = yup
@@ -73,19 +73,19 @@ const EditLinkModal = ({
           <form onSubmit={handleSubmit(updateLink)}>
             <div className="flex flex-col justify-self-start">
               <div>
-                <label className="label justify-start text-xl font-bold sm:text-2xl">
+                <label className="justify-start text-xl font-bold sm:text-2xl label">
                   Title{" "}
                   <BiReset
-                    className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+                    className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
                     onClick={() => resetField("title")}
                   />
                 </label>
                 {errors.title && (
-                  <label className="label pt-0 font-bold text-error">
+                  <label className="pt-0 font-bold label text-error">
                     {errors.title?.message}
                   </label>
                 )}
-                <label className="label pt-0">
+                <label className="pt-0 label">
                   <span className="label-text">Add the link title</span>
                 </label>{" "}
               </div>
@@ -95,19 +95,19 @@ const EditLinkModal = ({
                 className="input input-bordered input-primary bg-neutral"
               />{" "}
               <div>
-                <label className="label justify-start text-xl font-bold sm:text-2xl">
+                <label className="justify-start text-xl font-bold sm:text-2xl label">
                   Link{" "}
                   <BiReset
-                    className="ml-4 h-6 w-6 cursor-pointer transition-colors hover:text-accent"
+                    className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
                     onClick={() => resetField("link")}
                   />
                 </label>
                 {errors.link && (
-                  <label className="label pt-0 font-bold text-error">
+                  <label className="pt-0 font-bold label text-error">
                     {errors.link?.message}
                   </label>
                 )}
-                <label className="label pt-0">
+                <label className="pt-0 label">
                   <span className="label-text">Enter the link</span>
                 </label>{" "}
               </div>
