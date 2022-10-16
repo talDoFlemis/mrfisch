@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <div className="flex drawer-content">{children}</div>
         <aside className="drawer-side">
           <label htmlFor="drawer" className="drawer-overlay"></label>
-          <ul className="overflow-y-auto justify-center items-center p-4 w-48 menu bg-base-100 text-base-content">
+          <ul className="overflow-y-auto justify-center items-center p-1 w-40 sm:p-4 sm:w-48 menu bg-base-100 text-base-content">
             <Link href="/">
               <a className="absolute top-4 text-xl italic transition-colors font-spaceRave text-base-content hover:text-accent">
                 Mr fisch

@@ -32,7 +32,7 @@ const Codes: NextPageWithLayout = () => {
         <title>All Codes • Mr Fisch</title>
       </Head>
       <CodesHeader user={userData} />
-      <h1 className="p-4 text-2xl font-light sm:text-3xl md:text-4xl text-base-content">
+      <h1 className="p-4 text-4xl font-light text-base-content">
         Welcome,{" "}
         <span className="font-spaceRave text-primary">
           {" "}
