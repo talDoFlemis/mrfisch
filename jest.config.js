@@ -7,6 +7,7 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleDirectories: ["node_modules", "<rootDir>/"],
+  resolver: "<rootDir>/.jest/resolver.js",
   moduleNameMapper: {
     "^@components/(.*)$": "<rootDir>/components/$1",
     "^@layout/(.*)$": ["<rootDir>/components/layout/$1"],

@@ -2,17 +2,19 @@ import { CodeInterface } from "../../typings";
 import CodeCard from "./CodeCard";
 import LoadingComponent from "@components/layout/LoadingComponent";
 import { useQuery } from "hooks/useQuery";
+import { toast } from "react-toastify";
 
 const CodesList = () => {
   const { data: codes, error } = useQuery<CodeInterface[]>("/api/codes/all");
-
   if (!codes && !error) {
     return (
       <div className="flex justify-center items-center h-3/5">
-        <LoadingComponent className="w-16 h-16 text-red-500" />
+        <LoadingComponent className="w-16 h-16 text-accent" />
       </div>
     );
   }
+
+  if (error) toast.error(`Failed to fetch codes, ${error}`);
 
   return (
     <>

@@ -1,10 +1,12 @@
 import React from "react";
-import Spinner from "@svgs/trailSpinner.svg";
 import cl from "clsx";
+import TrailSpinner from "@components/svgs/TrailSpinner";
 
 function LoadingComponent({ className }: { className?: string }) {
   return (
-    <Spinner className={cl("mx-auto my-auto text-base-content", className)} />
+    <TrailSpinner
+      className={cl("mx-auto my-auto text-base-content", className)}
+    />
   );
 }
 

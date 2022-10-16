@@ -53,7 +53,7 @@ describe("testing the code card", () => {
     expect(screen.getByText(/anonymous/i)).toBeInTheDocument();
   });
 
-  it("Renders flemis username", () => {
+  it("Renders an username", () => {
     const userData: UserInterface = {
       id: "",
       avatar_url: "",
