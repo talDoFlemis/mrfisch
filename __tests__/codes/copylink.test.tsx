@@ -5,6 +5,12 @@ import { ToastContainer } from "react-toastify";
 
 const user = userEvent.setup();
 
+Object.defineProperty(navigator, "clipboard", {
+  value: {
+    writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+  },
+});
+
 beforeEach(() => {
   render(
     <>
@@ -14,11 +20,7 @@ beforeEach(() => {
   );
 });
 
-Object.defineProperty(navigator, "clipboard", {
-  value: {
-    writeText: jest.fn().mockImplementation(() => Promise.resolve()),
-  },
-});
+afterEach(() => jest.clearAllMocks());
 
 describe("Testing the copy link btn", () => {
   it("Should render a btn with copy link text", () => {
@@ -38,6 +40,7 @@ describe("Testing the copy link btn", () => {
   it("Should write the clipboard data with the link mrfisch.com", async () => {
     await user.click(getLinkBtn());
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("mrfisch.com");
+    expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(1);
   });
 });
 

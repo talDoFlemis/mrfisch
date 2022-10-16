@@ -12,8 +12,9 @@ const StealCodeButton = ({
   toHide?: boolean;
 }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const copied = () => {
+  const copyToClipboard = () => {
     setIsCopied(true);
+    navigator.clipboard.writeText(code);
     toast.info("Code copied with success", { theme: "dark" });
 
     setTimeout(() => {
@@ -22,21 +23,22 @@ const StealCodeButton = ({
   };
 
   return (
-    <CopyToClipboard text={code} onCopy={() => copied()}>
-      <button className="border-none shadow btn btn-sm bg-accent text-accent-content hover:bg-accent-focus hover:text-accent-content hover:shadow-white">
-        {isCopied ? (
-          <>
-            <p className={`${toHide && "hidden sm:inline-flex"}`}>Copied</p>
-            <BsClipboardCheck className="w-6 h-6" />
-          </>
-        ) : (
-          <>
-            <p className={`${toHide && "hidden sm:inline-flex"}`}>Steal Code</p>
-            <GiDaemonSkull className="w-6 h-6 transition-colors duration-300 shadow-accent" />
-          </>
-        )}
-      </button>
-    </CopyToClipboard>
+    <button
+      onClick={() => copyToClipboard()}
+      className="border-none shadow btn btn-sm bg-accent text-accent-content hover:bg-accent-focus hover:text-accent-content hover:shadow-white"
+    >
+      {isCopied ? (
+        <>
+          <p className={`${toHide && "hidden sm:inline-flex"}`}>Copied</p>
+          <BsClipboardCheck className="w-6 h-6" />
+        </>
+      ) : (
+        <>
+          <p className={`${toHide && "hidden sm:inline-flex"}`}>Steal Code</p>
+          <GiDaemonSkull className="w-6 h-6 transition-colors duration-300 shadow-accent" />
+        </>
+      )}
+    </button>
   );
 };
 
