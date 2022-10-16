@@ -171,7 +171,9 @@ const getDescription = () => {
 };
 
 const getCodeLang = () => {
-  return screen.getByRole("combobox", { name: /code language/i });
+  return screen.getByRole("combobox", {
+    name: /pick the language of the code/i,
+  });
 };
 
 const selectCodeLang = async (lang: string) => {

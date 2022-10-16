@@ -11,7 +11,7 @@ const LanguageSelector = ({
 }: LanguageSelectorProps) => {
   return (
     <div className="form-control">
-      <label className="label-text" id="language">
+      <label className="label-text" htmlFor="language">
         Pick the language of the code
       </label>{" "}
       <select

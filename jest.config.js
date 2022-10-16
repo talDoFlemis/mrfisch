@@ -5,8 +5,8 @@ const createJestConfig = nextJest({
 });
 
 const customJestConfig = {
+  preset: "ts-jest",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-  resolver: "<rootDir>/.jest/resolver.js",
   moduleDirectories: ["node_modules", "<rootDir>/"],
   moduleNameMapper: {
     "^@components/(.*)$": "<rootDir>/components/$1",

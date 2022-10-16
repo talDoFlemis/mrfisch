@@ -3,6 +3,7 @@ import { createMockRouter } from "@test-utils/createMockRouter";
 import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RouterContext } from "next/dist/shared/lib/router-context";
+import { UserInterface } from "typings";
 
 const user = userEvent.setup();
 
@@ -28,6 +29,60 @@ describe("Testing the CodesHeader without any user", () => {
       shallow: undefined,
     });
     expect(router.push).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("Testing the CodesHeader with user data", () => {
+  it("Renders a header with a new user", async () => {
+    const user: UserInterface = {
+      id: "222",
+      avatar_url: "https://gmltbufzxjrgpbxxywpk.supabase.co/coolpick.png",
+      username: "taldoflemis",
+      updated_at: new Date(Date.now()),
+      is_port: false,
+      is_new: true,
+    };
+
+    await act(async () => {
+      render(<CodesHeader user={user} />);
+    });
+
+    expect(
+      screen.getByRole("link", { name: /your profile need to be updated/i })
+    ).toBeInTheDocument();
+    expect(screen.getByAltText("avatar")).toBeInTheDocument();
+  });
+
+  it("Renders a header with a user without image", async () => {
+    const user: UserInterface = {
+      id: "222",
+      avatar_url: "",
+      username: "taldoflemis",
+      updated_at: new Date(Date.now()),
+      is_port: false,
+      is_new: true,
+    };
+
+    await act(async () => {
+      render(<CodesHeader user={user} />);
+    });
+
+    expect(screen.queryByAltText("avatar")).not.toBeInTheDocument();
+  });
+
+  it("Renders a dropdown", async () => {
+    const user: UserInterface = {
+      id: "222",
+      avatar_url: "",
+      username: "taldoflemis",
+      updated_at: new Date(Date.now()),
+      is_port: false,
+      is_new: true,
+    };
+
+    await act(async () => {
+      render(<CodesHeader user={user} />);
+    });
   });
 });
 
