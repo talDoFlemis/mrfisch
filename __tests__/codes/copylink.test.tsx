@@ -37,6 +37,8 @@ describe("Testing the copy link btn", () => {
     expect(await screen.findByRole("alert")).toBeInTheDocument();
   });
 
+  it.todo("Should restore to steal code text after clicked");
+
   it("Should write the clipboard data with the link mrfisch.com", async () => {
     await user.click(getLinkBtn());
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith("mrfisch.com");

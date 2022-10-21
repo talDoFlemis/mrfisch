@@ -1,4 +1,3 @@
-import CopyLink from "@components/code/CopyLink";
 import StealCodeButton from "@components/code/StealCodeButton";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -38,6 +37,8 @@ describe("Testing the Steal Code Btn", () => {
     await user.click(getStealBtn());
     expect(await screen.findByRole("alert")).toBeInTheDocument();
   });
+
+  it.todo("Should restore to steal code text after clicked");
 
   it("Should write the clipboard data with the code", async () => {
     await user.click(getStealBtn());
