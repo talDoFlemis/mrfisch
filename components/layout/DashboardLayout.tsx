@@ -32,7 +32,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   )}
                 >
                   <HiCode className="w-6 h-6" />
-                  <p>All Codes</p>
+                  <p>all codes</p>
                 </a>
               </Link>
               <Link href="/create/">
@@ -80,7 +80,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   )}
                 >
                   <MdSettings className="w-6 h-6" />
-                  <p>Settings</p>
+                  <p>settings</p>
                 </a>
               </Link>
             </div>
