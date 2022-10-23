@@ -25,17 +25,18 @@ const TrendingCodes = () => {
             <CodeCard
               key={code.id}
               id={code.id}
-              codeTitle={code.codeTitle}
+              code_title={code.code_title}
               description={code.description}
-              updatedAt={code.updatedAt}
-              codeBlock={code.codeBlock}
+              updated_at={code.updated_at}
+              code_block={code.code_block}
               user={code.user}
               className="min-h-52 bg-neutral"
               tags={code.tags}
               hit={undefined}
-              createdAt={code.createdAt}
+              inserted_at={code.inserted_at}
               language={code.language}
-              numberOfHits={code.numberOfHits}
+              number_views={code.number_views}
+              favorited_by={[]}
             />
           ))}
         </div>

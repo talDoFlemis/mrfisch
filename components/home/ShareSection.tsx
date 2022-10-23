@@ -55,7 +55,7 @@ while true:
                       View Code
                     </a>
                   </Link>
-                  <StealCodeButton code={mockedInput.code_block} />
+                  <StealCodeButton code={mockedInput.code_block} codeId="" />
                 </div>
                 <div className="grid grid-cols-3 place-items-center font-momcake">
                   <div className="flex relative gap-x-2 items-center">
