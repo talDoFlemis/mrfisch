@@ -15,11 +15,11 @@ interface CodeCardProps extends CodeInterface {
 const CodeCard = ({
   id,
   user,
-  codeTitle,
+  code_title,
   language,
   description,
-  updatedAt,
-  codeBlock,
+  updated_at,
+  code_block,
   className,
   tags,
   hit,
@@ -29,7 +29,7 @@ const CodeCard = ({
       <div className="justify-between card-body text-neutral-content">
         <div>
           <h1 className="text-xl font-bold text-center">
-            {hit ? <Highlight attribute="codeTitle" hit={hit} /> : codeTitle}
+            {hit ? <Highlight attribute="code_title" hit={hit} /> : code_title}
           </h1>
           <p className="pb-8 text-lg font-bold text-gray-400 truncate">
             {hit ? (
@@ -47,8 +47,8 @@ const CodeCard = ({
                 <AiOutlineEye className="w-6 h-6" />
               </a>
             </Link>
-            {codeBlock && (
-              <StealCodeButton code={codeBlock} codeId={id} toHide />
+            {code_block && (
+              <StealCodeButton code={code_block} codeId={id} toHide />
             )}
           </div>
           <div className="grid grid-cols-3 place-items-center">
@@ -69,8 +69,8 @@ const CodeCard = ({
                 {user?.name ?? "anonymous"}
               </small>
             </div>
-            {updatedAt ? (
-              <p className="text-center">{moment(updatedAt).fromNow()}</p>
+            {updated_at ? (
+              <p className="text-center">{moment(updated_at).fromNow()}</p>
             ) : (
               <div></div>
             )}
@@ -78,9 +78,9 @@ const CodeCard = ({
           </div>
           {tags && (
             <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
-              {tags?.map((tag) => (
-                <div key={tag.id} className="badge badge-secondary shrink-0">
-                  {tag.tagName}
+              {tags?.map((tag, index) => (
+                <div key={index} className="badge badge-secondary shrink-0">
+                  {tag}
                 </div>
               ))}
             </div>

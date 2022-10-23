@@ -12,7 +12,7 @@ export default async function handler(
       try {
         const data = await prisma.code.findMany({
           include: { user: true },
-          orderBy: { numberOfHits: "desc" },
+          orderBy: { number_views: "desc" },
           take: 6,
         });
 
@@ -30,7 +30,7 @@ export default async function handler(
       try {
         await prisma.code.update({
           where: { id: body.id },
-          data: { numberOfHits: { increment: 1 } },
+          data: { number_views: { increment: 1 } },
         });
 
         res.status(201).json("Code updated with success");

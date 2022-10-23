@@ -27,7 +27,7 @@ const CodesHeader = ({ user }: { user?: Session["user"] }) => {
         </div>
       ) : (
         <div className="flex justify-end items-center">
-          <Link href="/login">
+          <Link href="/api/auth/signin">
             <a className="space-x-2 border-none btn">
               <p>login</p>
               <AiOutlineUser className="w-6 h-6" />

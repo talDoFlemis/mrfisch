@@ -37,12 +37,15 @@ const Hit = ({ hit }: any) => {
       id={hit.objectID}
       code_title={hit.code_title}
       description={hit.description}
-      is_public={hit.is_public}
       user={hit.user}
       tags={hit._tags}
       updated_at={hit.updated_at}
       className="h-full min-h-52 bg-neutral"
       hit={hit}
+      inserted_at={hit.inserted_at}
+      language={hit.language}
+      number_views={hit.number_views}
+      favorited_by={[]}
     />
   );
 };
@@ -71,8 +74,8 @@ const Search = () => {
             <HiOutlineMenu className="w-6 h-6" />
           </label>
         </div>
-        <div className="flex gap-4 p-4">
-          <div className="hidden flex-col rounded-lg sm:flex sm:w-1/3 lg:w-1/4 h-fit bg-neutral">
+        <div className="flex gap-4 p-4 w-full">
+          <div className="hidden flex-col w-60 rounded-lg sm:flex h-fit bg-neutral">
             <div className="flex justify-between items-center p-4">
               <h2 className="text-3xl">Filters</h2>
               <CustomClearRefinements />

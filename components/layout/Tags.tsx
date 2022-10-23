@@ -22,9 +22,7 @@ const baseTagifySettings = {
 
 const TagSystem = ({ initialValues = [], onChange }: TagsProps) => {
   const { data: tags, error } = useQuery<string[]>("/api/codes/tags", false);
-  if (error) {
-    toast.error("Unable to fetch tags", { theme: "dark" });
-  }
+  if (error) toast.error("Unable to fetch tags");
 
   const settings = {
     ...baseTagifySettings,

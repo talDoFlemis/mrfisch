@@ -1,10 +1,9 @@
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -13,35 +12,29 @@ model Link {
   title     String
   url       String
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+  @@map("links")
 }
 
 model Code {
   id            String   @id @default(cuid())
   userId        String?
-  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  codeTitle     String   @db.Text
+  inserted_at   DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  code_title    String
   description   String?
-  codeBlock     String
+  code_block    String
   language      String
-  documentation String?  @db.Text
-  numberOfHits  Int      @default(0)
-  tags          Tag[]    
+  documentation String?
+  number_views  Int      @default(0)
+  tags          String[]
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorited_by  User[]   @relation("favorite_codes")
 
   @@index([userId])
-}
-
-model Tag {
-  id      String @id @default(cuid())
-  tagName String
-  codes   Code[] 
-
-  @@index([tagName])
+  @@map("codes")
 }
 
 model Account {
@@ -50,16 +43,17 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("accounts")
 }
 
 model Session {
@@ -68,20 +62,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  links         Link[]
-  role          Role      @default(NORMAL)
-  favoriteCodes Code[]
-  isNew         Boolean   @default(true)
+  @@map("sessions")
 }
 
 model VerificationToken {
@@ -90,15 +72,23 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("verificationTokens")
 }
 
-model CodeToTag {
-  A String
-  B String
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  isNew          Boolean   @default(true)
+  role           Role      @default(NORMAL)
+  accounts       Account[]
+  codes          Code[]
+  sessions       Session[]
+  favorite_codes Code[]    @relation("favorite_codes")
 
-  @@unique([A, B], map: "_CodeToTag_AB_unique")
-  @@index([B], map: "_CodeToTag_B_index")
-  @@map("_CodeToTag")
+  @@map("users")
 }
 
 enum Role {

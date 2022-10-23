@@ -8,12 +8,12 @@ import React, { useEffect } from "react";
 import { CodeInterface } from "typings";
 import { BiReset } from "react-icons/bi";
 import Tags from "@components/layout/Tags";
-import { UserState } from "@supabase/auth-helpers-shared";
+import { Session } from "next-auth";
 
 const schema = yup
   .object({
-    codeTitle: yup.string().required("Title is a required field"),
-    codeBlock: yup.string().required("Code block is a required field"),
+    code_title: yup.string().required("Title is a required field"),
+    code_block: yup.string().required("Code block is a required field"),
     description: yup.string(),
     documentation: yup.string(),
     tags: yup.array().min(0),
@@ -23,12 +23,8 @@ const schema = yup
 
 interface CodeFormProps {
   postOperation: any;
-  initialValues?: CustomCodeInterface;
-  user?: UserState;
-}
-
-interface CustomCodeInterface extends Omit<CodeInterface, "tags"> {
-  tags: string[];
+  initialValues?: CodeInterface;
+  user?: Session["user"];
 }
 
 const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
@@ -39,12 +35,12 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
     resetField,
     reset,
     formState: { errors },
-  } = useForm<CustomCodeInterface>({
+  } = useForm<CodeInterface>({
     resolver: yupResolver(schema),
     defaultValues: {
-      codeTitle: initialValues?.codeTitle ?? "",
+      code_title: initialValues?.code_title ?? "",
       description: initialValues?.description ?? "",
-      codeBlock: initialValues?.codeBlock ?? "",
+      code_block: initialValues?.code_block ?? "",
       tags: initialValues?.tags ?? [],
       language: initialValues?.language ?? "c",
       documentation: initialValues?.documentation ?? "",
@@ -52,10 +48,12 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
     mode: "onBlur",
   });
 
+  console.log(user);
+
   useEffect(() => {
     if (initialValues) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { updatedAt, createdAt, user, ...data } = initialValues;
+      const { updated_at, inserted_at, user, ...data } = initialValues;
 
       reset(data);
     }
@@ -88,15 +86,15 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
           Title{" "}
           <BiReset
             className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
-            onClick={() => resetField("codeTitle")}
+            onClick={() => resetField("code_title")}
           />
         </label>
-        {errors.codeTitle && (
+        {errors.code_title && (
           <span
             className="pt-0 font-bold label text-accent"
             id="code-title-error"
           >
-            {errors.codeTitle?.message}
+            {errors.code_title?.message}
           </span>
         )}
         <small className="pt-0 label" id="code-title-help">
@@ -108,8 +106,8 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
         placeholder="Enter code title"
         aria-describedby="code-title-help"
         aria-errormessage="code-title-error"
-        aria-invalid={errors?.codeTitle ? true : false}
-        {...register("codeTitle")}
+        aria-invalid={errors?.code_title ? true : false}
+        {...register("code_title")}
         className="input input-bordered input-primary bg-neutral"
       />{" "}
       <div>
@@ -161,7 +159,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
             Code
             <BiReset
               className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
-              onClick={() => reset({ codeBlock: "", language: "css" })}
+              onClick={() => reset({ code_block: "", language: "css" })}
             />
           </h1>
           <div className="flex flex-col gap-y-4 justify-between items-center sm:flex-row">
@@ -178,19 +176,19 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
             />
           </div>
           <div>
-            {errors.codeBlock && (
+            {errors.code_block && (
               <span
                 className="pb-0 font-bold label text-accent"
                 id="code-block-error"
               >
-                {errors.codeBlock?.message}
+                {errors.code_block?.message}
               </span>
             )}
             <label htmlFor="code-block">Code Block</label>
             <div className="flex flex-col mt-2 lg:flex-row">
               <Controller
                 control={control}
-                name="codeBlock"
+                name="code_block"
                 render={({ field: { value, onChange } }) => (
                   <AutoSizeTextarea
                     setText={onChange}
@@ -198,13 +196,13 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
                     className="w-full"
                     id="code-block"
                     errormessage="code-block-error"
-                    error={errors.codeBlock ? true : false}
+                    error={errors.code_block ? true : false}
                   />
                 )}
               />
               <CodeHighlighter
                 language={useWatch({ control, name: "language" })}
-                input={useWatch({ control, name: "codeBlock" })}
+                input={useWatch({ control, name: "code_block" })}
                 className="text-xs lg:w-full"
               />
             </div>
@@ -237,14 +235,17 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
           </div>
         </div>
       </div>
-      {initialValues?.user?.id === user?.user?.id ? (
-        <button type="submit" className="max-w-md btn btn-accent">
+      {initialValues?.user?.id === user?.id ? (
+        <button
+          type="submit"
+          className="self-center w-60 sm:w-80 btn btn-accent"
+        >
           Create
         </button>
       ) : (
         <button
           type="submit"
-          className="max-w-md btn btn-accent"
+          className="self-center w-60 sm:w-80 btn btn-accent"
           disabled
           aria-disabled
         >

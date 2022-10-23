@@ -53,7 +53,7 @@ const CodeView = () => {
   return (
     <main className="flex flex-col w-full h-max font-raleway">
       <Head>
-        <title>{code?.codeTitle ?? "Code"} • Mr Fisch</title>
+        <title>{code?.code_title ?? "Code"} • Mr Fisch</title>
       </Head>
       <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
         <Link href="/codes/">
@@ -70,7 +70,7 @@ const CodeView = () => {
         </label>
       </div>
       <DeleteLinkModal
-        title={code?.codeTitle as string}
+        title={code?.code_title as string}
         deleteOP={() => deleteCode()}
       />
       {!code ? (
@@ -81,14 +81,14 @@ const CodeView = () => {
         <div className="p-4">
           <div className="flex flex-col gap-8 justify-between lg:flex-row">
             <CodeHighlighter
-              input={code!.codeBlock}
+              input={code!.code_block as string}
               language={code.language}
               className="text-xs lg:w-full bg-neutral"
             />
             <div className="text-xs lg:w-1/4 card h-fit bg-neutral text-neutral-content">
               <div className="card-body">
                 <h1 className="text-base font-bold text-center">
-                  {code?.codeTitle}
+                  {code?.code_title}
                 </h1>
                 <p className="whitespace-pre-wrap break-words">
                   {code?.description}
@@ -102,13 +102,13 @@ const CodeView = () => {
                 <div className="flex justify-between items-center">
                   <p>Created</p>
                   <p className="text-right">
-                    {moment(code?.createdAt).format("L")}
+                    {moment(code?.inserted_at).format("L")}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p>Last updated</p>
                   <p className="text-right">
-                    {moment(code?.updatedAt).fromNow()}
+                    {moment(code?.updated_at).fromNow()}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
@@ -118,13 +118,16 @@ const CodeView = () => {
                 <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
                   {code.tags?.map((tag, index) => (
                     <div key={index} className="badge badge-secondary shrink-0">
-                      {tag.tagName}
+                      {tag}
                     </div>
                   ))}
                 </div>
                 <div className="divider"></div>
                 <CopyLink link={linkToCopy} />
-                <StealCodeButton code={code.codeBlock} codeId={code.id} />
+                <StealCodeButton
+                  code={code!.code_block as string}
+                  codeId={code.id}
+                />
                 {session?.user?.id === code?.user?.id ? (
                   <Link href={`/codes/${router.query.id}/edit`}>
                     <a className="gap-2 justify-center text-black bg-white border-none shadow transition-colors hover:text-white btn btn-sm hover:bg-base-300">

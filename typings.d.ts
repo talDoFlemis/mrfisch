@@ -30,25 +30,19 @@ declare module "next-auth" {
 }
 
 export interface CodeInterface {
-  codeTitle: string;
   id: string;
   userId?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  codeTitle: string;
+  inserted_at: Date;
+  updated_at: Date;
+  code_title: string;
   description?: string;
-  codeBlock: string;
+  code_block: string;
   language: string;
   documentation?: string;
-  numberOfHits: number;
+  number_views: number;
   user?: User;
-  tags?: TagsInterface[];
-}
-
-export interface TagsInterface {
-  id: string;
-  tagName: string;
-  codes: CodeInterface[];
+  tags?: string[] | null;
+  favorited_by: User[];
 }
 
 export interface UsefulLinkInterface {
@@ -136,11 +130,11 @@ interface UsefulLinkModalData {
 
 export interface AlgoliaInterface {
   objectID: string;
-  codeTitle: string;
+  code_title: string;
   description: string;
   _tags: string[];
   language: string;
-  updatedAt: Date;
+  updated_at: Date;
   user: { name: string | null; image: string | null };
-  updateAtTimestamp: number;
+  updated_at_timestamp: number;
 }

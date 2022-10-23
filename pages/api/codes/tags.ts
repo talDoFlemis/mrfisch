@@ -10,9 +10,14 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const data = await prisma.tag.findMany({});
+        const s = new Set();
+        const data = await prisma.code.findMany({});
+        data?.map(({ tags }) => {
+          if (Array.isArray(tags)) tags.forEach((tag) => s.add(tag));
+        });
+        const allTags = Array.from(s);
+        console.log(allTags);
 
-        const allTags = data.map((tag) => tag.tagName);
         res.setHeader(
           "Cache-Control",
           "s-maxage=60, stale-while-revalidate=120"

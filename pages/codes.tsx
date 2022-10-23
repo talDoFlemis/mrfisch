@@ -23,7 +23,7 @@ const Codes: NextPageWithLayout = () => {
           {session?.user?.name || "anonymous"}
         </span>{" "}
       </h1>
-      <TrendingCodes />
+      {/* <TrendingCodes /> */}
       <CodesList />
     </main>
   );

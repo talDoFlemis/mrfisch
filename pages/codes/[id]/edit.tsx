@@ -19,7 +19,8 @@ const Edit = () => {
 
   const { id } = router.query;
   const { data: code, error } = useQuery<CodeInterface>(
-    id ? `/api/codes/${id}` : null
+    id ? `/api/codes/${id}` : null,
+    false
   );
 
   if (error) {
@@ -33,7 +34,7 @@ const Edit = () => {
 
     try {
       await axios.put(`/api/codes/${id}`, data);
-      toast.success("Updated with success", { theme: "dark" });
+      toast.success("Updated with success");
       router.push(`/codes/${id}`);
     } catch (err) {
       const error = err as Error | AxiosError;
@@ -94,7 +95,11 @@ const Edit = () => {
           </label>
         </div>
       </div>
-      <CodeForm postOperation={updateCode} initialValues={code} />
+      <CodeForm
+        postOperation={updateCode}
+        initialValues={code}
+        user={session?.user}
+      />
     </div>
   );
 };

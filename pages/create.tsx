@@ -21,7 +21,7 @@ const Create = () => {
       const { data: resp } = await axios.post("/api/codes/all", data);
       console.log(resp, "axios response");
       toast.success("Created code with success", { theme: "dark" });
-      // router.push("/codes");
+      router.push("/codes");
     } catch (err) {
       const error = err as Error | AxiosError;
       if (axios.isAxiosError(error)) {

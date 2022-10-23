@@ -17,12 +17,14 @@ export default async function handler(
       try {
         const data = await prisma.code.findMany({
           include: { user: true },
-          orderBy: { updatedAt: "desc" },
+          orderBy: { updated_at: "desc" },
         });
 
         res.status(200).json(data);
       } catch (error) {
-        res.status(400).json(error);
+        console.log(error);
+        const err = error as Error;
+        res.status(400).json(err.message);
       }
 
       break;
@@ -32,48 +34,44 @@ export default async function handler(
       const { body } = req;
       const session = await getSession({ req });
 
-      const tags: Prisma.TagCreateWithoutCodesInput[] = [];
-      body.tags?.map((tag: string) => tags.push({ tagName: tag }));
-
       const dataT: Prisma.CodeCreateManyUserInput = {
         ...body,
         userId: session?.user.id,
-        tags: { create: tags },
       };
-      console.log(dataT);
 
       const algoliaData: AlgoliaInterface = {
         objectID: "",
-        codeTitle: body.codeTitle,
+        code_title: body.code_title,
         description: body.description,
         _tags: body.tags,
         language: body.language,
-        updatedAt: new Date(),
+        updated_at: new Date(),
         user: {
           name: session?.user.name ?? null,
           image: session?.user.image ?? null,
         },
-        updateAtTimestamp: 0,
+        updated_at_timestamp: 0,
       };
 
       try {
         const data = await prisma.code.create({
           data: dataT,
-          select: { updatedAt: true, id: true },
+          select: { updated_at: true, id: true },
         });
-        algoliaData.objectID = data.id;
-        algoliaData.updatedAt = data.updatedAt;
-        algoliaData.updateAtTimestamp = moment(data.updatedAt).unix();
 
-        // const client = algoliasearch(
-        //   "IEWGM4QLJ8",
-        //   process.env.ALGOLIA_ADMIN_KEY as string
-        // );
-        // const index = client.initIndex("mrfisch");
-        //
-        // index
-        //   .saveObject(algoliaData)
-        //   .then(({ objectID }) => console.log(objectID));
+        algoliaData.objectID = data.id;
+        algoliaData.updated_at = data.updated_at;
+        algoliaData.updated_at_timestamp = moment(data.updated_at).unix();
+
+        const client = algoliasearch(
+          "IEWGM4QLJ8",
+          process.env.ALGOLIA_ADMIN_KEY as string
+        );
+        const index = client.initIndex("mrfisch");
+
+        index
+          .saveObject(algoliaData)
+          .then(({ objectID }) => console.log(objectID));
 
         res.status(201).json("Code created with success");
       } catch (error) {
