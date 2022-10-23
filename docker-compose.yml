@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: tubias
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: mrfisch
+    volumes:
+      - tubias:/var/lib/postgresql
+
+volumes:
+  tubias:
+    external: false
