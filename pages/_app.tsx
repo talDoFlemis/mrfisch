@@ -1,12 +1,11 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { UserProvider } from "@supabase/auth-helpers-react";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import type { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import { ThemeProvider } from "next-themes";
+import { SessionProvider } from "next-auth/react";
 
 export type NextPageWithLayout = NextPage & {
   /* eslint-disable no-unused-vars */
@@ -17,12 +16,15 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
   const layout = getLayout(<Component {...pageProps} />);
 
   return (
-    <UserProvider supabaseClient={supabaseClient}>
+    <SessionProvider session={session}>
       <ThemeProvider defaultTheme="mrfisch">
         <ToastContainer
           autoClose={4000}
@@ -33,7 +35,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         />
         {layout}
       </ThemeProvider>
-    </UserProvider>
+    </SessionProvider>
   );
 }
 

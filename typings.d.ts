@@ -1,15 +1,54 @@
+import type { NextComponentType, NextPageContext } from "next";
+import type { Session } from "next-auth";
+import type { Router } from "next/router";
+import { DefaultSession } from "next-auth";
+
+declare module "next/app" {
+  type AppProps<P = Record<string, unknown>> = {
+    Component: NextComponentType<NextPageContext, any, P>;
+    router: Router;
+    __N_SSG?: boolean;
+    __N_SSP?: boolean;
+    pageProps: P & {
+      session?: Session;
+    };
+  };
+}
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      role: string;
+      id: string;
+      isNew: boolean;
+    } & DefaultSession["user"];
+  }
+  interface User {
+    role: string;
+    isNew: boolean;
+  }
+}
+
 export interface CodeInterface {
+  codeTitle: string;
   id: string;
-  user?: UserInterface;
-  code_block: string;
-  language: string;
-  inserted_at: Date;
-  updated_at: Date;
-  code_title: string;
+  userId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  codeTitle: string;
   description?: string;
-  tags?: string[] | null;
+  codeBlock: string;
+  language: string;
   documentation?: string;
-  is_public: boolean;
+  numberOfHits: number;
+  user?: User;
+  tags?: TagsInterface[];
+}
+
+export interface TagsInterface {
+  id: string;
+  tagName: string;
+  codes: CodeInterface[];
 }
 
 export interface UsefulLinkInterface {
@@ -19,15 +58,6 @@ export interface UsefulLinkInterface {
   link: string;
   inserted_at: Date;
   updated_at: Date;
-}
-
-export interface UserInterface {
-  id: string;
-  avatar_url: string;
-  username: string;
-  updated_at: Date;
-  is_port: boolean;
-  is_new: boolean;
 }
 
 export interface IdentityData {
@@ -106,12 +136,11 @@ interface UsefulLinkModalData {
 
 export interface AlgoliaInterface {
   objectID: string;
-  code_title: string;
+  codeTitle: string;
   description: string;
   _tags: string[];
-  is_public: boolean;
   language: string;
-  updated_at: Date;
-  user: { username: string | null; avatar_url: string | null };
-  updated_at_timestamp: number;
+  updatedAt: Date;
+  user: { name: string | null; image: string | null };
+  updateAtTimestamp: number;
 }
