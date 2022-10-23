@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UserInterface } from "../../typings";
+import { CodeInterface } from "../../typings";
 import { AiOutlineEye, AiOutlineUserSwitch } from "react-icons/ai";
 import cl from "clsx";
 import moment from "moment";
@@ -7,26 +7,19 @@ import StealCodeButton from "./StealCodeButton";
 import Image from "next/image";
 import { Highlight } from "react-instantsearch-hooks-web";
 
-interface CodeCardProps {
-  id: string;
-  user?: UserInterface;
-  code_title: string;
-  description?: string;
-  updated_at?: Date;
-  code_block?: string;
-  is_public: boolean;
+interface CodeCardProps extends CodeInterface {
   className?: string;
-  tags?: string[] | null;
   hit?: any;
 }
+
 const CodeCard = ({
   id,
   user,
-  code_title,
+  codeTitle,
+  language,
   description,
-  updated_at,
-  code_block,
-  is_public,
+  updatedAt,
+  codeBlock,
   className,
   tags,
   hit,
@@ -35,8 +28,8 @@ const CodeCard = ({
     <div className={cl("card", className)}>
       <div className="justify-between card-body text-neutral-content">
         <div>
-          <h1 className="text-2xl font-bold text-center">
-            {hit ? <Highlight attribute="code_title" hit={hit} /> : code_title}
+          <h1 className="text-xl font-bold text-center">
+            {hit ? <Highlight attribute="codeTitle" hit={hit} /> : codeTitle}
           </h1>
           <p className="pb-8 text-lg font-bold text-gray-400 truncate">
             {hit ? (
@@ -54,14 +47,16 @@ const CodeCard = ({
                 <AiOutlineEye className="w-6 h-6" />
               </a>
             </Link>
-            {code_block && <StealCodeButton code={code_block} toHide />}
+            {codeBlock && (
+              <StealCodeButton code={codeBlock} codeId={id} toHide />
+            )}
           </div>
           <div className="grid grid-cols-3 place-items-center">
             <div className="flex gap-x-2 items-center self-center place-self-start sm:place-self-auto">
-              {user?.avatar_url ? (
+              {user?.image ? (
                 <div className="relative w-8 h-8 mask mask-circle shrink-0">
                   <Image
-                    src={user.avatar_url}
+                    src={user.image}
                     alt="avatar"
                     objectFit="cover"
                     layout="fill"
@@ -70,26 +65,22 @@ const CodeCard = ({
               ) : (
                 <AiOutlineUserSwitch className="w-4 h-4" />
               )}
-              <p className="hidden overflow-hidden w-20 whitespace-nowrap sm:inline-flex text-ellipsis">
-                {user?.username ?? "anonymous"}
-              </p>
+              <small className="hidden w-14 text-sm sm:inline-flex truncate">
+                {user?.name ?? "anonymous"}
+              </small>
             </div>
-            {updated_at ? <p>{moment(updated_at).fromNow()}</p> : <div></div>}
-            <div className="flex gap-x-2 items-center">
-              <div
-                className={cl(
-                  "h-2 w-2 rounded-full",
-                  is_public ? "bg-green-500" : "bg-red-500"
-                )}
-              ></div>
-              {is_public ? "public" : "private"}
-            </div>
+            {updatedAt ? (
+              <p className="text-center">{moment(updatedAt).fromNow()}</p>
+            ) : (
+              <div></div>
+            )}
+            <div className="flex gap-x-2 items-center">{language}</div>
           </div>
           {tags && (
             <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
-              {tags?.map((tag, index: number) => (
-                <div key={index} className="badge badge-secondary shrink-0">
-                  {tag}
+              {tags?.map((tag) => (
+                <div key={tag.id} className="badge badge-secondary shrink-0">
+                  {tag.tagName}
                 </div>
               ))}
             </div>

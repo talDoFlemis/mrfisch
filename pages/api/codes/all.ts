@@ -1,8 +1,10 @@
-import { supabase } from "@utils/supabaseClient";
+import prisma from "@utils/prisma";
 import algoliasearch from "algoliasearch";
 import moment from "moment";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { AlgoliaInterface, CodeInterface, UserInterface } from "typings";
+import { AlgoliaInterface } from "typings";
+import { getSession } from "next-auth/react";
+import { Prisma } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,12 +15,10 @@ export default async function handler(
   switch (method) {
     case "GET": {
       try {
-        const { data, error } = await supabase
-          .from("codes")
-          .select(`*, user(*)`)
-          .order("updated_at", { ascending: false });
-
-        if (error) throw error.message;
+        const data = await prisma.code.findMany({
+          include: { user: true },
+          orderBy: { updatedAt: "desc" },
+        });
 
         res.status(200).json(data);
       } catch (error) {
@@ -29,65 +29,57 @@ export default async function handler(
     }
 
     case "POST": {
-      const { body: supabaseData } = req;
-      const { user } = await supabase.auth.api.getUserByCookie(req);
+      const { body } = req;
+      const session = await getSession({ req });
 
-      if (!user) {
-        supabaseData.is_public = true;
-      }
+      const tags: Prisma.TagCreateWithoutCodesInput[] = [];
+      body.tags?.map((tag: string) => tags.push({ tagName: tag }));
+
+      const dataT: Prisma.CodeCreateManyUserInput = {
+        ...body,
+        userId: session?.user.id,
+        tags: { create: tags },
+      };
+      console.log(dataT);
 
       const algoliaData: AlgoliaInterface = {
         objectID: "",
-        code_title: supabaseData.code_title,
-        description: supabaseData.description,
-        _tags: supabaseData.tags,
-        is_public: supabaseData.is_public,
-        language: supabaseData.language,
-        updated_at: new Date(),
-        user: { username: null, avatar_url: null },
-        updated_at_timestamp: 0,
+        codeTitle: body.codeTitle,
+        description: body.description,
+        _tags: body.tags,
+        language: body.language,
+        updatedAt: new Date(),
+        user: {
+          name: session?.user.name ?? null,
+          image: session?.user.image ?? null,
+        },
+        updateAtTimestamp: 0,
       };
 
       try {
-        supabaseData.user = user?.id;
-        const { data, error } = await supabase
-          .from<CodeInterface>("codes")
-          .insert([supabaseData], { returning: "representation" });
+        const data = await prisma.code.create({
+          data: dataT,
+          select: { updatedAt: true, id: true },
+        });
+        algoliaData.objectID = data.id;
+        algoliaData.updatedAt = data.updatedAt;
+        algoliaData.updateAtTimestamp = moment(data.updatedAt).unix();
 
-        if (error) throw error;
-        if (!data) throw Error("No data returned from supabase");
-
-        algoliaData.objectID = data[0].id;
-        algoliaData.updated_at = data[0].updated_at;
-        algoliaData.updated_at_timestamp = moment(data[0].updated_at).unix();
-
-        if (user) {
-          const { data: profileData, error: profileError } = await supabase
-            .from<UserInterface>("profiles")
-            .select("username, avatar_url")
-            .eq("id", user.id)
-            .single();
-
-          if (profileError) throw profileError;
-          if (!data) throw Error("Cant retrieve user from profile table");
-
-          algoliaData.user.username = profileData?.username ?? null;
-          algoliaData.user.avatar_url = profileData?.avatar_url ?? null;
-        }
-
-        const client = algoliasearch(
-          "IEWGM4QLJ8",
-          process.env.ALGOLIA_ADMIN_KEY as string
-        );
-        const index = client.initIndex("mrfisch");
-
-        index
-          .saveObject(algoliaData)
-          .then(({ objectID }) => console.log(objectID));
+        // const client = algoliasearch(
+        //   "IEWGM4QLJ8",
+        //   process.env.ALGOLIA_ADMIN_KEY as string
+        // );
+        // const index = client.initIndex("mrfisch");
+        //
+        // index
+        //   .saveObject(algoliaData)
+        //   .then(({ objectID }) => console.log(objectID));
 
         res.status(201).json("Code created with success");
       } catch (error) {
-        res.status(400).send(error);
+        console.log(error);
+        const err = error as Error;
+        res.status(400).send(err.message);
       }
 
       break;

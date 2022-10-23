@@ -15,7 +15,7 @@ const LanguageSelector = ({
         Pick the language of the code
       </label>{" "}
       <select
-        className="select select-primary bg-neutral"
+        className="mt-2 select select-primary bg-neutral"
         onChange={(e) => {
           onChange(e.target.value);
         }}

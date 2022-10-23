@@ -3,8 +3,7 @@ import AddLinkModal from "@components/portulovers/AddLinkModal";
 import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
 import EditLinkModal from "@components/portulovers/EditLinkModal";
 import UsefulLinkCard from "@components/portulovers/UsefulLinkCard";
-import { supabase } from "@utils/supabaseClient";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ReactElement, useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFilePlus } from "react-icons/bs";
@@ -14,22 +13,26 @@ import { UsefulLinkInterface, UsefulLinkModalData } from "typings";
 import Head from "next/head";
 import {
   getUser,
+  supabaseClient,
   supabaseServerClient,
-  User,
   withPageAuth,
 } from "@supabase/auth-helpers-nextjs";
+import { useUser } from "@supabase/auth-helpers-react";
 
-const Portulovers = ({ user }: { user: User }) => {
+const Portulovers = ({
+  links,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [modalData, setModalData] = useState<UsefulLinkModalData>();
-  const [linksData, setLinksData] = useState<UsefulLinkInterface[]>();
+  const [linksData, setLinksData] = useState<UsefulLinkInterface[]>(links);
   const [search, setSearch] = useState<string>("");
+  const { user } = useUser();
 
   const getLinks = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from<UsefulLinkInterface>("useful_links")
-        .select("*, user_id(username, avatar_url)")
-        .order("updated_at", { ascending: false });
+        .select("*");
+      console.log(data);
       if (error) throw error;
       setLinksData(data);
     } catch (err) {
@@ -40,7 +43,7 @@ const Portulovers = ({ user }: { user: User }) => {
 
   const deleteLink = async () => {
     try {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from("useful_links")
         .delete()
         .match({ id: modalData?.id });
@@ -54,8 +57,8 @@ const Portulovers = ({ user }: { user: User }) => {
   };
 
   useEffect(() => {
-    getLinks();
-  }, []);
+    if (user) getLinks();
+  }, [user]);
 
   return (
     <main className="flex flex-col gap-4 p-4 w-full h-max">
@@ -93,7 +96,7 @@ const Portulovers = ({ user }: { user: User }) => {
             id={modalData.id}
             title={modalData.title}
             link={modalData.link}
-            user_id={user.id}
+            user_id={user?.id as string}
             getLinks={getLinks}
           />
           <DeleteLinkModal title={modalData.title} deleteOP={deleteLink} />
@@ -150,7 +153,12 @@ export const getServerSideProps: GetServerSideProps = withPageAuth({
     }
 
     const { user } = await getUser(ctx);
+    const { data: links, error: linkError } = await supabaseServerClient(ctx)
+      .from("useful_links")
+      .select("*, user_id(username, avatar_url)")
+      .order("updated_at", { ascending: false });
+    if (error) console.log(linkError);
 
-    return { props: { user } };
+    return { props: { user, links } };
   },
 });

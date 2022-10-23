@@ -19,11 +19,11 @@ import { toast } from "react-toastify";
 import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
 import { AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSession } from "next-auth/react";
 
 const CodeView = () => {
   const router = useRouter();
-  const { user } = useUser();
+  const { data: session } = useSession();
   const [linkToCopy, setLinkToCopy] = useState("");
 
   const { data: code, error } = useQuery<CodeInterface>(
@@ -53,11 +53,11 @@ const CodeView = () => {
   return (
     <main className="flex flex-col w-full h-max font-raleway">
       <Head>
-        <title>{code?.code_title ?? "Code"} • Mr Fisch</title>
+        <title>{code?.codeTitle ?? "Code"} • Mr Fisch</title>
       </Head>
       <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
         <Link href="/codes/">
-          <a className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent">
+          <a className="flex items-center text-sm font-bold transition-colors cursor-pointer w-fit hover:text-accent">
             <IconArrowLeft className="w-8 h-8" />
             Go back
           </a>
@@ -70,7 +70,7 @@ const CodeView = () => {
         </label>
       </div>
       <DeleteLinkModal
-        title={code?.code_title as string}
+        title={code?.codeTitle as string}
         deleteOP={() => deleteCode()}
       />
       {!code ? (
@@ -81,14 +81,14 @@ const CodeView = () => {
         <div className="p-4">
           <div className="flex flex-col gap-8 justify-between lg:flex-row">
             <CodeHighlighter
-              input={code!.code_block}
+              input={code!.codeBlock}
               language={code.language}
-              className="text-sm lg:w-full bg-neutral"
+              className="text-xs lg:w-full bg-neutral"
             />
-            <div className="lg:w-1/4 card h-fit bg-neutral text-neutral-content">
+            <div className="text-xs lg:w-1/4 card h-fit bg-neutral text-neutral-content">
               <div className="card-body">
-                <h1 className="text-lg font-bold text-center">
-                  {code?.code_title}
+                <h1 className="text-base font-bold text-center">
+                  {code?.codeTitle}
                 </h1>
                 <p className="whitespace-pre-wrap break-words">
                   {code?.description}
@@ -102,32 +102,30 @@ const CodeView = () => {
                 <div className="flex justify-between items-center">
                   <p>Created</p>
                   <p className="text-right">
-                    {moment(code?.inserted_at).format("L")}
+                    {moment(code?.createdAt).format("L")}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p>Last updated</p>
                   <p className="text-right">
-                    {moment(code?.updated_at).fromNow()}
+                    {moment(code?.updatedAt).fromNow()}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p>Made by</p>
-                  <p className="text-right">
-                    {code.user?.username ?? "anonymous"}
-                  </p>
+                  <p className="text-right">{code.user?.name ?? "anonymous"}</p>
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
                   {code.tags?.map((tag, index) => (
                     <div key={index} className="badge badge-secondary shrink-0">
-                      {tag}
+                      {tag.tagName}
                     </div>
                   ))}
                 </div>
                 <div className="divider"></div>
                 <CopyLink link={linkToCopy} />
-                <StealCodeButton code={code.code_block} />
-                {user?.id === code?.user?.id ? (
+                <StealCodeButton code={code.codeBlock} codeId={code.id} />
+                {session?.user?.id === code?.user?.id ? (
                   <Link href={`/codes/${router.query.id}/edit`}>
                     <a className="gap-2 justify-center text-black bg-white border-none shadow transition-colors hover:text-white btn btn-sm hover:bg-base-300">
                       <p>Edit</p>
@@ -143,7 +141,7 @@ const CodeView = () => {
                     <MdEdit className="w-6 h-6" />
                   </button>
                 )}
-                {user?.id === code?.user?.id ? (
+                {session?.user?.id === code?.user?.id ? (
                   <label htmlFor="deletemodal">
                     <div className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm">
                       <p>Delete Code</p>

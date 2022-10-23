@@ -22,12 +22,12 @@ beforeAll(() => server.listen());
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 
-describe("Testin Codes List", () => {
+describe("Testing Codes List", () => {
   it("Render no data at all", async () => {
     customRender(<CodesList />);
     await waitForElementToBeRemoved(getLoadingSpinner());
 
-    expect(screen.queryAllByRole("heading")).toStrictEqual([]);
+    expect(screen.queryAllByRole("heading", { level: 2 })).toStrictEqual([]);
   });
 
   it("Display error while fetching", async () => {

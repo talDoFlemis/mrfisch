@@ -1,10 +1,7 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
 import { createMockRouter } from "@test-utils/createMockRouter";
 import { act, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { RouterContext } from "next/dist/shared/lib/router-context";
-
-const user = userEvent.setup();
 
 describe("Testing the Dashboard layout", () => {
   it("Should have all links", async () => {

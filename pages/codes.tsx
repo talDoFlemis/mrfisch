@@ -1,44 +1,29 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement } from "react";
 import CodesList from "../components/code/CodesList";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import CodesHeader from "../components/code/CodesHeader";
 import { NextPageWithLayout } from "./_app";
 import Head from "next/head";
-import { UserInterface } from "typings";
-import { useUser } from "@supabase/auth-helpers-react";
-import { toast } from "react-toastify";
-import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { useSession } from "next-auth/react";
+import TrendingCodes from "@components/code/TrendingCodes";
 
 const Codes: NextPageWithLayout = () => {
-  const { user, error } = useUser();
-  const [userData, setUserData] = useState<UserInterface | null>();
-  if (error) toast.error(`Unable to fetch user ${error.message}`);
-
-  useEffect(() => {
-    async function loadData() {
-      const { data } = await supabaseClient
-        .from<UserInterface>("profiles")
-        .select("username, avatar_url, is_new")
-        .eq("id", user?.id as string)
-        .single();
-      setUserData(data);
-    }
-    if (user) loadData();
-  }, [user]);
+  const { data: session } = useSession();
 
   return (
     <main className="w-full h-max">
       <Head>
         <title>All Codes • Mr Fisch</title>
       </Head>
-      <CodesHeader user={userData} />
+      <CodesHeader user={session?.user} />
       <h1 className="p-4 text-4xl font-light text-base-content">
         Welcome,{" "}
         <span className="font-spaceRave text-primary">
           {" "}
-          {userData?.username || "anonymous"}
+          {session?.user?.name || "anonymous"}
         </span>{" "}
       </h1>
+      <TrendingCodes />
       <CodesList />
     </main>
   );

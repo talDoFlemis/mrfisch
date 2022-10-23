@@ -12,20 +12,23 @@ import { UserState } from "@supabase/auth-helpers-shared";
 
 const schema = yup
   .object({
-    code_title: yup.string().required("Title is a required field"),
-    code_block: yup.string().required("Code block is a required field"),
+    codeTitle: yup.string().required("Title is a required field"),
+    codeBlock: yup.string().required("Code block is a required field"),
     description: yup.string(),
     documentation: yup.string(),
     tags: yup.array().min(0),
     language: yup.string().required("Language is a required field"),
-    is_public: yup.boolean().required(),
   })
   .required();
 
 interface CodeFormProps {
   postOperation: any;
-  initialValues?: CodeInterface;
+  initialValues?: CustomCodeInterface;
   user?: UserState;
+}
+
+interface CustomCodeInterface extends Omit<CodeInterface, "tags"> {
+  tags: string[];
 }
 
 const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
@@ -36,16 +39,15 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
     resetField,
     reset,
     formState: { errors },
-  } = useForm<CodeInterface>({
+  } = useForm<CustomCodeInterface>({
     resolver: yupResolver(schema),
     defaultValues: {
-      code_title: initialValues?.code_title ?? "",
+      codeTitle: initialValues?.codeTitle ?? "",
       description: initialValues?.description ?? "",
-      code_block: initialValues?.code_block ?? "",
+      codeBlock: initialValues?.codeBlock ?? "",
       tags: initialValues?.tags ?? [],
       language: initialValues?.language ?? "c",
       documentation: initialValues?.documentation ?? "",
-      is_public: initialValues?.is_public ?? true,
     },
     mode: "onBlur",
   });
@@ -53,7 +55,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
   useEffect(() => {
     if (initialValues) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { updated_at, inserted_at, user, ...data } = initialValues;
+      const { updatedAt, createdAt, user, ...data } = initialValues;
 
       reset(data);
     }
@@ -80,21 +82,21 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
     >
       <div>
         <label
-          className="justify-start text-xl font-bold sm:text-2xl label"
+          className="justify-start text-xl font-bold label"
           htmlFor="code-title"
         >
           Title{" "}
           <BiReset
             className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
-            onClick={() => resetField("code_title")}
+            onClick={() => resetField("codeTitle")}
           />
         </label>
-        {errors.code_title && (
+        {errors.codeTitle && (
           <span
             className="pt-0 font-bold label text-accent"
             id="code-title-error"
           >
-            {errors.code_title?.message}
+            {errors.codeTitle?.message}
           </span>
         )}
         <small className="pt-0 label" id="code-title-help">
@@ -106,13 +108,13 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
         placeholder="Enter code title"
         aria-describedby="code-title-help"
         aria-errormessage="code-title-error"
-        aria-invalid={errors?.code_title ? true : false}
-        {...register("code_title")}
+        aria-invalid={errors?.codeTitle ? true : false}
+        {...register("codeTitle")}
         className="input input-bordered input-primary bg-neutral"
       />{" "}
       <div>
         <label
-          className="justify-start text-xl font-bold sm:text-2xl label"
+          className="justify-start text-xl font-bold label"
           htmlFor="description"
         >
           Description
@@ -135,10 +137,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
         className="input input-bordered input-primary bg-neutral"
       />{" "}
       <div>
-        <label
-          className="justify-start text-xl font-bold sm:text-2xl label"
-          htmlFor="tags"
-        >
+        <label className="justify-start text-xl font-bold label" htmlFor="tags">
           Tags
           <BiReset
             className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
@@ -158,11 +157,11 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
       />
       <div className="card bg-neutral">
         <div className="card-body">
-          <h1 className="flex items-center text-xl font-bold sm:text-2xl">
+          <h1 className="flex items-center text-xl font-bold">
             Code
             <BiReset
               className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
-              onClick={() => reset({ code_block: "", language: "css" })}
+              onClick={() => reset({ codeBlock: "", language: "css" })}
             />
           </h1>
           <div className="flex flex-col gap-y-4 justify-between items-center sm:flex-row">
@@ -177,29 +176,21 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
                 />
               )}
             />
-            <div className="flex gap-x-2 items-center">
-              <label>Public</label>
-              <input
-                type="checkbox"
-                className="checkbox checkbox-secondary"
-                {...register("is_public")}
-              />
-            </div>
           </div>
           <div>
-            {errors.code_block && (
+            {errors.codeBlock && (
               <span
                 className="pb-0 font-bold label text-accent"
                 id="code-block-error"
               >
-                {errors.code_block?.message}
+                {errors.codeBlock?.message}
               </span>
             )}
             <label htmlFor="code-block">Code Block</label>
-            <div className="flex flex-col mt-4 lg:flex-row">
+            <div className="flex flex-col mt-2 lg:flex-row">
               <Controller
                 control={control}
-                name="code_block"
+                name="codeBlock"
                 render={({ field: { value, onChange } }) => (
                   <AutoSizeTextarea
                     setText={onChange}
@@ -207,22 +198,19 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
                     className="w-full"
                     id="code-block"
                     errormessage="code-block-error"
-                    error={errors.code_block ? true : false}
+                    error={errors.codeBlock ? true : false}
                   />
                 )}
               />
               <CodeHighlighter
                 language={useWatch({ control, name: "language" })}
-                input={useWatch({ control, name: "code_block" })}
-                className="text-sm lg:w-full"
+                input={useWatch({ control, name: "codeBlock" })}
+                className="text-xs lg:w-full"
               />
             </div>
           </div>
           <div className="flex flex-col mt-4 space-y-2">
-            <label
-              className="flex text-xl font-bold sm:text-2xl"
-              htmlFor="documentation"
-            >
+            <label className="flex text-xl font-bold" htmlFor="documentation">
               Documentation
               <BiReset
                 className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"

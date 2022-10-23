@@ -1,21 +1,25 @@
 import { useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
 import { GiDaemonSkull } from "react-icons/gi";
 import { BsClipboardCheck } from "react-icons/bs";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const StealCodeButton = ({
   code,
+  codeId,
   toHide = false,
 }: {
   code: string;
+  codeId: string;
   toHide?: boolean;
 }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     setIsCopied(true);
     navigator.clipboard.writeText(code);
-    toast.info("Code copied with success", { theme: "dark" });
+    toast.success("Code copied with success", { theme: "dark" });
+    await axios.patch("/api/codes/trendingcodes", { id: codeId });
+    toast.info("The code rank was increased by 1");
 
     setTimeout(() => {
       setIsCopied(false);

@@ -10,12 +10,12 @@ import CodeForm from "@components/code/CodeForm";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import Head from "next/head";
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSession } from "next-auth/react";
 
 const Edit = () => {
+  const { data: session } = useSession();
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
-  const { user } = useUser();
 
   const { id } = router.query;
   const { data: code, error } = useQuery<CodeInterface>(
@@ -56,7 +56,8 @@ const Edit = () => {
           </a>
         </Link>
         <div className="flex gap-x-3 justify-between items-center">
-          {code?.user?.id === user?.id || code?.user?.id === undefined ? (
+          {code?.user?.id === session?.user?.id ||
+          code?.user?.id === undefined ? (
             <>
               {isPosting ? (
                 <button

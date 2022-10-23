@@ -1,19 +1,15 @@
 import { AiOutlineExclamationCircle, AiOutlineUser } from "react-icons/ai";
-import { UserInterface } from "../../typings";
 import { HiOutlineMenu } from "react-icons/hi";
 import Link from "next/link";
 import HeaderDropdown from "./HeaderDropdown";
+import { Session } from "next-auth";
 
-interface CodesHeaderProps {
-  user?: UserInterface | null;
-}
-
-const CodesHeader = ({ user }: CodesHeaderProps) => {
+const CodesHeader = ({ user }: { user?: Session["user"] }) => {
   return (
     <header className="sticky top-0 z-10 justify-end p-4 bg-opacity-40 navbar font-raleway backdrop-blur-sm">
       {user ? (
         <div className="flex gap-2 justify-between items-center w-full sm:gap-6 sm:justify-end">
-          {user?.is_new && (
+          {user.isNew && (
             <Link href="/profile">
               <a className="hidden p-3 transition-transform sm:inline-flex sm:text-xs hover:scale-105 badge badge-warning text-warning-content">
                 Your profile need to be updated{" "}

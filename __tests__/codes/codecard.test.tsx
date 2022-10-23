@@ -1,22 +1,24 @@
 import CodeCard from "@components/code/CodeCard";
-import { render, screen } from "@testing-library/react";
-import { CodeInterface, UserInterface } from "typings";
+import { act, render, screen } from "@testing-library/react";
+import { Session } from "next-auth";
+import { CodeInterface } from "typings";
 
 const codeCardData: CodeInterface = {
   id: "777",
-  code_title: "a cool title",
+  codeTitle: "a cool title",
   description: "description",
-  language: "c",
-  code_block: "a code block",
-  inserted_at: new Date(Date.now()),
-  updated_at: new Date(Date.now()),
-  is_public: true,
+  language: "rust",
+  codeBlock: "a code block",
+  createdAt: new Date(Date.now()),
+  updatedAt: new Date(Date.now()),
+  numberOfHits: 0,
+  tags: [],
 };
 
 describe("testing the code card", () => {
   it("Renders a code title", () => {
     render(<CodeCard {...codeCardData} />);
-    expect(screen.getByText(codeCardData.code_title)).toBeInTheDocument(); // Search for a code title
+    expect(screen.getByText(codeCardData.codeTitle)).toBeInTheDocument(); // Search for a code title
   });
 
   it("Renders a code description", () => {
@@ -26,19 +28,9 @@ describe("testing the code card", () => {
     ).toBeInTheDocument();
   });
 
-  it("Renders a public info", () => {
+  it("renders a C text", () => {
     render(<CodeCard {...codeCardData} />);
-    expect(screen.getByText(/public/i)).toBeInTheDocument();
-  });
-
-  it("Renders a private info", () => {
-    render(<CodeCard {...codeCardData} is_public={false} />);
-    expect(screen.getByText(/private/i)).toBeInTheDocument();
-  });
-
-  it("renders a public description", () => {
-    render(<CodeCard {...codeCardData} />);
-    expect(screen.getByText(/public/i)).toBeInTheDocument();
+    expect(screen.getByText(/rust/i)).toBeInTheDocument();
   });
 
   it("Renders a view code button", () => {
@@ -53,16 +45,15 @@ describe("testing the code card", () => {
     expect(screen.getByText(/anonymous/i)).toBeInTheDocument();
   });
 
-  it("Renders an username", () => {
-    const userData: UserInterface = {
-      id: "",
-      avatar_url: "",
-      username: "flemis",
-      updated_at: new Date(Date.now()),
-      is_port: false,
-      is_new: false,
+  it("Renders an username", async () => {
+    const userData: Session = {
+      user: { id: "kkkk", name: "flemis", isNew: true, role: "NORMAL" },
+      expires: "",
     };
-    render(<CodeCard {...codeCardData} user={userData} />);
+
+    await act(async () => {
+      render(<CodeCard {...codeCardData} user={userData} />);
+    });
     expect(screen.getByText(/flemis/i)).toBeInTheDocument();
   });
 });

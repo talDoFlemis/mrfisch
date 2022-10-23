@@ -5,24 +5,24 @@ import { FiChevronDown } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import { BiLogOut } from "react-icons/bi";
 import Image from "next/image";
-import { UserInterface } from "typings";
 import Link from "next/link";
 import { useRouter } from "next/router";
-// import { supabaseClient } from "@supabase/auth-helpers-nextjs";
+import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 
-const HeaderDropdown = ({ user }: { user: UserInterface }) => {
+const HeaderDropdown = ({ user }: { user: Session["user"] }) => {
   const router = useRouter();
   return (
     <Menu as="div" className="inline-block relative text-left">
       <div>
         <Menu.Button className="inline-flex justify-center items-center w-full group">
           <div className="relative w-10 h-10 transition-transform group-hover:scale-110 mask mask-circle">
-            {user?.avatar_url ? (
+            {user.image ? (
               <Image
-                src={user?.avatar_url}
+                src={user.image}
                 layout="fill"
                 objectFit="cover"
-                alt="avatar"
+                alt="user image"
               />
             ) : (
               <CgProfile className="w-full h-full transition-transform group-hover:scale-105" />
@@ -70,7 +70,7 @@ const HeaderDropdown = ({ user }: { user: UserInterface }) => {
                       : "text-neutral-content"
                   } group flex w-full items-center rounded-md px-2 py-2`}
                   onClick={() => {
-                    supabaseClient.auth.signOut();
+                    signOut();
                     router.push("/");
                   }}
                 >

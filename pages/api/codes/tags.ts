@@ -1,4 +1,4 @@
-import { supabase } from "@utils/supabaseClient";
+import prisma from "@utils/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -10,17 +10,9 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { data, error } = await supabase
-          .from("codes")
-          .select("tags")
-          .not("tags", "is", null);
+        const data = await prisma.tag.findMany({});
 
-        if (error) throw error.message;
-
-        const s = new Set();
-        data?.map(({ tags }) => tags.forEach((tag: string) => s.add(tag)));
-        const allTags = Array.from(s);
-
+        const allTags = data.map((tag) => tag.tagName);
         res.setHeader(
           "Cache-Control",
           "s-maxage=60, stale-while-revalidate=120"
