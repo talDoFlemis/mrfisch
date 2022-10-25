@@ -10,6 +10,7 @@ const TrendingCodes = () => {
     "/api/codes/trendingcodes"
   );
   if (error) toast.error(`Failed to fetch codes, ${error}`);
+
   return (
     <>
       <h2 className="flex gap-x-4 items-center p-4 text-4xl">

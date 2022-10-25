@@ -3,8 +3,9 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../../../utils/prisma";
+import type { NextAuthOptions } from "next-auth";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -32,9 +33,6 @@ export default NextAuth({
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
-      return true;
-    },
     async redirect({ url, baseUrl }) {
       return `${baseUrl}/codes`;
     },
@@ -48,4 +46,6 @@ export default NextAuth({
 
   // Enable debug messages in the console if you are having problems
   debug: true,
-});
+};
+
+export default NextAuth(authOptions);

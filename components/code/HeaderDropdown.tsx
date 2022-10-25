@@ -9,6 +9,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
+import { AiFillHeart } from "react-icons/ai";
+import { BsBookmarkHeart, BsCodeSlash } from "react-icons/bs";
 
 const HeaderDropdown = ({ user }: { user: Session["user"] }) => {
   const router = useRouter();
@@ -57,6 +59,62 @@ const HeaderDropdown = ({ user }: { user: Session["user"] }) => {
                   >
                     <CgProfile className="mr-2 w-5 h-5" aria-hidden="true" />
                     Profile
+                  </a>
+                </Link>
+              )}
+            </Menu.Item>
+            {user.role === "PORTULOVER" && (
+              <Menu.Item>
+                {({ active }) => (
+                  <Link href="/portulovers">
+                    <a
+                      className={`${
+                        active
+                          ? "bg-accent text-accent-content"
+                          : "text-neutral-content"
+                      } group flex w-full items-center rounded-md px-2 py-2 hover:bg-accent hover:text-accent-content`}
+                    >
+                      <AiFillHeart
+                        className="mr-2 w-5 h-5"
+                        aria-hidden="true"
+                      />
+                      Portulovers
+                    </a>
+                  </Link>
+                )}
+              </Menu.Item>
+            )}
+            <Menu.Item>
+              {({ active }) => (
+                <Link href="/mycodes">
+                  <a
+                    className={`${
+                      active
+                        ? "bg-accent text-accent-content"
+                        : "text-neutral-content"
+                    } group flex w-full items-center rounded-md px-2 py-2 hover:bg-accent hover:text-accent-content`}
+                  >
+                    <BsCodeSlash className="mr-2 w-5 h-5" aria-hidden="true" />
+                    My Codes
+                  </a>
+                </Link>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <Link href="/favoritecodes">
+                  <a
+                    className={`${
+                      active
+                        ? "bg-accent text-accent-content"
+                        : "text-neutral-content"
+                    } group flex w-full items-center rounded-md px-2 py-2 hover:bg-accent hover:text-accent-content`}
+                  >
+                    <BsBookmarkHeart
+                      className="mr-2 w-5 h-5"
+                      aria-hidden="true"
+                    />
+                    Favorite Codes
                   </a>
                 </Link>
               )}

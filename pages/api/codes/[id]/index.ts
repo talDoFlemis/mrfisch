@@ -3,7 +3,9 @@ import prisma from "@utils/prisma";
 import algoliasearch from "algoliasearch";
 import moment from "moment";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth";
 import { getSession } from "next-auth/react";
+import { authOptions } from "pages/api/auth/[...nextauth]";
 import { AlgoliaInterface } from "typings";
 
 export default async function handler(
@@ -17,7 +19,7 @@ export default async function handler(
       try {
         const data = await prisma.code.findUnique({
           where: { id: query.id as string },
-          include: { user: true },
+          include: { user: true, favorited_by: true },
         });
         await prisma.code.update({
           data: { number_views: { increment: 1 } },
@@ -34,7 +36,7 @@ export default async function handler(
 
     case "PUT": {
       const { body } = req;
-      const session = await getSession({ req });
+      const session = await unstable_getServerSession(req, res, authOptions);
 
       const postData: Prisma.CodeCreateInput = {
         ...body,
@@ -63,22 +65,22 @@ export default async function handler(
       try {
         const data = await prisma.code.update({
           where: { id: query.id as string },
-          data: postData,
+          data: { ...postData, updated_at: new Date() },
         });
 
         algoliaData.objectID = data.id;
         algoliaData.updated_at = data.updated_at;
         algoliaData.updated_at_timestamp = moment(data.updated_at).unix();
 
-        const client = algoliasearch(
-          "IEWGM4QLJ8",
-          process.env.ALGOLIA_ADMIN_KEY as string
-        );
-        const index = client.initIndex("mrfisch");
-
-        index
-          .partialUpdateObject(algoliaData)
-          .then(({ objectID }) => console.log(objectID));
+        // const client = algoliasearch(
+        //   "IEWGM4QLJ8",
+        //   process.env.ALGOLIA_ADMIN_KEY as string
+        // );
+        // const index = client.initIndex("mrfisch");
+        //
+        // index
+        //   .partialUpdateObject(algoliaData)
+        //   .then(({ objectID }) => console.log(objectID));
 
         res.status(200).json("Updated with success");
       } catch (error) {

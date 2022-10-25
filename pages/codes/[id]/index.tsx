@@ -1,4 +1,3 @@
-import { IconArrowLeft } from "@supabase/ui";
 import Link from "next/link";
 import CodeHighlighter from "@components/code/CodeHighlighter";
 import DashboardLayout from "@components/layout/DashboardLayout";
@@ -17,9 +16,10 @@ import Head from "next/head";
 import { useQuery } from "hooks/useQuery";
 import { toast } from "react-toastify";
 import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineArrowLeft, AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import AddToFavoriteBtn from "@components/code/AddToFavoriteBtn";
 
 const CodeView = () => {
   const router = useRouter();
@@ -56,12 +56,13 @@ const CodeView = () => {
         <title>{code?.code_title ?? "Code"} • Mr Fisch</title>
       </Head>
       <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
-        <Link href="/codes/">
-          <a className="flex items-center text-sm font-bold transition-colors cursor-pointer w-fit hover:text-accent">
-            <IconArrowLeft className="w-8 h-8" />
-            Go back
-          </a>
-        </Link>
+        <button
+          className="flex items-center text-sm font-bold transition-colors cursor-pointer w-fit hover:text-accent"
+          onClick={() => router.back()}
+        >
+          <AiOutlineArrowLeft className="w-6 h-6 md:w-8 md:h-8" aria-hidden />
+          Go back
+        </button>
         <label
           className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
           htmlFor="drawer"
@@ -126,6 +127,11 @@ const CodeView = () => {
                 <CopyLink link={linkToCopy} />
                 <StealCodeButton
                   code={code!.code_block as string}
+                  codeId={code.id}
+                />
+                <AddToFavoriteBtn
+                  session={session ?? undefined}
+                  favorited_by={code.favorited_by}
                   codeId={code.id}
                 />
                 {session?.user?.id === code?.user?.id ? (

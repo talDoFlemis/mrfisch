@@ -5,7 +5,7 @@ import { MdOutlineCreate, MdSettings } from "react-icons/md";
 import { GiFriedFish } from "react-icons/gi";
 import cl from "clsx";
 import React from "react";
-import { AiFillHeart, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineCoffee, AiOutlineSearch } from "react-icons/ai";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
@@ -57,19 +57,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   <p>search</p>
                 </a>
               </Link>
-              <Link href="/portulovers/">
-                <a
-                  className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
-                    pathname === "/portulovers"
-                      ? "text-accent"
-                      : "text-base-content"
-                  )}
-                >
-                  <AiFillHeart className="w-6 h-6" />
-                  <p>portulovers</p>
-                </a>
-              </Link>
               <Link href="/settings/">
                 <a
                   className={cl(
@@ -81,6 +68,19 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 >
                   <MdSettings className="w-6 h-6" />
                   <p>settings</p>
+                </a>
+              </Link>
+              <Link href="/contribute/">
+                <a
+                  className={cl(
+                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    pathname === "/contribute"
+                      ? "text-accent"
+                      : "text-base-content"
+                  )}
+                >
+                  <AiOutlineCoffee className="w-6 h-6" />
+                  <p>contribute</p>
                 </a>
               </Link>
             </div>

@@ -23,11 +23,7 @@ const Edit = () => {
     false
   );
 
-  if (error) {
-    toast.error(`Unable to create the code, ${error}`, {
-      theme: "dark",
-    });
-  }
+  if (error) toast.error(`Unable to create the code, ${error}`);
 
   const updateCode = async (data: CodeInterface) => {
     setIsPosting(true);

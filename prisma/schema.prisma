@@ -22,7 +22,7 @@ model Code {
   id            String   @id @default(cuid())
   userId        String?
   inserted_at   DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  updated_at    DateTime @default(now())
   code_title    String
   description   String?
   code_block    String
