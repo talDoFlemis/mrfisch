@@ -12,7 +12,7 @@ const Header = ({
   return (
     <header
       className={cl(
-        "fixed top-0 left-0 right-0 z-20 flex items-center justify-between text-white transition-all",
+        "fixed top-0 left-0 right-0 z-20 flex items-center justify-between text-white antialiased transition-all uppercase font-geo text-xs",
         scrolled ? "bg-neutral/60 p-1 backdrop-blur-sm" : "p-4"
       )}
     >
@@ -22,11 +22,11 @@ const Header = ({
           <GiFriedFish className="w-8 h-8 cursor-pointer sm:w-12 sm:h-12 hover:text-accent" />
         </a>
       </Link>
-      <div className="grid grid-cols-3 place-items-center w-1/2 font-momcake">
+      <div className="grid grid-cols-3 gap-x-4 place-items-center w-1/2">
         <Link href="/#create">
           <a
             className={cl(
-              "text-base font-bold transition-colors hover:text-accent sm:text-xl",
+              "text-base font-bold transition-colors hover:text-accent",
               section === "create" ? "text-accent" : "text-slate-400"
             )}
           >
@@ -36,7 +36,7 @@ const Header = ({
         <Link href="/#share">
           <a
             className={cl(
-              "text-base font-bold transition-colors hover:text-accent sm:text-xl",
+              "text-base font-bold transition-colors hover:text-accent",
               section === "share" ? "text-accent" : "text-slate-400"
             )}
           >
@@ -46,7 +46,7 @@ const Header = ({
         <Link href="/#about">
           <a
             className={cl(
-              "text-base font-bold transition-colors hover:text-accent sm:text-xl",
+              "text-base font-bold transition-colors hover:text-accent",
               section === "about" ? "text-accent" : "text-slate-400"
             )}
           >
@@ -55,8 +55,8 @@ const Header = ({
         </Link>
       </div>
       <Link href="/codes">
-        <a className="rounded-full border-none bg-white/20 font-momcake text-sm shadow hover:bg-[#522f54] hover:bg-opacity-50 hover:shadow-white sm:btn sm:space-x-4 sm:rounded-3xl md:text-xl">
-          <p className="hidden sm:inline-flex">Explore</p>{" "}
+        <a className="rounded-full border-none bg-white/20 shadow hover:bg-[#522f54] hover:bg-opacity-50 hover:shadow-white sm:btn sm:space-x-4 sm:rounded-3xl">
+          <p className="hidden text-base sm:inline-flex">Explore</p>{" "}
           <GiAstronautHelmet className="w-5 h-5 md:w-8 md:h-8" />
         </a>
       </Link>

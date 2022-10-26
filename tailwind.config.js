@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -10,6 +11,8 @@ module.exports = {
         momcake: ["Momcake", "sans-serif"],
         spaceRave: ["Space Rave", "sans-serif"],
         raleway: ["Raleway", "sans-serif"],
+        inter: ["Inter", ...defaultTheme.fontFamily.sans],
+        geo: ["Geo", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
