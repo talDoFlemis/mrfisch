@@ -5,10 +5,14 @@ import { MdOutlineCreate, MdSettings } from "react-icons/md";
 import { GiFriedFish } from "react-icons/gi";
 import cl from "clsx";
 import React from "react";
-import { AiOutlineCoffee, AiOutlineSearch } from "react-icons/ai";
+import { AiFillHeart, AiOutlineCoffee, AiOutlineSearch } from "react-icons/ai";
+import { BsBookmarkHeart, BsJournalCode } from "react-icons/bs";
+import { useSession } from "next-auth/react";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
+  const { data: session } = useSession();
+
   return (
     <div className="flex h-screen antialiased bg-base-100 font-inter">
       <div className="drawer drawer-mobile text-base-content">
@@ -35,6 +39,54 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   <p>all codes</p>
                 </a>
               </Link>
+              {session && (
+                <>
+                  <Link href="/mycodes/">
+                    <a
+                      className={cl(
+                        "btn text-sm flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                        pathname === "/mycodes"
+                          ? "text-accent"
+                          : "text-base-content"
+                      )}
+                    >
+                      <BsJournalCode className="w-6 h-6" />
+                      <p>my codes</p>
+                    </a>
+                  </Link>
+                  <Link href="/favoritecodes/">
+                    <a
+                      className={cl(
+                        "btn text-sm flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                        pathname === "/favoritecodes"
+                          ? "text-accent"
+                          : "text-base-content"
+                      )}
+                    >
+                      <BsBookmarkHeart className="w-6 h-6" aria-hidden="true" />
+                      <p>fav codes</p>
+                    </a>
+                  </Link>
+                  {session.user.role === "PORTULOVER" && (
+                    <Link href="/portulovers/">
+                      <a
+                        className={cl(
+                          "btn text-sm flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                          pathname === "/portulovers"
+                            ? "text-accent"
+                            : "text-base-content"
+                        )}
+                      >
+                        <AiFillHeart
+                          className="mr-2 w-5 h-5"
+                          aria-hidden="true"
+                        />
+                        <p>portulovers</p>
+                      </a>
+                    </Link>
+                  )}
+                </>
+              )}
               <Link href="/create/">
                 <a
                   className={cl(
