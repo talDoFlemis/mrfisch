@@ -28,10 +28,10 @@ const CodeCard = ({
     <div className={cl("card", className)}>
       <div className="justify-between card-body text-neutral-content">
         <div>
-          <h1 className="text-xl font-bold text-center">
+          <h1 className="text-lg font-bold text-center">
             {hit ? <Highlight attribute="code_title" hit={hit} /> : code_title}
           </h1>
-          <p className="pb-8 text-lg font-bold text-gray-400 truncate">
+          <p className="pb-8 font-bold text-gray-400 truncate">
             {hit ? (
               <Highlight attribute="description" hit={hit} />
             ) : (
@@ -43,7 +43,7 @@ const CodeCard = ({
           <div className="justify-end space-x-1 card-actions">
             <Link href={`/codes/${id}`}>
               <a className="gap-1 transition-colors btn btn-outline btn-sm text-neutral-content hover:border-primary hover:bg-primary-focus hover:text-primary-content">
-                <p className="hidden sm:inline-flex">View Code</p>
+                <p className="hidden sm:inline-flex text-2xs">View Code</p>
                 <AiOutlineEye className="w-6 h-6" />
               </a>
             </Link>
@@ -51,7 +51,7 @@ const CodeCard = ({
               <StealCodeButton code={code_block} codeId={id} toHide />
             )}
           </div>
-          <div className="grid grid-cols-3 place-items-center">
+          <div className="grid grid-cols-3 place-items-center text-xs">
             <div className="flex gap-x-2 items-center self-center place-self-start sm:place-self-auto">
               {user?.image ? (
                 <div className="relative w-8 h-8 mask mask-circle shrink-0">
@@ -65,7 +65,7 @@ const CodeCard = ({
               ) : (
                 <AiOutlineUserSwitch className="w-4 h-4" />
               )}
-              <small className="hidden w-14 text-sm sm:inline-flex truncate">
+              <small className="hidden w-14 text-xs sm:inline-flex truncate">
                 {user?.name ?? "anonymous"}
               </small>
             </div>
@@ -79,7 +79,10 @@ const CodeCard = ({
           {tags && (
             <div className="flex flex-wrap gap-2 justify-center pt-2 item-center">
               {tags?.map((tag, index) => (
-                <div key={index} className="badge badge-secondary shrink-0">
+                <div
+                  key={index}
+                  className="text-2xs badge badge-secondary shrink-0"
+                >
                   {tag}
                 </div>
               ))}

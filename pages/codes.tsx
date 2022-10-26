@@ -18,7 +18,7 @@ const Codes: NextPageWithLayout = () => {
       <CodesHeader user={session?.user} />
       <h1 className="p-4 text-4xl font-light text-base-content">
         Welcome,{" "}
-        <span className="font-spaceRave text-primary">
+        <span className="text-5xl italic font-bold font-geo text-primary">
           {" "}
           {session?.user?.name || "anonymous"}
         </span>{" "}

@@ -33,12 +33,16 @@ const StealCodeButton = ({
     >
       {isCopied ? (
         <>
-          <p className={`${toHide && "hidden sm:inline-flex"}`}>Copied</p>
+          <p className={`${toHide && "hidden sm:inline-flex"} text-2xs`}>
+            Copied
+          </p>
           <BsClipboardCheck className="w-6 h-6" />
         </>
       ) : (
         <>
-          <p className={`${toHide && "hidden sm:inline-flex"}`}>Steal Code</p>
+          <p className={`${toHide && "hidden sm:inline-flex"} text-2xs`}>
+            Steal Code
+          </p>
           <GiDaemonSkull className="w-6 h-6 transition-colors duration-300 shadow-accent" />
         </>
       )}

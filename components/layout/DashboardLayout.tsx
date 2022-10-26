@@ -10,7 +10,7 @@ import { AiOutlineCoffee, AiOutlineSearch } from "react-icons/ai";
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useRouter();
   return (
-    <div className="flex h-screen antialiased bg-base-100 font-momcake">
+    <div className="flex h-screen antialiased bg-base-100 font-inter">
       <div className="drawer drawer-mobile text-base-content">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
         <div className="flex drawer-content">{children}</div>
@@ -18,16 +18,16 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           <label htmlFor="drawer" className="drawer-overlay"></label>
           <ul className="overflow-y-auto justify-center items-center p-1 w-40 sm:p-4 sm:w-48 menu bg-base-100 text-base-content">
             <Link href="/">
-              <a className="absolute top-4 text-xl italic transition-colors font-spaceRave text-base-content hover:text-accent">
-                Mr fisch
+              <a className="absolute top-4 text-2xl italic font-bold transition-colors font-geo text-base-content hover:text-accent">
+                MR FISCH
                 <GiFriedFish className="mx-auto w-8 h-8" />
               </a>
             </Link>
-            <div className="flex flex-col text-lg">
+            <div className="flex flex-col font-geo">
               <Link href="/codes/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    "btn text-sm flex cursor-pointer items-center justify-start space-x-2 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
                     pathname === "/codes" ? "text-accent" : "text-base-content"
                   )}
                 >
@@ -38,7 +38,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/create/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    "btn flex text-sm cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
                     pathname === "/create" ? "text-accent" : "text-base-content"
                   )}
                 >
@@ -49,7 +49,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/search/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    "btn flex cursor-pointer text-sm items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
                     pathname === "/search" ? "text-accent" : "text-base-content"
                   )}
                 >
@@ -60,7 +60,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/settings/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    "btn flex cursor-pointer text-sm items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
                     pathname === "/settings"
                       ? "text-accent"
                       : "text-base-content"
@@ -73,7 +73,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Link href="/contribute/">
                 <a
                   className={cl(
-                    "btn flex cursor-pointer items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
+                    "btn flex cursor-pointer text-sm items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
                     pathname === "/contribute"
                       ? "text-accent"
                       : "text-base-content"

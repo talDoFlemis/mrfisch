@@ -9,7 +9,7 @@ const CodesList = () => {
   if (error) toast.error(`Failed to fetch codes, ${error}`);
   return (
     <>
-      <h2 className="flex gap-x-4 p-4 text-4xl">Most recent codes</h2>
+      <h2 className="flex gap-x-4 p-4 text-5xl font-geo">Most recent codes</h2>
       {!codes && !error ? (
         <div className="flex justify-center items-center h-3/5">
           <LoadingComponent className="w-16 h-16 text-accent" />

@@ -13,7 +13,7 @@ const TrendingCodes = () => {
 
   return (
     <>
-      <h2 className="flex gap-x-4 items-center p-4 text-4xl">
+      <h2 className="flex gap-x-4 items-center p-4 text-5xl font-geo">
         Trending Codes <BiRocket className="w-10 h-10" />
       </h2>
       {!codes && !error ? (
