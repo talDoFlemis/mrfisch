@@ -23,7 +23,7 @@ interface MyCodesProps {
 const MyCodes = ({ codes }: MyCodesProps) => {
   const router = useRouter();
   return (
-    <main className="flex flex-col gap-4 p-4 w-full h-max">
+    <main className="flex flex-col gap-4 w-full h-max">
       <Head>
         <title>My Codes • Mr Fisch</title>
       </Head>
@@ -42,11 +42,11 @@ const MyCodes = ({ codes }: MyCodesProps) => {
           <HiOutlineMenu className="w-6 h-6" />
         </label>
       </div>
-      <h2 className="flex gap-x-4 items-center p-4 text-4xl">
+      <h2 className="flex gap-x-4 items-center p-4 text-5xl font-geo">
         My Codes <BsCodeSlash className="w-10 h-10" />
       </h2>
       <div className="grid grid-cols-1 gap-8 p-4 mx-auto md:grid-cols-2 xl:grid-cols-3 h-max">
-        {codes ? (
+        {codes?.length !== 0 ? (
           codes?.map((code) => (
             <CodeCard
               key={code.id}
@@ -66,7 +66,7 @@ const MyCodes = ({ codes }: MyCodesProps) => {
             />
           ))
         ) : (
-          <div className="flex flex-col col-span-full gap-y-4 justify-center items-center">
+          <div className="flex flex-col col-span-full gap-y-4 justify-center items-center font-geo">
             <h3 className="text-2xl text-center">
               No code was found for this user
             </h3>

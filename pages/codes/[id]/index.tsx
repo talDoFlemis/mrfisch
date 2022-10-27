@@ -20,6 +20,7 @@ import { AiOutlineArrowLeft, AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import AddToFavoriteBtn from "@components/code/AddToFavoriteBtn";
+import CommentaryList from "@components/code/CommentaryList";
 
 const CodeView = () => {
   const router = useRouter();
@@ -185,6 +186,7 @@ const CodeView = () => {
               </div>
             </div>
           )}
+          <CommentaryList comments={code.comments} user={session?.user} />
         </div>
       )}
     </main>

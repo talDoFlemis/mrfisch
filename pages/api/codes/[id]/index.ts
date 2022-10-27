@@ -19,7 +19,11 @@ export default async function handler(
       try {
         const data = await prisma.code.findUnique({
           where: { id: query.id as string },
-          include: { user: true, favorited_by: true },
+          include: {
+            user: true,
+            favorited_by: true,
+            comments: { include: { user: true } },
+          },
         });
         await prisma.code.update({
           data: { number_views: { increment: 1 } },

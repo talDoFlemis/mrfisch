@@ -39,7 +39,7 @@ const FavoriteCodes = ({ codes }: FavoriteCodesProps) => {
           <HiOutlineMenu className="w-6 h-6" />
         </label>
       </div>
-      <h2 className="flex gap-x-4 items-center p-4 text-4xl">
+      <h2 className="flex gap-x-4 items-center p-4 text-5xl font-geo">
         Favorite Codes <BsBookmarkHeart className="w-10 h-10" />
       </h2>
       <div className="grid grid-cols-1 gap-8 p-4 mx-auto md:grid-cols-2 xl:grid-cols-3 h-max">
@@ -63,7 +63,7 @@ const FavoriteCodes = ({ codes }: FavoriteCodesProps) => {
             />
           ))
         ) : (
-          <div className="flex flex-col col-span-full gap-y-4 justify-center items-center">
+          <div className="flex flex-col col-span-full gap-y-4 justify-center items-center font-geo">
             <h3 className="text-2xl text-center">
               No favorite code was found for this user
             </h3>

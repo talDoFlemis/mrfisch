@@ -43,8 +43,19 @@ export interface CodeInterface {
   user?: User;
   tags?: string[] | null;
   favorited_by: User[];
+  comments: CommentInterface[];
 }
 
+export interface CommentInterface {
+  id: string;
+  userId?: string;
+  user: User;
+  codeId: string;
+  code: CodeInterface;
+  inserted_at: Date;
+  updated_at: Date;
+  block: string;
+}
 export interface UsefulLinkInterface {
   id: number;
   user_id: UserInterface;

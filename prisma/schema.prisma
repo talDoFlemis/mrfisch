@@ -18,6 +18,18 @@ model Link {
   @@map("links")
 }
 
+model Comment{
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeId String
+  code Code @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  inserted_at   DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  block String
+    @@map("comments")
+  }
+
 model Code {
   id            String   @id @default(cuid())
   userId        String?
@@ -32,6 +44,7 @@ model Code {
   tags          String[]
   user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   favorited_by  User[]   @relation("favorite_codes")
+  comments Comment[] 
 
   @@index([userId])
   @@map("codes")
@@ -87,9 +100,11 @@ model User {
   codes          Code[]
   sessions       Session[]
   favorite_codes Code[]    @relation("favorite_codes")
+  comments Comment[]
 
   @@map("users")
 }
+
 
 enum Role {
   NORMAL

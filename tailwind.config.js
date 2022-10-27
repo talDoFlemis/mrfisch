@@ -8,9 +8,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        momcake: ["Momcake", "sans-serif"],
-        spaceRave: ["Space Rave", "sans-serif"],
-        raleway: ["Raleway", "sans-serif"],
         inter: ["Inter", ...defaultTheme.fontFamily.sans],
         geo: ["Geo", ...defaultTheme.fontFamily.sans],
       },
