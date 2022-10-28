@@ -22,7 +22,6 @@ export default async function handler(
           include: {
             user: true,
             favorited_by: true,
-            comments: { include: { user: true } },
           },
         });
         await prisma.code.update({

@@ -1,3 +1,4 @@
+import AutoSizeTextarea from "@components/layout/AutoSizeTextarea";
 import { Dialog, Transition } from "@headlessui/react";
 import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
 
@@ -5,15 +6,13 @@ interface ModalCommentaryProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   postOperation: (data: string) => void;
-  initialData?: string;
 }
-const ModalCommentary = ({
+const AddCommentModal = ({
   isOpen,
   setIsOpen,
   postOperation,
-  initialData,
 }: ModalCommentaryProps) => {
-  const [postData, setPostData] = useState(initialData ?? "");
+  const [postData, setPostData] = useState("");
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -44,20 +43,29 @@ const ModalCommentary = ({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="overflow-hidden p-6 w-full max-w-md text-left align-middle rounded-2xl shadow-xl transition-all transform bg-base-100">
+              <Dialog.Panel className="flex overflow-hidden flex-col gap-y-4 p-6 w-full max-w-md text-left align-middle rounded-2xl shadow-xl transition-all transform bg-base-100">
                 <Dialog.Title as="h3" className="text-lg text-neutral-content">
-                  Editing comment
+                  Creating a new comment
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm font-light text-neutral-content">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
+                  <AutoSizeTextarea
+                    setText={setPostData}
+                    text={postData}
+                    id="text-data"
+                    error
+                    className="bg-neutral text-neutral-content"
+                  />
                 </div>
-
-                <div className="self-end mt-4">
-                  <button onClick={() => postOperation(postData)}></button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    postOperation(postData);
+                    setPostData("");
+                  }}
+                  className="btn btn-primary"
+                >
+                  Create
+                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -67,4 +75,4 @@ const ModalCommentary = ({
   );
 };
 
-export default ModalCommentary;
+export default AddCommentModal;
