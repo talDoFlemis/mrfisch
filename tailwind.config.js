@@ -15,9 +15,18 @@ module.exports = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
       },
       animation: {
+        wiggle: "wiggle 1s ease-in-out infinite",
         tilt: "tilt 10s infinite linear",
       },
       keyframes: {
+        wiggle: {
+          "0%, 100%": {
+            transform: "rotate(-3deg)",
+          },
+          "50%": {
+            transform: "rotate(3deg)",
+          },
+        },
         tilt: {
           "0%, 50%, 100%": {
             transform: "rotate(0deg)",
