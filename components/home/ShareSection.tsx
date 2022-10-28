@@ -1,7 +1,7 @@
 import CodeCard from "@components/code/CodeCard";
 import Image from "next/image";
 import { CodeInterface } from "typings";
-import Space2Img from "../../public/img/space2.jpg";
+import Space2Img from "../../public/img/space2.webp";
 
 const ShareSection = () => {
   const mockedInput: CodeInterface = {

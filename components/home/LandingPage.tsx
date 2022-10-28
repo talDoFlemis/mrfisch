@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { AiFillGithub } from "react-icons/ai";
 import LandingPageImg from "../../public/img/banner-bg.webp";
+import DabbingAstro from "../../public/img/dabastronaut.webp";
 
+//TODO: Add the dabbing astronaut
 const LandingPage = () => {
   return (
     <div className="relative w-full h-screen text-white">

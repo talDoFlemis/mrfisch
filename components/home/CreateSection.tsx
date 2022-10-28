@@ -1,7 +1,7 @@
 import CodeHighlighter from "@components/code/CodeHighlighter";
 import Image from "next/image";
 import Link from "next/link";
-import SpaceImg from "../../public/img/space.jpg";
+import SpaceImg from "../../public/img/space.webp";
 
 const CreateSection = () => {
   const mockedInput = `const answerToLife = async () => {

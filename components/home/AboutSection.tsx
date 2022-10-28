@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { GithubInterface } from "typings";
-import Space3Img from "../../public/img/space3.jpg";
+import Space3Img from "../../public/img/space3.webp";
+import ChadImg from "../../public/img/chad.webp";
+import PepeImg from "../../public/img/pepe.webp";
 
 const AboutSection = ({ profile }: { profile: GithubInterface }) => {
   return (
@@ -39,7 +41,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
             </a>
             <div className="relative row-start-4 w-full h-full sm:row-start-auto">
               <Image
-                src="/img/pepe.png"
+                src={PepeImg}
                 layout="fill"
                 objectFit="contain"
                 alt="pepe"
@@ -63,7 +65,7 @@ const AboutSection = ({ profile }: { profile: GithubInterface }) => {
             </div>
             <div className="relative w-full h-full">
               <Image
-                src="/img/chad.png"
+                src={ChadImg}
                 layout="fill"
                 objectFit="contain"
                 className="scale-125"
