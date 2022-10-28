@@ -7,7 +7,15 @@ import StealCodeButton from "./StealCodeButton";
 import Image from "next/image";
 import { Highlight } from "react-instantsearch-hooks-web";
 
-interface CodeCardProps extends CodeInterface {
+interface CodeCardProps
+  extends Omit<
+    CodeInterface,
+    | "documentation"
+    | "comments"
+    | "inserted_at"
+    | "favorited_by"
+    | "number_views"
+  > {
   className?: string;
   hit?: any;
 }

@@ -34,10 +34,7 @@ const TrendingCodes = () => {
               className="min-h-52 bg-neutral"
               tags={code.tags}
               hit={undefined}
-              inserted_at={code.inserted_at}
               language={code.language}
-              number_views={code.number_views}
-              favorited_by={[]}
             />
           ))}
         </div>

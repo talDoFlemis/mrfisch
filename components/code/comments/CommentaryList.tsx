@@ -6,7 +6,7 @@ import { MdEdit } from "react-icons/md";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import YuiGif from "../../public/img/yui.gif";
+import YuiGif from "../../../public/img/yui.gif";
 import { IoAddOutline } from "react-icons/io5";
 import AddCommentModal from "./AddCommentModal";
 import EditCommentModal from "./EditCommentModal";
@@ -16,6 +16,7 @@ import { CommentInterface } from "typings";
 import { useSWRConfig } from "swr";
 import LoadingComponent from "@components/layout/LoadingComponent";
 import DeleteCommentModal from "./DeleteCommentModal";
+import DeleteModal from "@components/layout/DeleteModal";
 
 interface CommentaryListProps {
   user?: Session["user"];
@@ -57,9 +58,9 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
       );
       mutate(
         `/api/codes/${router.query.id}/comments`,
-        async (commments: CommentInterface[]) => {
-          const updatedComments = comments?.unshift(resp.data);
-          return updatedComments;
+        async (comments: CommentInterface[]) => {
+          comments.unshift(resp.data);
+          return comments;
         },
         { revalidate: false }
       );
@@ -84,11 +85,10 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
       );
       mutate(
         `/api/codes/${router.query.id}/comments`,
-        async (commments: CommentInterface[]) => {
-          const filteredComments = comments!.filter(
+        async (comments: CommentInterface[]) => {
+          const filteredComments = comments.filter(
             (comm) => comm.id !== resp.data.id
           );
-          console.log(filteredComments);
           filteredComments.unshift(resp.data);
           return filteredComments;
         },
@@ -106,14 +106,13 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
 
   const deleteComment = async (data: { id: string; userId: string }) => {
     try {
-      const resp = await axios.delete(
-        `/api/codes/${router.query.id}/comments`,
-        { data: data }
-      );
+      await axios.delete(`/api/codes/${router.query.id}/comments`, {
+        data: data,
+      });
       mutate(
         `/api/codes/${router.query.id}/comments`,
-        async (commments: CommentInterface[]) => {
-          const filteredComments = comments!.filter(
+        async (comments: CommentInterface[]) => {
+          const filteredComments = comments.filter(
             (comm) => comm.id !== data.id
           );
           return filteredComments;
@@ -141,10 +140,11 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
         postOperation={editComment}
         setEditModal={setEditModal}
       />
-      <DeleteCommentModal
+      <DeleteModal
         deleteModal={deleteModal}
         setDeleteModal={setDeleteModal}
         postOperation={deleteComment}
+        title="Are you sure U want to delete this comment"
       />
       <div className="flex justify-between items-center text-4xl font-geo">
         <h1>Comments</h1>

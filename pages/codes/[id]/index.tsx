@@ -15,30 +15,35 @@ import LoadingComponent from "@components/layout/LoadingComponent";
 import Head from "next/head";
 import { useQuery } from "hooks/useQuery";
 import { toast } from "react-toastify";
-import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
 import { AiOutlineArrowLeft, AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import AddToFavoriteBtn from "@components/code/AddToFavoriteBtn";
-import CommentaryList from "@components/code/CommentaryList";
+import CommentaryList from "@components/code/comments/CommentaryList";
+import DeleteModal from "@components/layout/DeleteModal";
 
 const CodeView = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const [linkToCopy, setLinkToCopy] = useState("");
+  const [deleteModal, setDeleteModal] = useState({
+    id: "",
+    userId: "",
+    isOpen: false,
+  });
 
   const { data: code, error } = useQuery<CodeInterface>(
-    router.query.id ? `/api/codes/${router.query.id}` : null
+    router.query.id ? `/api/codes/${router.query.id}` : null,
+    false
   );
 
   if (error) {
     toast.error(`Unable to fetch the code, ${error}`);
   }
 
-  const deleteCode = async () => {
-    const id = router.query.id;
+  const deleteCode = async (data: { id: string; userId: string }) => {
     try {
-      await axios.delete(`/api/codes/${id}`);
+      await axios.delete(`/api/codes/${router.query.id}`, { data: data });
       router.push("/codes");
       toast.success("Deleted code with success");
     } catch (err) {
@@ -71,9 +76,11 @@ const CodeView = () => {
           <HiOutlineMenu className="w-6 h-6" />
         </label>
       </div>
-      <DeleteLinkModal
-        title={code?.code_title as string}
-        deleteOP={() => deleteCode()}
+      <DeleteModal
+        deleteModal={deleteModal}
+        setDeleteModal={setDeleteModal}
+        title="Are you sure U want do delete this code"
+        postOperation={deleteCode}
       />
       {!code ? (
         <div className="flex h-[60vh]">
@@ -136,36 +143,44 @@ const CodeView = () => {
                   codeId={code.id}
                 />
                 {session?.user?.id === code?.user?.id ? (
-                  <Link href={`/codes/${router.query.id}/edit`}>
-                    <a className="gap-2 justify-center text-black bg-white border-none shadow transition-colors hover:text-white btn btn-sm hover:bg-base-300">
-                      <p>Edit</p>
-                      <MdEdit className="w-6 h-6" />
-                    </a>
-                  </Link>
-                ) : (
-                  <button
-                    className="gap-2 justify-center text-black border-none cursor-default btn btn-sm bg-base-100"
-                    disabled
-                  >
-                    <p>Edit</p>
-                    <MdEdit className="w-6 h-6" />
-                  </button>
-                )}
-                {session?.user?.id === code?.user?.id ? (
-                  <label htmlFor="deletemodal">
-                    <div className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm">
+                  <>
+                    <Link href={`/codes/${router.query.id}/edit`}>
+                      <a className="gap-2 justify-center text-black bg-white border-none shadow transition-colors hover:text-white btn btn-sm hover:bg-base-300">
+                        <p>Edit</p>
+                        <MdEdit className="w-6 h-6" />
+                      </a>
+                    </Link>
+                    <button
+                      className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm"
+                      onClick={() =>
+                        setDeleteModal({
+                          id: router.query.id as string,
+                          userId: session?.user.id as string,
+                          isOpen: true,
+                        })
+                      }
+                    >
                       <p>Delete Code</p>
                       <AiOutlineDelete className="w-6 h-6 shadow-accent" />
-                    </div>
-                  </label>
+                    </button>
+                  </>
                 ) : (
-                  <button
-                    className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm"
-                    disabled
-                  >
-                    <p>Delete Code</p>
-                    <AiOutlineDelete className="w-6 h-6 shadow-accent" />
-                  </button>
+                  <>
+                    <button
+                      className="gap-2 justify-center text-black border-none cursor-default btn btn-sm bg-base-100"
+                      disabled
+                    >
+                      <p>Edit</p>
+                      <MdEdit className="w-6 h-6" />
+                    </button>
+                    <button
+                      className="w-full border-none transition-colors hover:text-white btn btn-secondary btn-sm"
+                      disabled
+                    >
+                      <p>Delete Code</p>
+                      <AiOutlineDelete className="w-6 h-6 shadow-accent" />
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -186,7 +201,7 @@ const CodeView = () => {
               </div>
             </div>
           )}
-          <CommentaryList comments={code.comments} user={session?.user} />
+          <CommentaryList user={session?.user} />
         </div>
       )}
     </main>

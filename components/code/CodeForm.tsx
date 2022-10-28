@@ -21,9 +21,11 @@ const schema = yup
   })
   .required();
 
+type CustomCode = Omit<CodeInterface, "comments">;
+
 interface CodeFormProps {
   postOperation: any;
-  initialValues?: CodeInterface;
+  initialValues?: CustomCode;
   user?: Session["user"];
 }
 
@@ -35,7 +37,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
     resetField,
     reset,
     formState: { errors },
-  } = useForm<CodeInterface>({
+  } = useForm<CustomCode>({
     resolver: yupResolver(schema),
     defaultValues: {
       code_title: initialValues?.code_title ?? "",

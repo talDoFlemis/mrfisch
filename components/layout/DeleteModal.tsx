@@ -13,11 +13,13 @@ interface ModalCommentaryProps {
     }>
   >;
   postOperation: (data: { id: string; userId: string }) => void;
+  title: string;
 }
-const DeleteCommentModal = ({
+const DeleteModal = ({
   deleteModal,
   setDeleteModal,
   postOperation,
+  title,
 }: ModalCommentaryProps) => {
   return (
     <Transition appear show={deleteModal.isOpen} as={Fragment}>
@@ -51,7 +53,7 @@ const DeleteCommentModal = ({
             >
               <Dialog.Panel className="flex overflow-hidden flex-col gap-y-4 p-6 w-full max-w-md text-left align-middle rounded-2xl shadow-xl transition-all transform bg-base-100">
                 <Dialog.Title as="h3" className="text-lg text-neutral-content">
-                  Are you sure U want to delete this comment?
+                  {title}
                 </Dialog.Title>
                 <div className="relative self-center w-32 h-32">
                   <Image
@@ -94,4 +96,4 @@ const DeleteCommentModal = ({
   );
 };
 
-export default DeleteCommentModal;
+export default DeleteModal;

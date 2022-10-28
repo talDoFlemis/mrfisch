@@ -38,7 +38,6 @@ export default async function handler(
           },
           include: { user: true },
         });
-        console.log(data);
 
         res.status(200).json(data);
       } catch (error) {

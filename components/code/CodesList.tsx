@@ -28,10 +28,7 @@ const CodesList = () => {
               className="min-h-52 bg-neutral"
               tags={code.tags}
               hit={undefined}
-              inserted_at={code.inserted_at}
               language={code.language}
-              favorited_by={code.favorited_by}
-              number_views={code.number_views}
             />
           ))}
         </div>
