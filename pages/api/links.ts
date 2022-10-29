@@ -13,7 +13,7 @@ export default async function handler(
     case "GET": {
       const session = await unstable_getServerSession(req, res, authOptions);
       if (!session || session.user.role !== "PORTULOVER")
-        throw new Error("UNAUTHORIZED");
+        return res.status(401).send({ message: "UNAUTHORIZED" });
       try {
         const data = await prisma.link.findMany({
           include: { user: true },
@@ -22,8 +22,7 @@ export default async function handler(
         res.status(200).json(data);
       } catch (error) {
         console.log(error);
-        const err = error as Error;
-        res.status(400).json(err.message);
+        res.status(400).send({ message: "Server error" });
       }
 
       break;
@@ -32,19 +31,17 @@ export default async function handler(
     case "POST": {
       const session = await unstable_getServerSession(req, res, authOptions);
       if (!session || session.user.role !== "PORTULOVER")
-        throw new Error("UNAUTHORIZED");
+        return res.status(401).send({ message: "UNAUTHORIZED" });
       try {
         const data = await prisma.link.create({
           data: { url: body.url, title: body.title, userId: session.user.id },
           include: { user: true },
         });
-        console.log(data);
 
-        res.status(201).json(data);
+        res.status(200).json(data);
       } catch (error) {
         console.log(error);
-        const err = error as Error;
-        res.status(400).send(err.message);
+        res.status(400).send(error);
       }
 
       break;
@@ -53,7 +50,7 @@ export default async function handler(
     case "PATCH": {
       const session = await unstable_getServerSession(req, res, authOptions);
       if (!session || session.user.role !== "PORTULOVER")
-        throw new Error("UNAUTHORIZED");
+        return res.status(401).send({ message: "UNAUTHORIZED" });
       try {
         const data = await prisma.link.update({
           where: { id: body.id as string },
@@ -61,11 +58,10 @@ export default async function handler(
           include: { user: true },
         });
 
-        res.status(201).json(data);
+        res.status(200).json(data);
       } catch (error) {
         console.log(error);
-        const err = error as Error;
-        res.status(400).send(err.message);
+        res.status(400).send(error);
       }
 
       break;
@@ -74,18 +70,17 @@ export default async function handler(
     case "DELETE": {
       const session = await unstable_getServerSession(req, res, authOptions);
       if (!session || session.user.role !== "PORTULOVER")
-        throw new Error("UNAUTHORIZED");
+        return res.status(401).send({ message: "UNAUTHORIZED" });
       try {
         const data = await prisma.link.delete({
           where: { id: body.id },
         });
         console.log(data);
 
-        res.status(201).json(data);
+        res.status(200).json(data);
       } catch (error) {
         console.log(error);
-        const err = error as Error;
-        res.status(400).send(err.message);
+        res.status(400).send(error);
       }
 
       break;

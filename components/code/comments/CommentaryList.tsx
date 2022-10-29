@@ -43,7 +43,7 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
   );
 
   if (error) {
-    toast.error(`Unable to fetch comments, ${error}`);
+    toast.error(`Unable to fetch comments, ${error.message}`);
   }
 
   const addComment = async (data: string) => {
@@ -66,7 +66,7 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
       toast.success("Comment created with success");
     } catch (error) {
       const err = error as Error;
-      toast.error(err.message);
+      toast.error(`Unable to add a new comment, ${err.message}`);
     } finally {
       setAddOpen(false);
     }
@@ -97,7 +97,7 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
       toast.success("Comment edited with success");
     } catch (error) {
       const err = error as Error;
-      toast.error(err.message);
+      toast.error(`Unable to edit the comment, ${err.message}`);
     } finally {
       setEditModal({ ...editModal, isOpen: false });
     }
@@ -122,7 +122,7 @@ const CommentaryList = ({ user }: CommentaryListProps) => {
       toast.success("Comment deleted with success");
     } catch (error) {
       const err = error as Error;
-      toast.error(err.message);
+      toast.error(`Unable to delete the comment, ${err.message}`);
     } finally {
       setDeleteModal({ ...deleteModal, isOpen: false });
     }

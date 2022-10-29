@@ -38,7 +38,7 @@ const CodeView = () => {
   );
 
   if (error) {
-    toast.error(`Unable to fetch the code, ${error}`);
+    toast.error(`Unable to fetch the code, ${error.message}`);
   }
 
   const deleteCode = async (data: { id: string; userId: string }) => {

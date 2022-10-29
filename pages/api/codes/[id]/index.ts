@@ -47,9 +47,8 @@ export default async function handler(
       };
       if (body?.userId === null) body.userId = undefined;
 
-      if (session?.user.id !== body?.userId) {
-        throw new Error("UNAUTORIZED");
-      }
+      if (session?.user.id !== body?.userId)
+        return res.status(401).send({ message: "UNAUTHORIZED" });
 
       const algoliaData: AlgoliaInterface = {
         objectID: "",
@@ -99,19 +98,18 @@ export default async function handler(
       const session = await getSession({ req });
 
       if (body?.userId === null) body.userId = undefined;
-      if (session?.user.id !== body.userId) {
-        throw new Error("UNAUTORIZED");
-      }
+      if (session?.user.id !== body.userId)
+        return res.status(401).send({ message: "UNAUTHORIZED" });
 
       try {
         await prisma.code.delete({ where: { id: query.id as string } });
-        const client = algoliasearch(
-          "IEWGM4QLJ8",
-          process.env.ALGOLIA_ADMIN_KEY as string
-        );
-        const index = client.initIndex("mrfisch");
-
-        index.deleteObject(query.id as string);
+        // const client = algoliasearch(
+        //   "IEWGM4QLJ8",
+        //   process.env.ALGOLIA_ADMIN_KEY as string
+        // );
+        // const index = client.initIndex("mrfisch");
+        //
+        // index.deleteObject(query.id as string);
         res.status(200).json({ message: "Deleted with success" });
       } catch (error) {
         res.status(409).send(error);

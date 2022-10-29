@@ -1,29 +1,17 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
 import Head from "next/head";
-import Link from "next/link";
 import { ReactElement, useState } from "react";
-import { IconArrowLeft } from "@supabase/ui";
 import { HiOutlineMenu } from "react-icons/hi";
 import UserForm from "@components/user/UserForm";
-import { UserInterface } from "typings";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
-import {
-  getUser,
-  supabaseClient,
-  supabaseServerClient,
-  User,
-  withPageAuth,
-} from "@supabase/auth-helpers-nextjs";
+import { Session, unstable_getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
-interface ProfileProps {
-  userData: UserInterface;
-  user: User;
-}
-
-const Profile = ({ user, userData }: ProfileProps) => {
+const Profile = ({ user }: Session) => {
   const router = useRouter();
   const [isPosting, setIsPosting] = useState(false);
 
@@ -52,23 +40,23 @@ const Profile = ({ user, userData }: ProfileProps) => {
     }
   };
 
-  const updateProfile = async (data: UserInterface) => {
+  const updateProfile = async (data: Session["user"]) => {
     setIsPosting(true);
     const updateData: {
       id: string;
-      username: string;
+      name: string;
       avatar_url: string | undefined;
-      is_new: boolean;
+      isNew: boolean;
     } = {
       id: user.id,
-      username: data.username,
-      avatar_url: userData.avatar_url ?? undefined,
-      is_new: false,
+      name: data.name as string,
+      avatar_url: user.image ?? undefined,
+      isNew: false,
     };
 
     try {
-      if (typeof data.avatar_url === "object") {
-        updateData.avatar_url = await uploadAvatar(data.avatar_url);
+      if (typeof data.image === "object") {
+        updateData.avatar_url = await uploadAvatar(data.image);
       }
 
       const { error } = await supabaseClient
@@ -92,35 +80,34 @@ const Profile = ({ user, userData }: ProfileProps) => {
         <title>Updating profile • Mr Fisch</title>
       </Head>
       <div className="sticky top-0 z-10 justify-between bg-opacity-40 navbar bg-neutral backdrop-blur-sm">
-        <Link href="/codes/">
-          <a className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent">
-            <IconArrowLeft className="w-6 h-6 md:w-8 md:h-8" />
-            <p className="hidden md:inline-flex">Go back</p>
-          </a>
-        </Link>
+        <button
+          className="flex items-center font-bold transition-colors cursor-pointer w-fit hover:text-accent"
+          onClick={() => router.back()}
+        >
+          <AiOutlineArrowLeft className="w-6 h-6 md:w-8 md:h-8" aria-hidden />
+          <p className="hidden md:inline-flex">Go back</p>
+        </button>
         <div className="flex gap-x-3 justify-between items-center">
-          {user && (
-            <div className="flex gap-4">
-              {isPosting ? (
-                <button
-                  type="submit"
-                  form="form"
-                  className="mx-auto w-20 text-sm text-white border-none md:w-32 btn btn-disabled btn-sm lg:btn-md"
-                  disabled
-                >
-                  Updating
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  form="form"
-                  className="mx-auto w-20 text-sm text-white border-none md:w-32 btn btn-accent btn-sm lg:btn-md"
-                >
-                  Update
-                </button>
-              )}
-            </div>
-          )}
+          <div className="flex gap-4">
+            {isPosting ? (
+              <button
+                type="submit"
+                form="form"
+                className="mx-auto w-20 text-sm text-white border-none md:w-32 btn btn-disabled btn-sm lg:btn-md"
+                disabled
+              >
+                Updating
+              </button>
+            ) : (
+              <button
+                type="submit"
+                form="form"
+                className="mx-auto w-20 text-sm text-white border-none md:w-32 btn btn-accent btn-sm lg:btn-md"
+              >
+                Update
+              </button>
+            )}
+          </div>
           <label
             className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
@@ -129,7 +116,7 @@ const Profile = ({ user, userData }: ProfileProps) => {
           </label>
         </div>
       </div>
-      <UserForm initialValues={userData} postOperation={updateProfile} />
+      <UserForm initialValues={user} postOperation={updateProfile} />
     </main>
   );
 };
@@ -140,15 +127,25 @@ Profile.getLayout = function getLayout(page: ReactElement) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
 
-export const getServerSideProps: GetServerSideProps = withPageAuth({
-  redirectTo: "/login",
-  async getServerSideProps(ctx) {
-    const { user } = await getUser(ctx);
-    const { data: userData } = await supabaseServerClient(ctx)
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
-    return { props: { user, userData } };
-  },
-});
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/stop",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      user: session.user,
+    },
+  };
+};

@@ -37,6 +37,10 @@ const Portulovers = () => {
   const { data: links, error } = useQuery<LinkInterface[]>("/api/links", false);
   const { mutate } = useSWRConfig();
 
+  if (error) {
+    toast.error(`Unable to fetch links, ${error.message}`);
+  }
+
   const addLink = async (data: { url: string; title: string }) => {
     try {
       const resp = await axios.post("/api/links", data);

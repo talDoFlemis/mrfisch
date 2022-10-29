@@ -70,7 +70,7 @@ while true:
           <HiOutlineMenu className="w-6 h-6" />
         </label>
       </div>
-      <h1 className="p-4 text-3xl lg:text-4xl">Pick a theme</h1>
+      <h1 className="p-4 text-3xl font-geo">Pick a theme</h1>
       <div className="flex flex-col flex-wrap gap-4 justify-center items-center sm:flex-row">
         {allThemes.map((theme) => (
           <div
@@ -89,7 +89,7 @@ while true:
           </div>
         ))}
       </div>
-      <h1 className="p-4 text-3xl lg:text-4xl">
+      <h1 className="p-4 text-3xl font-geo">
         Previewing Code with theme {theme}
       </h1>
       <div className="mx-8 select-none card bg-neutral">
@@ -97,11 +97,11 @@ while true:
           <CodeHighlighter
             language="javascript"
             input={mockedCode}
-            className="text-xs 2xl:text-sm"
+            className="text-xs"
           />
         </div>
       </div>
-      <h1 className="p-4 text-3xl lg:text-4xl">
+      <h1 className="p-4 text-3xl font-geo">
         Previewing Cards with theme {theme}
       </h1>
       <CodeCard
@@ -111,9 +111,9 @@ while true:
         description={mockedInput.description}
         updated_at={mockedInput.updated_at}
         code_block={mockedInput.code_block}
-        is_public={mockedInput.is_public}
         className="mx-auto mb-4 w-4/5 lg:w-1/2 min-h-52 bg-neutral"
         tags={mockedInput.tags}
+        language={"rust"}
       />
     </main>
   );

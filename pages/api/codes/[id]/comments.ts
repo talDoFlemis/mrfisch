@@ -1,7 +1,6 @@
 import prisma from "@utils/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { getSession } from "next-auth/react";
 import { authOptions } from "pages/api/auth/[...nextauth]";
 
 export default async function handler(
@@ -28,7 +27,7 @@ export default async function handler(
     case "POST": {
       try {
         const session = await unstable_getServerSession(req, res, authOptions);
-        if (!session) throw new Error("Must be logged in");
+        if (!session) return res.status(401).send({ message: "UNAUTHORIZED" });
 
         const data = await prisma.comment.create({
           data: {
@@ -50,9 +49,8 @@ export default async function handler(
     case "PATCH": {
       const session = await unstable_getServerSession(req, res, authOptions);
       if (body?.userId === null) body.userId = undefined;
-      if (session?.user.id !== body?.userId) {
-        throw new Error("UNAUTORIZED");
-      }
+      if (session?.user.id !== body?.userId)
+        return res.status(401).send({ message: "UNAUTHORIZED" });
 
       const postData = {
         ...body,
@@ -75,12 +73,11 @@ export default async function handler(
     }
 
     case "DELETE": {
-      const { query, body } = req;
+      const { body } = req;
       const session = await unstable_getServerSession(req, res, authOptions);
       if (body?.userId === null) body.userId = undefined;
-      if (session?.user.id !== body.userId) {
-        throw new Error("UNAUTORIZED");
-      }
+      if (session?.user.id !== body?.userId)
+        return res.status(401).send({ message: "UNAUTHORIZED" });
 
       try {
         await prisma.comment.delete({ where: { id: body.id } });
