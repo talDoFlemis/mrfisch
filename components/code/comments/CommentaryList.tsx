@@ -15,7 +15,6 @@ import { useQuery } from "hooks/useQuery";
 import { CommentInterface } from "typings";
 import { useSWRConfig } from "swr";
 import LoadingComponent from "@components/layout/LoadingComponent";
-import DeleteCommentModal from "./DeleteCommentModal";
 import DeleteModal from "@components/layout/DeleteModal";
 
 interface CommentaryListProps {

@@ -1,64 +1,100 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
 import AddLinkModal from "@components/portulovers/AddLinkModal";
-import DeleteLinkModal from "@components/portulovers/DeleteLinkModal";
 import EditLinkModal from "@components/portulovers/EditLinkModal";
-import UsefulLinkCard from "@components/portulovers/UsefulLinkCard";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { ReactElement, useEffect, useState } from "react";
+import LinkCard from "@components/portulovers/LinkCard";
+import { GetServerSideProps } from "next";
+import { ReactElement, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsFilePlus } from "react-icons/bs";
 import { HiOutlineMenu } from "react-icons/hi";
 import { toast } from "react-toastify";
-import { UsefulLinkInterface, UsefulLinkModalData } from "typings";
+import { LinkInterface } from "typings";
 import Head from "next/head";
-import {
-  getUser,
-  supabaseClient,
-  supabaseServerClient,
-  withPageAuth,
-} from "@supabase/auth-helpers-nextjs";
-import { useUser } from "@supabase/auth-helpers-react";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
+import { useQuery } from "hooks/useQuery";
+import DeleteModal from "@components/layout/DeleteModal";
+import axios from "axios";
+import { useSWRConfig } from "swr";
+import { IoAddOutline } from "react-icons/io5";
 
-const Portulovers = ({
-  links,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [modalData, setModalData] = useState<UsefulLinkModalData>();
-  const [linksData, setLinksData] = useState<UsefulLinkInterface[]>(links);
+const Portulovers = () => {
+  const [deleteModal, setDeleteModal] = useState({
+    id: "",
+    userId: "",
+    isOpen: false,
+  });
+  const [editModal, setEditModal] = useState({
+    isOpen: false,
+    id: "",
+    title: "",
+    url: "",
+  });
+  const [addModal, setAddModal] = useState(false);
   const [search, setSearch] = useState<string>("");
-  const { user } = useUser();
+  const { data: links } = useQuery<LinkInterface[]>("/api/links", false);
+  const { mutate } = useSWRConfig();
 
-  const getLinks = async () => {
+  const addLink = async (data: { url: string; title: string }) => {
     try {
-      const { data, error } = await supabaseClient
-        .from<UsefulLinkInterface>("useful_links")
-        .select("*");
-      console.log(data);
-      if (error) throw error;
-      setLinksData(data);
+      const resp = await axios.post("/api/links", data);
+      mutate(
+        "/api/links",
+        async (links: LinkInterface[]) => {
+          links.unshift(resp.data);
+          return links;
+        },
+        { revalidate: false }
+      );
+      toast.success("Link was added with success");
     } catch (err) {
       const error = err as Error;
-      toast.error(`Unable to fetch the links, ${error.message}`);
+      toast.error(`Unable to add the link, ${error.message}`);
+    } finally {
+      setAddModal(false);
     }
   };
 
-  const deleteLink = async () => {
+  const editLink = async (data: { id: string; url: string; title: string }) => {
     try {
-      const { error } = await supabaseClient
-        .from("useful_links")
-        .delete()
-        .match({ id: modalData?.id });
-      if (error) throw error;
-      toast.success(`Link ${modalData?.title} was deleted with success`);
-      getLinks();
+      const resp = await axios.patch("/api/links", data);
+      mutate(
+        "/api/links",
+        async (links: LinkInterface[]) => {
+          const filteredLinks = links.filter((link) => link.id !== data.id);
+          filteredLinks.unshift(resp.data);
+          return filteredLinks;
+        },
+        { revalidate: false }
+      );
+      toast.success("Link was deleted with success");
+    } catch (err) {
+      const error = err as Error;
+      toast.error(`Unable to edit the link, ${error.message}`);
+    } finally {
+      setEditModal({ ...editModal, isOpen: false });
+    }
+  };
+
+  const deleteLink = async (data: { id: string; userId: string }) => {
+    try {
+      await axios.delete("/api/links", { data: data });
+      mutate(
+        "/api/links",
+        async (links: LinkInterface[]) => {
+          const filteredLinks = links.filter((link) => link.id !== data.id);
+          return filteredLinks;
+        },
+        { revalidate: false }
+      );
+
+      toast.success("Link was deleted with success");
     } catch (err) {
       const error = err as Error;
       toast.error(`Unable to delete the link, ${error.message}`);
+    } finally {
+      setDeleteModal({ ...deleteModal, isOpen: false });
     }
   };
-
-  useEffect(() => {
-    if (user) getLinks();
-  }, [user]);
 
   return (
     <main className="flex flex-col gap-4 p-4 w-full h-max">
@@ -66,9 +102,9 @@ const Portulovers = ({
         <title>Portulovers • Mr Fisch</title>
       </Head>
       <header className="flex sticky top-0 z-10 justify-between items-center p-4 bg-opacity-40 navbar backdrop-blur-sm">
-        <h1 className="text-3xl sm:text-4xl">Useful Links</h1>
+        <h1 className="text-4xl font-geo">Useful Links</h1>
         <div className="flex gap-4 items-center">
-          <div className="relative">
+          <div className="hidden relative sm:inline-flex">
             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
               <AiOutlineSearch className="w-4 h-4" />
             </div>
@@ -79,9 +115,13 @@ const Portulovers = ({
               className="block p-4 pl-10 w-full rounded-lg input input-bordered input-primary bg-neutral text-neutral-content"
             />
           </div>
-          <label htmlFor="addmodal">
-            <BsFilePlus className="w-4 h-4 cursor-pointer sm:w-6 sm:h-6 hover:text-accent" />
-          </label>
+          <button
+            className="text-sm btn btn-primary btn-sm font-geo"
+            onClick={() => setAddModal(true)}
+          >
+            <IoAddOutline className="w-6 h-6" aria-hidden />
+            Add
+          </button>
           <label
             className="transition-colors cursor-pointer lg:hidden text-base-content hover:text-accent"
             htmlFor="drawer"
@@ -90,21 +130,27 @@ const Portulovers = ({
           </label>
         </div>
       </header>
-      {modalData && (
-        <>
-          <EditLinkModal
-            id={modalData.id}
-            title={modalData.title}
-            link={modalData.link}
-            user_id={user?.id as string}
-            getLinks={getLinks}
-          />
-          <DeleteLinkModal title={modalData.title} deleteOP={deleteLink} />
-        </>
-      )}
-      {user && <AddLinkModal user_id={user.id} getLinks={getLinks} />}
+      <DeleteModal
+        deleteModal={deleteModal}
+        setDeleteModal={setDeleteModal}
+        postOperation={deleteLink}
+        title={"Are you sure U want to delete this link"}
+      />
+      <EditLinkModal
+        id={editModal.id}
+        title={editModal.title}
+        url={editModal.url}
+        postOperation={editLink}
+        editModal={editModal}
+        setEditModal={setEditModal}
+      />
+      <AddLinkModal
+        addModal={addModal}
+        setAddModal={setAddModal}
+        postOperation={addLink}
+      />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {linksData
+        {links
           ?.filter((link) => {
             if (search === "") {
               return link;
@@ -114,16 +160,17 @@ const Portulovers = ({
               return link;
             }
           })
-          .map((data) => (
-            <UsefulLinkCard
-              id={data.id}
-              key={data.title}
-              title={data.title}
-              link={data.link}
-              setShowEditModal={setModalData}
-              inserted_at={data.inserted_at}
-              updated_at={data.updated_at}
-              user_id={data.user_id}
+          .map((link) => (
+            <LinkCard
+              id={link.id}
+              key={link.id}
+              title={link.title}
+              url={link.url}
+              inserted_at={link.inserted_at}
+              updated_at={link.updated_at}
+              user={link.user}
+              setDeleteModal={setDeleteModal}
+              setEditModal={setEditModal}
             />
           ))}
       </div>
@@ -137,28 +184,23 @@ Portulovers.getLayout = function getLayout(page: ReactElement) {
 
 export default Portulovers;
 
-export const getServerSideProps: GetServerSideProps = withPageAuth({
-  redirectTo: "/stop",
-  async getServerSideProps(ctx) {
-    const { data: isPort, error } = await supabaseServerClient(ctx).rpc(
-      "get_is_portulover"
-    );
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
 
-    if (error) console.log(error);
-    if (!isPort) {
-      return {
-        props: {},
-        redirect: { destination: "/stop", permanent: false },
-      };
-    }
+  if (!session || session.user.role === "NORMAL") {
+    return {
+      redirect: {
+        destination: "/stop",
+        permanent: false,
+      },
+    };
+  }
 
-    const { user } = await getUser(ctx);
-    const { data: links, error: linkError } = await supabaseServerClient(ctx)
-      .from("useful_links")
-      .select("*, user_id(username, avatar_url)")
-      .order("updated_at", { ascending: false });
-    if (error) console.log(linkError);
-
-    return { props: { user, links } };
-  },
-});
+  return {
+    props: {},
+  };
+};

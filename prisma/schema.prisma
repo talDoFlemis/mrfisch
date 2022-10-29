@@ -12,6 +12,7 @@ model Link {
   title     String
   url       String
   userId    String
+  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
   updatedAt DateTime @updatedAt
 
   @@index([userId])
@@ -101,6 +102,7 @@ model User {
   sessions       Session[]
   favorite_codes Code[]    @relation("favorite_codes")
   comments Comment[]
+  links Link[]
 
   @@map("users")
 }

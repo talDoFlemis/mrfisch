@@ -1,105 +1,134 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { UsefulLinkModalData } from "typings";
-import { toast } from "react-toastify";
-import { supabase } from "@utils/supabaseClient";
+import { Dialog, Transition } from "@headlessui/react";
+
+interface EditLinkModalProps {
+  addModal: boolean;
+  setAddModal: Dispatch<SetStateAction<boolean>>;
+  postOperation: (data: { title: string; url: string }) => void;
+}
 
 const schema = yup
   .object({
     title: yup.string().required("Please, input a title"),
-    link: yup.string().required("Please, input a link"),
+    url: yup.string().required("Please, input a link"),
+    id: yup.string(),
   })
   .required();
 
-interface AddLinkModalProps {
-  user_id: string;
-  getLinks: () => void;
-}
-
-const AddLinkModal = ({ user_id, getLinks }: AddLinkModalProps) => {
+const AddLinkModal = ({
+  addModal,
+  setAddModal,
+  postOperation,
+}: EditLinkModalProps) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<UsefulLinkModalData>({
+  } = useForm<{ url: string; title: string }>({
     resolver: yupResolver(schema),
     mode: "onBlur",
   });
 
-  const createLink = async (data: UsefulLinkModalData) => {
-    const updatedData = { ...data, user_id: user_id };
-    console.log(updatedData);
-    try {
-      const { error } = await supabase.from("useful_links").insert(updatedData);
-      toast.success(`Link ${updatedData.title} created with success`);
-      getLinks();
-
-      if (error) throw error;
-    } catch (err) {
-      const error = err as Error;
-      toast.error(`Unable to update the link, ${error.message}`);
-    }
+  const justClearMTFK = (data: { title: string; url: string }) => {
+    postOperation(data);
+    reset();
   };
 
   return (
-    <>
-      <input type="checkbox" id="addmodal" className="modal-toggle" />
-      <label htmlFor="addmodal" className="modal">
-        <div className="flex flex-col justify-center items-center modal-box bg-neutral">
-          <h3 className="w-full text-2xl">Creating new link</h3>
-          <form
-            onSubmit={handleSubmit(createLink)}
-            className="w-full form-control"
-          >
-            <div className="flex flex-col justify-self-start">
-              <div>
-                <label className="justify-start text-xl font-bold sm:text-2xl label">
-                  Title{" "}
-                </label>
-                {errors.title && (
-                  <label className="pt-0 font-bold label text-error">
-                    {errors.title?.message}
-                  </label>
-                )}
-                <label className="pt-0 label">
-                  <span className="label-text">Add the link title</span>
-                </label>{" "}
-              </div>
-              <input
-                placeholder="Enter your title"
-                {...register("title")}
-                className="input input-bordered input-primary bg-neutral"
-              />{" "}
-              <div>
-                <label className="justify-start text-xl font-bold sm:text-2xl label">
-                  Link{" "}
-                </label>
-                {errors.link && (
-                  <label className="pt-0 font-bold label text-error">
-                    {errors.link?.message}
-                  </label>
-                )}
-                <label className="pt-0 label">
-                  <span className="label-text">Enter the link</span>
-                </label>{" "}
-              </div>
-              <input
-                placeholder="Enter your link"
-                {...register("link")}
-                className="input input-bordered input-primary bg-neutral"
-              />{" "}
-            </div>
-            <div className="modal-action">
-              <button className="btn btn-accent">Submit</button>
-              <label className="btn btn-secondary" htmlFor="addmodal">
-                Close
-              </label>
-            </div>
-          </form>
+    <Transition appear show={addModal} as={Fragment}>
+      <Dialog
+        as="div"
+        className="relative z-10"
+        onClose={() => setAddModal(false)}
+      >
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-50" />
+        </Transition.Child>
+
+        <div className="overflow-y-auto fixed inset-0">
+          <div className="flex justify-center items-center p-4 min-h-full text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="flex overflow-hidden flex-col gap-y-6 p-6 w-full max-w-md text-left align-middle rounded-2xl shadow-xl transition-all transform bg-base-100 text-neutral-content">
+                <h3 className="text-2xl font-geo">Creating a new link</h3>
+                <form
+                  onSubmit={handleSubmit(justClearMTFK)}
+                  className="gap-y-2 form-control"
+                >
+                  <div className="flex justify-start items-center pb-2 text-xl font-bold font-geo">
+                    Title{" "}
+                  </div>
+                  <input
+                    placeholder="Enter your title"
+                    {...register("title")}
+                    className="input input-bordered input-primary bg-neutral"
+                    aria-invalid={errors.title ? true : false}
+                    aria-errormessage="title-error-message"
+                  />
+                  {errors.title && (
+                    <span
+                      className="py-2 text-xs font-bold text-error"
+                      id="title-error-message"
+                    >
+                      {errors.title?.message}
+                    </span>
+                  )}
+                  <div className="flex justify-start items-center pb-2 text-xl font-bold font-geo">
+                    Link{" "}
+                  </div>
+                  <input
+                    placeholder="Enter your link"
+                    {...register("url")}
+                    className="input input-bordered input-primary bg-neutral"
+                    aria-invalid={errors.url ? true : false}
+                    aria-errormessage="link-error-message"
+                  />{" "}
+                  {errors.url && (
+                    <span
+                      className="text-xs font-bold text-error"
+                      id="link-error-message"
+                    >
+                      {errors.url?.message}
+                    </span>
+                  )}
+                  <div className="modal-action">
+                    <button className="btn btn-primary">Submit</button>
+                    <div
+                      className="btn"
+                      onClick={() => {
+                        setAddModal(false);
+                        reset();
+                      }}
+                    >
+                      Close
+                    </div>
+                  </div>
+                </form>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
         </div>
-      </label>
-    </>
+      </Dialog>
+    </Transition>
   );
 };
 

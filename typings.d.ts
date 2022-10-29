@@ -56,11 +56,12 @@ export interface CommentInterface {
   updated_at: Date;
   block: string;
 }
-export interface UsefulLinkInterface {
-  id: number;
-  user_id: UserInterface;
+export interface LinkInterface {
+  id: string;
+  userId: UserInterface;
+  user: User;
   title: string;
-  link: string;
+  url: string;
   inserted_at: Date;
   updated_at: Date;
 }
