@@ -16,6 +16,9 @@ import DeleteModal from "@components/layout/DeleteModal";
 import axios from "axios";
 import { useSWRConfig } from "swr";
 import { IoAddOutline } from "react-icons/io5";
+import Image from "next/image";
+import YuiGif from "../public/img/yui.gif";
+import LoadingComponent from "@components/layout/LoadingComponent";
 
 const Portulovers = () => {
   const [deleteModal, setDeleteModal] = useState({
@@ -31,7 +34,7 @@ const Portulovers = () => {
   });
   const [addModal, setAddModal] = useState(false);
   const [search, setSearch] = useState<string>("");
-  const { data: links } = useQuery<LinkInterface[]>("/api/links", false);
+  const { data: links, error } = useQuery<LinkInterface[]>("/api/links", false);
   const { mutate } = useSWRConfig();
 
   const addLink = async (data: { url: string; title: string }) => {
@@ -149,31 +152,52 @@ const Portulovers = () => {
         setAddModal={setAddModal}
         postOperation={addLink}
       />
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {links
-          ?.filter((link) => {
-            if (search === "") {
-              return link;
-            } else if (
-              link.title.toLowerCase().includes(search.toLowerCase())
-            ) {
-              return link;
-            }
-          })
-          .map((link) => (
-            <LinkCard
-              id={link.id}
-              key={link.id}
-              title={link.title}
-              url={link.url}
-              inserted_at={link.inserted_at}
-              updated_at={link.updated_at}
-              user={link.user}
-              setDeleteModal={setDeleteModal}
-              setEditModal={setEditModal}
+      {!links && !error ? (
+        <div className="flex justify-center items-center h-3/5">
+          <LoadingComponent className="w-16 h-16 text-accent" />
+        </div>
+      ) : links?.length !== 0 ? (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {links
+            ?.filter((link) => {
+              if (search === "") {
+                return link;
+              } else if (
+                link.title.toLowerCase().includes(search.toLowerCase())
+              ) {
+                return link;
+              }
+            })
+            .map((link) => (
+              <LinkCard
+                id={link.id}
+                key={link.id}
+                title={link.title}
+                url={link.url}
+                inserted_at={link.inserted_at}
+                updated_at={link.updated_at}
+                user={link.user}
+                setDeleteModal={setDeleteModal}
+                setEditModal={setEditModal}
+              />
+            ))}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-y-2 justify-center items-center text-center">
+          <h3 className="mx-auto text-2xl font-geo">No links found</h3>
+          <div className="relative w-52 h-40">
+            <Image
+              src={YuiGif}
+              layout="fill"
+              objectFit="contain"
+              alt="yui gif"
             />
-          ))}
-      </div>
+          </div>
+          <p className="mx-auto text-xl font-geo">
+            Click on the ADD link button to add a new link
+          </p>
+        </div>
+      )}
     </main>
   );
 };
