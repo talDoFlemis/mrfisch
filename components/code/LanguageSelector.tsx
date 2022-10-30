@@ -1,14 +1,13 @@
+import { Languages } from "@prisma/client";
 interface LanguageSelectorProps {
-  languages: string[];
   onChange: any;
   value: string;
 }
 
-const LanguageSelector = ({
-  languages,
-  onChange,
-  value,
-}: LanguageSelectorProps) => {
+//TODO: Change this to use prisma langs
+
+const LanguageSelector = ({ onChange, value }: LanguageSelectorProps) => {
+  const languages = Object.keys(Languages).map((lang) => lang);
   return (
     <div className="form-control">
       <label className="label-text" htmlFor="language">

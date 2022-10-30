@@ -12,40 +12,43 @@ model Link {
   title     String
   url       String
   userId    String
-  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@map("links")
 }
 
-model Comment{
-  id String @id @default(cuid())
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  codeId String
-  code Code @relation(fields: [codeId], references: [id], onDelete: Cascade)
-  inserted_at   DateTime @default(now())
-  updated_at    DateTime @updatedAt
-  block String
-    @@map("comments")
-  }
+model Comment {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  codeId      String
+  code        Code     @relation(fields: [codeId], references: [id], onDelete: Cascade)
+  inserted_at DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  block       String
+
+  @@map("comments")
+}
 
 model Code {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   userId        String?
-  inserted_at   DateTime @default(now())
-  updated_at    DateTime @default(now())
+  inserted_at   DateTime  @default(now())
+  updated_at    DateTime  @default(now())
   code_title    String
   description   String?
   code_block    String
-  language      String
+  language      Languages
   documentation String?
-  number_views  Int      @default(0)
+  number_views  Int       @default(0)
   tags          String[]
-  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  favorited_by  User[]   @relation("favorite_codes")
-  comments Comment[] 
+  user          User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorited_by  User[]    @relation("favorite_codes")
+  comments      Comment[]
+  associatedBy  Code[]    @relation("associated_codes")
+  associatedTo  Code[]    @relation("associated_codes")
 
   @@index([userId])
   @@map("codes")
@@ -101,14 +104,29 @@ model User {
   codes          Code[]
   sessions       Session[]
   favorite_codes Code[]    @relation("favorite_codes")
-  comments Comment[]
-  links Link[]
+  comments       Comment[]
+  links          Link[]
 
   @@map("users")
 }
 
-
 enum Role {
   NORMAL
   PORTULOVER
+}
+
+enum Languages {
+  makefile
+  javascript
+  python
+  css
+  c
+  cpp
+  dockerfile
+  rust
+  haskell
+  ruby
+  bash
+  typescript
+  yaml
 }

@@ -15,6 +15,8 @@ interface CodeCardProps
     | "inserted_at"
     | "favorited_by"
     | "number_views"
+    | "associatedTo"
+    | "associatedBy"
   > {
   className?: string;
   hit?: any;

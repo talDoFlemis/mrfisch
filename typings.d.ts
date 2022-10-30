@@ -44,6 +44,8 @@ export interface CodeInterface {
   tags?: string[] | null;
   favorited_by: User[];
   comments: CommentInterface[];
+  associatedTo: CodeInterface[];
+  associatedBy: CodeInterface[];
 }
 
 export interface CommentInterface {

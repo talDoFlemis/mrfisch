@@ -44,7 +44,10 @@ const AddCommentModal = ({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="flex overflow-hidden flex-col gap-y-4 p-6 w-full max-w-md text-left align-middle rounded-2xl shadow-xl transition-all transform bg-base-100">
-                <Dialog.Title as="h3" className="text-lg text-neutral-content">
+                <Dialog.Title
+                  as="h3"
+                  className="text-2xl font-geo text-neutral-content"
+                >
                   Creating a new comment
                 </Dialog.Title>
                 <div className="mt-2">

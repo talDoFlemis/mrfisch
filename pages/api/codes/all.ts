@@ -3,7 +3,6 @@ import algoliasearch from "algoliasearch";
 import moment from "moment";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AlgoliaInterface } from "typings";
-import { getSession } from "next-auth/react";
 import { Prisma } from "@prisma/client";
 import { unstable_getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";

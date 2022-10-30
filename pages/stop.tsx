@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TbHandStop } from "react-icons/tb";
 //TODO: Maybe change the quote to You weren't supposed to be here, LG occupied this page before you came
+//TODO: Add a login and contribute page
 const Stop = () => {
   return (
     <main className="flex flex-col gap-6 justify-center items-center p-4 h-screen bg-base-100 text-base-content">

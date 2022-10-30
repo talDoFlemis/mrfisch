@@ -21,6 +21,7 @@ import { useSession } from "next-auth/react";
 import AddToFavoriteBtn from "@components/code/AddToFavoriteBtn";
 import CommentaryList from "@components/code/comments/CommentaryList";
 import DeleteModal from "@components/layout/DeleteModal";
+import LinkedCodeList from "@components/code/linkedcodes/LinkedCodeList";
 
 const CodeView = () => {
   const router = useRouter();
@@ -185,6 +186,11 @@ const CodeView = () => {
               </div>
             </div>
           </div>
+          <LinkedCodeList
+            user={session?.user}
+            codeId={router.query.id as string}
+            codeUserId={code.userId}
+          />
           {code?.documentation && (
             <div>
               <div className="my-8 card bg-neutral text-neutral-content">
