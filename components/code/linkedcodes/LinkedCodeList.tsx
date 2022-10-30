@@ -1,9 +1,7 @@
-import Image from "next/image";
 import { Session } from "next-auth";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-import YuiGif from "../../../public/img/yui.gif";
 import { IoAddOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { useQuery } from "hooks/useQuery";
@@ -13,6 +11,9 @@ import LoadingComponent from "@components/layout/LoadingComponent";
 import LinkedCodeCard from "./LinkedCodeCard";
 import Link from "next/link";
 import ChangeLinkedCodesModal from "./ChangeLinkedCodesModal";
+import JSZip from "jszip";
+import getCodeFileFormat from "@utils/codeLangToExt";
+import { saveAs } from "file-saver";
 
 interface LinkedCodeListProps {
   user?: Session["user"];
@@ -49,6 +50,19 @@ const LinkedCodeList = ({ user, codeId, codeUserId }: LinkedCodeListProps) => {
     } finally {
       setAddOpen(false);
     }
+  };
+
+  const downloadAllFiles = () => {
+    const zip = new JSZip();
+    codes?.map((code) => {
+      zip.file(
+        getCodeFileFormat(code.code_title, code.language),
+        code.code_block
+      );
+    });
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+      saveAs(content, "mrfisch.zip");
+    });
   };
   return (
     <div className="flex flex-col gap-y-4 my-4 w-full">
@@ -102,7 +116,10 @@ const LinkedCodeList = ({ user, codeId, codeUserId }: LinkedCodeListProps) => {
             {/*     Show More */}
             {/*   </a> */}
             {/* </Link> */}
-            <button className="text-base btn btn-sm font-geo btn-secondary">
+            <button
+              className="text-base btn btn-sm font-geo btn-secondary"
+              onClick={() => downloadAllFiles()}
+            >
               download all
             </button>
           </div>
