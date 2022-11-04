@@ -190,6 +190,9 @@ const CodeView = () => {
             user={session?.user}
             codeId={router.query.id as string}
             codeUserId={code.userId}
+            ori_code_block={code.code_block}
+            ori_code_title={code.code_title}
+            ori_code_lang={code.language}
           />
           {code?.documentation && (
             <div>

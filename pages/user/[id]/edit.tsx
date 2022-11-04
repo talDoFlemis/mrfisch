@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
 import { Session, unstable_getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { authOptions } from "pages/api/auth/[...nextauth]";
 
 const Profile = ({ user }: Session) => {
   const router = useRouter();
@@ -20,6 +20,7 @@ const Profile = ({ user }: Session) => {
       const file = data[0];
       const fileExt = file.name.split(".").pop();
       const filePath = `${user?.email}.${fileExt}`;
+      console.log(data);
 
       const { error: uploadError } = await supabaseClient.storage
         .from("avatars")
@@ -134,7 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     authOptions
   );
 
-  if (!session) {
+  if (!session || session.user.id !== context?.params?.id) {
     return {
       redirect: {
         destination: "/stop",

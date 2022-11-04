@@ -4,19 +4,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineUser } from "react-icons/ai";
 import { BiReset } from "react-icons/bi";
-import { UserInterface } from "typings";
 import * as yup from "yup";
 import Image from "next/image";
+import { Session } from "next-auth";
 
 interface UserFormProps {
-  initialValues: UserInterface | undefined;
+  initialValues: Session["user"];
   postOperation: any;
 }
 
 const schema = yup
   .object({
-    username: yup.string().required("Please, input a username"),
-    avatar_url: yup.mixed(),
+    name: yup.string().required("Please, input a name"),
+    image: yup.mixed(),
   })
   .required();
 
@@ -26,16 +26,16 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
     handleSubmit,
     resetField,
     formState: { errors },
-  } = useForm<UserInterface>({
+  } = useForm<Session["user"]>({
     resolver: yupResolver(schema),
     defaultValues: {
-      username: initialValues?.username ?? "",
-      avatar_url: initialValues?.avatar_url ?? "",
+      name: initialValues?.name ?? "",
+      image: initialValues?.image ?? "",
     },
     mode: "onBlur",
   });
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(initialValues.image);
 
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -51,10 +51,10 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
     >
       <div className="flex flex-col gap-4 items-center">
         <div className="relative justify-self-end w-60 h-60 avatar">
-          {initialValues?.avatar_url || image ? (
+          {image ? (
             <Image
               alt="avatar"
-              src={initialValues?.avatar_url ?? image}
+              src={image}
               layout="fill"
               objectFit="cover"
               className="mask mask-squircle"
@@ -68,36 +68,41 @@ const UserForm = ({ postOperation, initialValues }: UserFormProps) => {
         </label>
         <input
           type="file"
-          {...register("avatar_url", {
+          {...register("image", {
             onChange: (e) => onImageChange(e),
           })}
+          accept=".jpeg,.jpg,.png,.gif"
           className="cursor-pointer file:mr-4 file:rounded-full file:border-0 file:bg-primary file:py-2 file:px-4 file:text-sm file:font-semibold file:text-primary-content hover:file:bg-primary-focus"
           id="formFile"
         />
       </div>
       <div className="flex flex-col gap-6 justify-self-center items-center w-3/4 md:justify-self-start">
         <div className="w-full">
-          <label className="justify-start text-xl font-bold sm:text-2xl label">
+          <div className="flex justify-start items-center text-2xl font-bold font-geo">
             Username{" "}
             <BiReset
               className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
-              onClick={() => resetField("username")}
+              onClick={() => resetField("name")}
+              aria-hidden
+              aria-errormessage="name-error-message"
+              aria-describedby="name-help-message"
             />
-          </label>
-          {errors.username && (
-            <label className="pt-0 font-bold label text-accent">
-              {errors.username?.message}
-            </label>
-          )}
-          <label className="pt-0 label">
-            <span className="label-text">
-              Add your username to show in card creation
+          </div>
+          {errors.name && (
+            <span
+              className="pt-0 font-bold label text-accent"
+              id="name-error-message"
+            >
+              {errors.name?.message}
             </span>
-          </label>{" "}
+          )}
+          <span className="label-text" id="name-help-message">
+            Add your name to show in card creation
+          </span>
         </div>
         <input
-          placeholder="Enter your username"
-          {...register("username")}
+          placeholder="Enter your name"
+          {...register("name")}
           className="w-full input input-bordered input-primary bg-neutral"
         />{" "}
       </div>

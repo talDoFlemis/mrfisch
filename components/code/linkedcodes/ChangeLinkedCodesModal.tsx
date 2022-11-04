@@ -74,50 +74,55 @@ const ChangeLinkedCodesModal = ({
                     </div>
                   </div>
                 ) : codesWithoutParent?.length !== 0 ? (
-                  <div className="flex overflow-y-scroll flex-col gap-y-2 h-3/4">
-                    {codesWithoutParent?.map((code) => (
-                      <div
-                        key={code.id}
-                        className="mr-2 card group shrink-0"
-                        onClick={() =>
-                          selected?.find((ent) => ent.id === code.id)
-                            ? setSelected(
-                                selected?.filter((ent) => ent.id !== code.id)
-                              )
-                            : selected
-                            ? setSelected([...selected, code])
-                            : setSelected([code])
-                        }
-                      >
-                        <div className="gap-1 p-4 cursor-pointer card-body bg-neutral font-geo">
-                          <div className="flex justify-between items-center">
-                            <h1 className="text-lg transition-colors truncate group-hover:text-accent">
-                              {code.code_title}
-                            </h1>
-                            {selected?.find((ent) => ent.id === code.id) && (
-                              <AiOutlineCheck
-                                aria-hidden
-                                className="w-6 h-6 transition-colors text-success group-hover:text-neutral-content"
-                              />
-                            )}
+                  <div className="flex flex-col justify-between h-3/4">
+                    <div className="flex overflow-y-scroll flex-col gap-y-2 mb-4 h-full">
+                      {codesWithoutParent?.map((code) => (
+                        <div
+                          key={code.id}
+                          className="mr-2 card group shrink-0"
+                          onClick={() =>
+                            selected?.find((ent) => ent.id === code.id)
+                              ? setSelected(
+                                  selected?.filter((ent) => ent.id !== code.id)
+                                )
+                              : selected
+                              ? setSelected([...selected, code])
+                              : setSelected([code])
+                          }
+                        >
+                          <div className="gap-1 p-4 cursor-pointer card-body bg-neutral font-geo">
+                            <div className="flex justify-between items-center">
+                              <h1 className="text-lg transition-colors truncate group-hover:text-accent">
+                                {code.code_title}
+                              </h1>
+                              {selected?.find((ent) => ent.id === code.id) && (
+                                <AiOutlineCheck
+                                  aria-hidden
+                                  className="w-6 h-6 transition-colors text-success group-hover:text-neutral-content"
+                                />
+                              )}
+                            </div>
+                            <p className="text-sm font-light truncate font-inter">
+                              {code.description}
+                            </p>
                           </div>
-                          <p className="text-sm font-light truncate font-inter">
-                            {code.description}
-                          </p>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => postOperation(selected ?? [])}
+                      className="btn btn-primary"
+                    >
+                      Update
+                    </button>
                   </div>
                 ) : (
-                  <div>no code to associate</div>
+                  <div className="flex flex-col gap-y-2 items-center text-xl font-geo">
+                    <h3 className="text-2xl">No codes to associate</h3>
+                    <p>Create new codes to associate bro</p>
+                  </div>
                 )}
-                <button
-                  type="button"
-                  onClick={() => postOperation(selected ?? [])}
-                  className="btn btn-primary"
-                >
-                  Update
-                </button>
               </Dialog.Panel>
             </Transition.Child>
           </div>

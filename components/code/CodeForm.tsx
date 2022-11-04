@@ -15,13 +15,16 @@ const schema = yup
     code_title: yup.string().required("Title is a required field"),
     code_block: yup.string().required("Code block is a required field"),
     description: yup.string(),
-    documentation: yup.string(),
+    documentation: yup.string().nullable(),
     tags: yup.array().min(0),
     language: yup.string().required("Language is a required field"),
   })
   .required();
 
-type CustomCode = Omit<CodeInterface, "comments">;
+type CustomCode = Omit<
+  CodeInterface,
+  "comments" | "associatedTo" | "associatedBy"
+>;
 
 interface CodeFormProps {
   postOperation: any;
@@ -50,8 +53,6 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
     mode: "onBlur",
   });
 
-  console.log(user);
-
   useEffect(() => {
     if (initialValues) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -60,20 +61,8 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
       reset(data);
     }
   }, [initialValues]);
+  console.log(errors);
 
-  const languageList = [
-    "javascript",
-    "python",
-    "css",
-    "c",
-    "cpp",
-    "rust",
-    "haskell",
-    "ruby",
-    "bash",
-    "typescript",
-    "yaml",
-  ];
   return (
     <form
       onSubmit={handleSubmit(postOperation)}
@@ -169,11 +158,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
               control={control}
               name="language"
               render={({ field: { value, onChange } }) => (
-                <LanguageSelector
-                  onChange={onChange}
-                  languages={languageList}
-                  value={value}
-                />
+                <LanguageSelector onChange={onChange} value={value} />
               )}
             />
           </div>
@@ -214,7 +199,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
               Documentation
               <BiReset
                 className="ml-4 w-6 h-6 transition-colors cursor-pointer hover:text-accent"
-                onClick={() => reset({ documentation: "", language: "css" })}
+                onClick={() => reset({ documentation: "" })}
               />
             </label>
             <small className="label-text" id="documentation-help">
@@ -242,7 +227,7 @@ const CodeForm = ({ postOperation, initialValues, user }: CodeFormProps) => {
           type="submit"
           className="self-center w-60 sm:w-80 btn btn-accent"
         >
-          Create
+          {initialValues ? "Update" : "Create"}
         </button>
       ) : (
         <button

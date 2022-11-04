@@ -9,7 +9,6 @@ import { CodeInterface } from "typings";
 import { useSWRConfig } from "swr";
 import LoadingComponent from "@components/layout/LoadingComponent";
 import LinkedCodeCard from "./LinkedCodeCard";
-import Link from "next/link";
 import ChangeLinkedCodesModal from "./ChangeLinkedCodesModal";
 import JSZip from "jszip";
 import getCodeFileFormat from "@utils/codeLangToExt";
@@ -19,9 +18,19 @@ interface LinkedCodeListProps {
   user?: Session["user"];
   codeId: string;
   codeUserId?: string;
+  ori_code_block: string;
+  ori_code_title: string;
+  ori_code_lang: string;
 }
 
-const LinkedCodeList = ({ user, codeId, codeUserId }: LinkedCodeListProps) => {
+const LinkedCodeList = ({
+  user,
+  codeId,
+  codeUserId,
+  ori_code_title,
+  ori_code_block,
+  ori_code_lang,
+}: LinkedCodeListProps) => {
   const router = useRouter();
   const [addOpen, setAddOpen] = useState(false);
   const { mutate } = useSWRConfig();
@@ -54,14 +63,19 @@ const LinkedCodeList = ({ user, codeId, codeUserId }: LinkedCodeListProps) => {
 
   const downloadAllFiles = () => {
     const zip = new JSZip();
+    const folder = zip.folder("codes");
+    folder?.file(
+      getCodeFileFormat(ori_code_title, ori_code_lang),
+      ori_code_block
+    );
     codes?.map((code) => {
-      zip.file(
+      folder?.file(
         getCodeFileFormat(code.code_title, code.language),
         code.code_block
       );
     });
     zip.generateAsync({ type: "blob" }).then(function (content) {
-      saveAs(content, "mrfisch.zip");
+      saveAs(content, "codes.zip");
     });
   };
   return (
@@ -111,11 +125,6 @@ const LinkedCodeList = ({ user, codeId, codeUserId }: LinkedCodeListProps) => {
             ))}
           </div>
           <div className="flex gap-x-2 items-center self-end">
-            {/* <Link href={`/codes/${router.query.id}/associatedcodes`}> */}
-            {/*   <a className="text-lg uppercase transition-colors cursor-pointer font-geo hover:text-accent"> */}
-            {/*     Show More */}
-            {/*   </a> */}
-            {/* </Link> */}
             <button
               className="text-base btn btn-sm font-geo btn-secondary"
               onClick={() => downloadAllFiles()}

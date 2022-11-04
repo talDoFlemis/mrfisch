@@ -16,7 +16,6 @@ export default async function handler(
           if (Array.isArray(tags)) tags.forEach((tag) => s.add(tag));
         });
         const allTags = Array.from(s);
-        console.log(allTags);
 
         res.setHeader(
           "Cache-Control",

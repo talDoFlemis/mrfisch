@@ -49,7 +49,7 @@ const HeaderDropdown = ({ user }: { user: Session["user"] }) => {
           <div className="py-1 px-1">
             <Menu.Item>
               {({ active }) => (
-                <Link href="/profile">
+                <Link href={`/user/${user.id}/edit`}>
                   <a
                     className={`${
                       active

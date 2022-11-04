@@ -45,7 +45,7 @@ const MyCodes = ({ codes }: MyCodesProps) => {
       <h2 className="flex gap-x-4 items-center p-4 text-5xl font-geo">
         My Codes <BsCodeSlash className="w-10 h-10" />
       </h2>
-      <div className="grid grid-cols-1 gap-8 p-4 mx-auto md:grid-cols-2 xl:grid-cols-3 h-max">
+      <div className="grid grid-cols-1 gap-8 p-4 md:grid-cols-2 xl:grid-cols-3 h-max">
         {codes?.length !== 0 ? (
           codes?.map((code) => (
             <CodeCard

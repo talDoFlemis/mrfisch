@@ -10,7 +10,7 @@ const CodesHeader = ({ user }: { user?: Session["user"] }) => {
       {user ? (
         <div className="flex gap-2 justify-between items-center w-full sm:gap-6 sm:justify-end">
           {user.isNew && (
-            <Link href="/profile">
+            <Link href={`/user/${user.id}/edit`}>
               <a className="hidden p-3 transition-transform sm:inline-flex sm:text-xs hover:scale-105 badge badge-warning text-warning-content">
                 Your profile need to be updated{" "}
                 <AiOutlineExclamationCircle className="ml-2 w-5 h-5 text-warning-content" />

@@ -17,6 +17,9 @@ const ShareSection = () => {
       name: "Mr Fisch",
       id: "123",
     },
+    comments: [],
+    associatedTo: [],
+    associatedBy: [],
   };
   return (
     <div id="share" className="relative w-full h-screen text-white">

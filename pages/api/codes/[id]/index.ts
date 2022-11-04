@@ -21,7 +21,7 @@ export default async function handler(
           where: { id: query.id as string },
           include: {
             user: true,
-            favorited_by: true,
+            favorited_by: query.fav === "false" ? false : true,
           },
         });
         await prisma.code.update({

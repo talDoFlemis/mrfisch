@@ -19,7 +19,7 @@ const Edit = () => {
 
   const { id } = router.query;
   const { data: code, error } = useQuery<CodeInterface>(
-    id ? `/api/codes/${id}` : null,
+    id ? `/api/codes/${id}?fav=false` : null,
     false
   );
 
@@ -27,7 +27,6 @@ const Edit = () => {
 
   const updateCode = async (data: CodeInterface) => {
     setIsPosting(true);
-
     try {
       await axios.put(`/api/codes/${id}`, data);
       toast.success("Updated with success");
