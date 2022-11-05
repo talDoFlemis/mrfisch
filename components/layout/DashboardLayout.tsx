@@ -122,19 +122,19 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   <p>settings</p>
                 </a>
               </Link>
-              <Link href="/contribute/">
-                <a
-                  className={cl(
-                    "btn flex cursor-pointer text-sm items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content",
-                    pathname === "/contribute"
-                      ? "text-accent"
-                      : "text-base-content"
-                  )}
-                >
-                  <AiOutlineCoffee className="w-6 h-6" />
-                  <p>contribute</p>
-                </a>
-              </Link>
+              {/* <Link href="/contribute/"> */}
+              {/*   <a */}
+              {/*     className={cl( */}
+              {/*       "btn flex cursor-pointer text-sm items-center justify-start space-x-4 rounded-md border-none bg-transparent py-2 transition-colors hover:bg-accent/80 hover:text-accent-content", */}
+              {/*       pathname === "/contribute" */}
+              {/*         ? "text-accent" */}
+              {/*         : "text-base-content" */}
+              {/*     )} */}
+              {/*   > */}
+              {/*     <AiOutlineCoffee className="w-6 h-6" /> */}
+              {/*     <p>contribute</p> */}
+              {/*   </a> */}
+              {/* </Link> */}
             </div>
           </ul>
         </aside>
