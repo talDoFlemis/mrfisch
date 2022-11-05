@@ -5,20 +5,24 @@ import { CodeInterface } from "typings";
 
 const codeCardData: CodeInterface = {
   id: "777",
-  codeTitle: "a cool title",
+  code_title: "a cool title",
   description: "description",
   language: "rust",
-  codeBlock: "a code block",
-  createdAt: new Date(Date.now()),
-  updatedAt: new Date(Date.now()),
-  numberOfHits: 0,
+  code_block: "a code block",
+  inserted_at: new Date(Date.now()),
+  updated_at: new Date(Date.now()),
+  number_views: 0,
   tags: [],
+  favorited_by: [],
+  comments: [],
+  associatedTo: [],
+  associatedBy: [],
 };
 
 describe("testing the code card", () => {
   it("Renders a code title", () => {
     render(<CodeCard {...codeCardData} />);
-    expect(screen.getByText(codeCardData.codeTitle)).toBeInTheDocument(); // Search for a code title
+    expect(screen.getByText(codeCardData.code_title)).toBeInTheDocument(); // Search for a code title
   });
 
   it("Renders a code description", () => {
@@ -46,11 +50,12 @@ describe("testing the code card", () => {
   });
 
   it("Renders an username", async () => {
-    const userData: Session = {
-      user: { id: "kkkk", name: "flemis", isNew: true, role: "NORMAL" },
-      expires: "",
+    const userData: Session["user"] = {
+      id: "kkkk",
+      name: "flemis",
+      isNew: true,
+      role: "NORMAL",
     };
-
     await act(async () => {
       render(<CodeCard {...codeCardData} user={userData} />);
     });

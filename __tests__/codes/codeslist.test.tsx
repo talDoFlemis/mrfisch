@@ -23,11 +23,16 @@ afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 
 describe("Testing Codes List", () => {
-  it("Render no data at all", async () => {
+  it("Render a message that there is no code", async () => {
     customRender(<CodesList />);
     await waitForElementToBeRemoved(getLoadingSpinner());
 
-    expect(screen.queryAllByRole("heading", { level: 2 })).toStrictEqual([]);
+    expect(
+      screen.getByRole("heading", { name: /no code was found/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /create now/i })
+    ).toBeInTheDocument();
   });
 
   it("Display error while fetching", async () => {

@@ -1,6 +1,12 @@
 import CodesHeader from "@components/code/CodesHeader";
 import { createMockRouter } from "@test-utils/createMockRouter";
-import { act, render, screen } from "@testing-library/react";
+import {
+  act,
+  queryAllByText,
+  queryByText,
+  render,
+  screen,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Session } from "next-auth";
 import { RouterContext } from "next/dist/shared/lib/router-context";
@@ -109,11 +115,143 @@ describe("Testing the CodesHeader with user data", () => {
     expect(getProfileBtn()).toBeInTheDocument();
     await user.click(getProfileBtn());
 
-    expect(router.push).toHaveBeenCalledWith("/profile", "/profile", {
+    expect(router.push).toHaveBeenCalledWith(
+      `/user/${userData.id}/edit`,
+      `/user/${userData.id}/edit`,
+      {
+        locale: undefined,
+        scroll: undefined,
+        shallow: undefined,
+      }
+    );
+    expect(router.push).toHaveBeenCalledTimes(1);
+  });
+
+  it("Must show portulover option for portulovers", async () => {
+    const userData: Session["user"] = {
+      id: "kkkk",
+      name: "flemis",
+      isNew: true,
+      role: "PORTULOVER",
+      image: "",
+    };
+
+    const router = createMockRouter({
+      pathname: "/codes",
+    });
+
+    await act(async () => {
+      render(
+        <RouterContext.Provider value={router}>
+          <CodesHeader user={userData} />)
+        </RouterContext.Provider>
+      );
+    });
+
+    await user.click(screen.getByRole("button"));
+    expect(getPortLink()).toBeInTheDocument();
+    await user.click(getPortLink());
+
+    expect(router.push).toHaveBeenCalledWith("/portulovers", "/portulovers", {
       locale: undefined,
       scroll: undefined,
       shallow: undefined,
     });
+    expect(router.push).toHaveBeenCalledTimes(1);
+  });
+
+  it("Must not show portulover option for NORMAL user", async () => {
+    const userData: Session["user"] = {
+      id: "kkkk",
+      name: "flemis",
+      isNew: true,
+      role: "NORMAL",
+      image: "",
+    };
+
+    const router = createMockRouter({
+      pathname: "/codes",
+    });
+
+    await act(async () => {
+      render(
+        <RouterContext.Provider value={router}>
+          <CodesHeader user={userData} />)
+        </RouterContext.Provider>
+      );
+    });
+
+    await user.click(screen.getByRole("button"));
+    expect(screen.queryAllByText(/portulovers/i)).toStrictEqual([]);
+  });
+
+  it("Must show MY CODES option", async () => {
+    const userData: Session["user"] = {
+      id: "kkkk",
+      name: "flemis",
+      isNew: true,
+      role: "NORMAL",
+      image: "",
+    };
+
+    const router = createMockRouter({
+      pathname: "/codes",
+    });
+
+    await act(async () => {
+      render(
+        <RouterContext.Provider value={router}>
+          <CodesHeader user={userData} />)
+        </RouterContext.Provider>
+      );
+    });
+
+    await user.click(screen.getByRole("button"));
+    expect(getMyCodesLink()).toBeInTheDocument();
+    await user.click(getMyCodesLink());
+
+    expect(router.push).toHaveBeenCalledWith("/mycodes", "/mycodes", {
+      locale: undefined,
+      scroll: undefined,
+      shallow: undefined,
+    });
+    expect(router.push).toHaveBeenCalledTimes(1);
+  });
+
+  it("Must show FAVORITE CODES option", async () => {
+    const userData: Session["user"] = {
+      id: "kkkk",
+      name: "flemis",
+      isNew: true,
+      role: "NORMAL",
+      image: "",
+    };
+
+    const router = createMockRouter({
+      pathname: "/codes",
+    });
+
+    await act(async () => {
+      render(
+        <RouterContext.Provider value={router}>
+          <CodesHeader user={userData} />)
+        </RouterContext.Provider>
+      );
+    });
+
+    await user.click(screen.getByRole("button"));
+    expect(getFavorLink()).toBeInTheDocument();
+    await user.click(getFavorLink());
+
+    expect(router.push).toHaveBeenCalledWith(
+      "/favoritecodes",
+      "/favoritecodes",
+      {
+        locale: undefined,
+        scroll: undefined,
+        shallow: undefined,
+      }
+    );
     expect(router.push).toHaveBeenCalledTimes(1);
   });
 
@@ -157,4 +295,16 @@ const getProfileBtn = () => {
 
 const getLogoutBtn = () => {
   return screen.getByRole("menuitem", { name: /logout/i });
+};
+
+const getPortLink = () => {
+  return screen.getByText(/portulovers/i);
+};
+
+const getMyCodesLink = () => {
+  return screen.getByText(/my codes/i);
+};
+
+const getFavorLink = () => {
+  return screen.getByText(/favorite codes/i);
 };

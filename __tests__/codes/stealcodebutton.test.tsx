@@ -17,7 +17,7 @@ describe("Testing the Steal Code Btn", () => {
     render(
       <>
         <ToastContainer />
-        <StealCodeButton code={code} />
+        <StealCodeButton code={code} codeId={"777"} />
       </>
     );
   });
@@ -56,7 +56,7 @@ it("Should have hidden class when toHide Props is passed", async () => {
   render(
     <>
       <ToastContainer />
-      <StealCodeButton code={code} toHide />
+      <StealCodeButton code={code} toHide codeId={"777"} />
     </>
   );
   await user.click(getStealBtn());
