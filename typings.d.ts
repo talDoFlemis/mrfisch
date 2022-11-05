@@ -142,13 +142,20 @@ interface UsefulLinkModalData {
   link: string;
 }
 
-export interface AlgoliaInterface {
+export interface AlgoliaInterface
+  extends Omit<
+    CodeInterface,
+    | "tags"
+    | "inserted_at"
+    | "id"
+    | "comments"
+    | "favorited_by"
+    | "number_views"
+    | "associatedTo"
+    | "associatedBy"
+  > {
   objectID: string;
-  code_title: string;
-  description: string;
   _tags: string[];
-  language: string;
-  updated_at: Date;
   user: { name: string | null; image: string | null };
   updated_at_timestamp: number;
 }

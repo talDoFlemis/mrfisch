@@ -46,6 +46,7 @@ export default async function handler(
         _tags: body.tags,
         language: body.language,
         updated_at: new Date(),
+        code_block: body.code_block,
         user: {
           name: session?.user.name ?? null,
           image: session?.user.image ?? null,

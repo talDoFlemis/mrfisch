@@ -44,7 +44,7 @@ const CustomRefinementList = ({
             className="checkbox checkbox-primary"
             onClick={() => refine(item.label)}
           />
-          <span className="flex-grow justify-self-start truncate">
+          <span className="flex-grow justify-self-start truncate font-geo">
             {item.label}
           </span>
           <span className="text-primary">{item.count}</span>

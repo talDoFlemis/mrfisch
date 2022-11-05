@@ -43,6 +43,7 @@ const Hit = ({ hit }: any) => {
       className="h-full min-h-52 bg-neutral"
       hit={hit}
       language={hit.language}
+      code_block={hit.code_block}
     />
   );
 };
@@ -74,7 +75,7 @@ const Search = () => {
         <div className="flex gap-4 p-4 w-full">
           <div className="hidden flex-col w-60 rounded-lg sm:flex h-fit bg-neutral">
             <div className="flex justify-between items-center p-4">
-              <h2 className="text-3xl">Filters</h2>
+              <h2 className="text-3xl font-geo">Filters</h2>
               <CustomClearRefinements />
             </div>
             <Panel header="Tags" attributes={["_tags"]}>

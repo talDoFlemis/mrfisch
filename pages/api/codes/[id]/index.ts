@@ -62,6 +62,7 @@ export default async function handler(
           image: session?.user.image ?? null,
         },
         updated_at_timestamp: 0,
+        code_block: body.code_block,
       };
 
       try {
@@ -74,15 +75,15 @@ export default async function handler(
         algoliaData.updated_at = data.updated_at;
         algoliaData.updated_at_timestamp = moment(data.updated_at).unix();
 
-        // const client = algoliasearch(
-        //   "IEWGM4QLJ8",
-        //   process.env.ALGOLIA_ADMIN_KEY as string
-        // );
-        // const index = client.initIndex("mrfisch");
-        //
-        // index
-        //   .partialUpdateObject(algoliaData)
-        //   .then(({ objectID }) => console.log(objectID));
+        const client = algoliasearch(
+          "IEWGM4QLJ8",
+          process.env.ALGOLIA_ADMIN_KEY as string
+        );
+        const index = client.initIndex("mrfisch");
+
+        index
+          .partialUpdateObject(algoliaData)
+          .then(({ objectID }) => console.log(objectID));
 
         res.status(200).json("Updated with success");
       } catch (error) {
@@ -103,13 +104,13 @@ export default async function handler(
 
       try {
         await prisma.code.delete({ where: { id: query.id as string } });
-        // const client = algoliasearch(
-        //   "IEWGM4QLJ8",
-        //   process.env.ALGOLIA_ADMIN_KEY as string
-        // );
-        // const index = client.initIndex("mrfisch");
-        //
-        // index.deleteObject(query.id as string);
+        const client = algoliasearch(
+          "IEWGM4QLJ8",
+          process.env.ALGOLIA_ADMIN_KEY as string
+        );
+        const index = client.initIndex("mrfisch");
+
+        index.deleteObject(query.id as string);
         res.status(200).json({ message: "Deleted with success" });
       } catch (error) {
         res.status(409).send(error);

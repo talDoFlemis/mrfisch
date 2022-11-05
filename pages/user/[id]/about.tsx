@@ -1,6 +1,5 @@
 import DashboardLayout from "@components/layout/DashboardLayout";
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineUserSwitch } from "react-icons/ai";
