@@ -5,11 +5,12 @@ import { HiOutlineMenu } from "react-icons/hi";
 import UserForm from "@components/user/UserForm";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { GetServerSideProps } from "next";
 import { Session, unstable_getServerSession } from "next-auth";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { authOptions } from "pages/api/auth/[...nextauth]";
+import { reloadSession } from "@utils/reloadSession";
 
 const Profile = ({ user }: Session) => {
   const router = useRouter();
@@ -17,22 +18,18 @@ const Profile = ({ user }: Session) => {
 
   const uploadAvatar = async (data: any) => {
     try {
+      const formData = new FormData();
       const file = data[0];
-      const fileExt = file.name.split(".").pop();
-      const filePath = `${user?.email}.${fileExt}`;
-      console.log(data);
+      const filePath = `${user?.email}`;
+      formData.append("file", file);
+      formData.append("upload_preset", "mr_fisch");
+      formData.append("public_id", filePath);
+      const resp = await axios.post(
+        "https://api.cloudinary.com/v1_1/flemis/image/upload",
+        formData
+      );
 
-      const { error: uploadError } = await supabaseClient.storage
-        .from("avatars")
-        .upload(filePath, file);
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      const publicUrl = `https://gmltbufzxjrgpbxxywpk.supabase.co/storage/v1/object/public/avatars/${filePath}`;
-
-      return publicUrl;
+      return resp.data.secure_url;
     } catch (err) {
       const error = err as Error | AxiosError;
       toast.error(`Unable to change the profile image, ${error.message}`);
@@ -46,26 +43,23 @@ const Profile = ({ user }: Session) => {
     const updateData: {
       id: string;
       name: string;
-      avatar_url: string | undefined;
+      image: string | undefined;
       isNew: boolean;
     } = {
       id: user.id,
       name: data.name as string,
-      avatar_url: user.image ?? undefined,
+      image: user.image ?? undefined,
       isNew: false,
     };
 
     try {
       if (typeof data.image === "object") {
-        updateData.avatar_url = await uploadAvatar(data.image);
+        updateData.image = await uploadAvatar(data.image);
       }
 
-      const { error } = await supabaseClient
-        .from("profiles")
-        .update(updateData)
-        .eq("id", updateData.id);
-      if (error) throw error;
+      await axios.post(`/api/user/${router.query.id}/profile`, updateData);
       toast.success("Profile updated with success");
+      reloadSession();
       router.push("/codes/");
     } catch (err) {
       const error = err as Error | AxiosError;

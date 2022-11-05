@@ -12,6 +12,7 @@ const nextConfig = {
     domains: [
       "avatars.githubusercontent.com",
       "gmltbufzxjrgpbxxywpk.supabase.co",
+      "res.cloudinary.com",
     ],
   },
 };
