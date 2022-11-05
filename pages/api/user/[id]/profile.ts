@@ -12,6 +12,7 @@ export default async function handler(
       try {
         const data = await prisma.user.findUnique({
           where: { id: query.id as string },
+          include: { codes: { include: { user: true } } },
         });
         res.status(200).json(data);
       } catch (error) {
@@ -25,7 +26,7 @@ export default async function handler(
       try {
         const data = await prisma.user.update({
           where: { id: query.id as string },
-          data: { name: body.name, image: body.image },
+          data: { name: body.name, image: body.image, isNew: false },
         });
         res.status(200).json(data);
       } catch (error) {

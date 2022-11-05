@@ -42,10 +42,7 @@ const Hit = ({ hit }: any) => {
       updated_at={hit.updated_at}
       className="h-full min-h-52 bg-neutral"
       hit={hit}
-      inserted_at={hit.inserted_at}
       language={hit.language}
-      number_views={hit.number_views}
-      favorited_by={[]}
     />
   );
 };

@@ -75,9 +75,17 @@ const CodeCard = ({
               ) : (
                 <AiOutlineUserSwitch className="w-4 h-4" />
               )}
-              <small className="hidden w-14 text-xs sm:inline-flex truncate">
-                {user?.name ?? "anonymous"}
-              </small>
+              {user ? (
+                <Link href={`/user/${user.id}/about`}>
+                  <a className="hidden w-14 text-xs sm:inline-flex truncate hover:text-accent">
+                    {user?.name}
+                  </a>
+                </Link>
+              ) : (
+                <small className="hidden w-14 text-xs sm:inline-flex truncate">
+                  anonymous
+                </small>
+              )}
             </div>
             {updated_at ? (
               <p className="text-center">{moment(updated_at).fromNow()}</p>
