@@ -129,4 +129,5 @@ enum Languages {
   bash
   typescript
   yaml
+  java
 }

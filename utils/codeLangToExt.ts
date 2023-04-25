@@ -10,6 +10,7 @@ export const getCodeFileFormat = (name: string, lang: string) => {
     yaml: "yaml",
     css: "cs",
     bash: "sh",
+    java: "java",
   };
   if (lang === "makefile") return "makefile";
   const str = name.replaceAll(" ", "-");
